@@ -1,4 +1,4 @@
-package br.com.forjacode.taskmanager.adapters.input.web;
+package br.com.forjacode.taskmanager.adapters.input.rest;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
