@@ -23,7 +23,9 @@
         <lombok.version>1.18.32</lombok.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <springdoc.version>3.0.3</springdoc.version>
+        <dotenv.version>5.1.0</dotenv.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -72,6 +74,11 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.paulschwarz</groupId>
+            <artifactId>springboot4-dotenv</artifactId>
+            <version>${dotenv.version}</version>
         </dependency>
 
         <dependency>
