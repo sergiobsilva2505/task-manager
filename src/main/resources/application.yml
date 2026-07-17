@@ -10,6 +10,19 @@ management:
     health:
       show-details: always
 
+app:
+  openapi:
+    title: Task Manager API
+    description: Sistema backend de gerenciamento de tarefas pessoais desenvolvido com Arquitetura Hexagonal (Ports & Adapters), focado em clean code, separacao de responsabilidades e facilidade de evolucao. Esta e a versao base do projeto, estabelecendo fundacoes solidas para futuras expansoes.
+    contact:
+      name: Sergio Bezerra da Silva
+      email: sergiobz.silva@gmail.com
+    servers:
+      - url: http://localhost:8080
+        description: Ambiente local
+      - url: https://taskmanager.azurewebsites.net
+        description: Produção (Azure)
+
 spring:
   application:
     name: task-manager
