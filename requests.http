@@ -1,0 +1,38 @@
+# validação falhando (title vazio)
+POST http://localhost:8080/api/tasks
+Content-Type: application/json
+
+{
+    "title": "",
+    "description": "x",
+    "priority": "HIGH",
+    "dueDate": "2026-08-01T10:00:00"
+}
+
+###
+
+# validação falhando (dueDate no passado)
+POST http://localhost:8080/api/tasks
+Content-Type: application/json
+
+{
+    "title": "Teste",
+    "description": "x",
+    "priority": "HIGH",
+    "dueDate": "2020-01-01T10:00:00"
+}
+
+###
+
+# caminho feliz
+POST http://localhost:8080/api/tasks
+Content-Type: application/json
+
+{
+    "title": "Teste",
+    "description": "x",
+    "priority": "HIGH",
+    "dueDate": "2026-08-01T10:00:00"
+}
+
+###

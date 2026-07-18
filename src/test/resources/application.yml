@@ -27,16 +27,10 @@ spring:
   application:
     name: task-manager
 
-  datasource:
-    url: jdbc:postgresql://localhost:5432/task_manager_db
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-
   jpa:
     hibernate:
-      ddl-auto: update   # opções comuns: none, validate, update, create, create-drop
-    show-sql: true       # mostra SQL no console
+      ddl-auto: update
+    show-sql: true
     properties:
       hibernate:
         format_sql: true

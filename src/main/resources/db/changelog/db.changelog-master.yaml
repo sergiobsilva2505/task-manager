@@ -1,54 +1,5 @@
 databaseChangeLog:
-  - changeSet:
-      id: 1
-      author: sergio
-      changes:
-        - createTable:
-            tableName: task
-            columns:
-              - column:
-                  name: id
-                  type: UUID
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: owner_id
-                  type: UUID
-                  constraints:
-                    nullable: false
-              - column:
-                  name: title
-                  type: VARCHAR(200)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: description
-                  type: VARCHAR(1000)
-                  constraints:
-                    nullable: true
-              - column:
-                  name: status
-                  type: VARCHAR(20)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: priority
-                  type: VARCHAR(10)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: due_date
-                  type: DATE
-                  constraints:
-                    nullable: true
-              - column:
-                  name: created_at
-                  type: TIMESTAMP
-                  constraints:
-                    nullable: false
-              - column:
-                  name: updated_at
-                  type: TIMESTAMP
-                  constraints:
-                    nullable: false
+  - include:
+      file: db/changelog/db.changelog-1-create-task.yaml
+  - include:
+      file: db/changelog/db.changelog-2-rename-task-to-tasks.yaml

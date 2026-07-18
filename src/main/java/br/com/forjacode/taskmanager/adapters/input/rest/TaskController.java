@@ -1,0 +1,38 @@
+package br.com.forjacode.taskmanager.adapters.input.rest;
+
+import br.com.forjacode.taskmanager.adapters.input.rest.dto.CreateTaskRequest;
+import br.com.forjacode.taskmanager.adapters.input.rest.dto.TaskResponse;
+import br.com.forjacode.taskmanager.adapters.input.rest.mapper.TaskRestMapper;
+import br.com.forjacode.taskmanager.application.ports.input.CreateTaskUseCase;
+import br.com.forjacode.taskmanager.application.ports.input.command.CreateTaskCommand;
+import br.com.forjacode.taskmanager.domain.model.Task;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.net.URI;
+
+@RestController
+@RequestMapping("/api")
+public class TaskController {
+
+    private final TaskRestMapper mapper;
+    private final CreateTaskUseCase createTaskUseCase;
+
+    public TaskController(TaskRestMapper mapper, CreateTaskUseCase createTaskUseCase) {
+        this.mapper = mapper;
+        this.createTaskUseCase = createTaskUseCase;
+    }
+
+    @PostMapping("/tasks")
+    public ResponseEntity<TaskResponse> createTask(@Valid @RequestBody CreateTaskRequest createTaskRequest) {
+        CreateTaskCommand command = mapper.toCommand(createTaskRequest);
+        Task task = createTaskUseCase.execute(command);
+        TaskResponse response = mapper.toResponse(task);
+        URI location = URI.create("/api/tasks/%s".formatted(task.getId()));
+        return ResponseEntity.created(location).body(response);
+    }
+}
