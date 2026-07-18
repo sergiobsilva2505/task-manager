@@ -12,7 +12,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/hello", "/api/tasks/**", "/actuator/health").permitAll()
+                        .requestMatchers("/swagger-ui.html","/swagger-ui/**","/v3/api-docs/**","/api/hello", "/api/tasks/**", "/actuator/health").permitAll()
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable());
         return http.build();

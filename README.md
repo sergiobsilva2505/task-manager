@@ -147,21 +147,6 @@ Nunca o inverso. O `domain` não conhece `application`; o `application` não con
 ### 👋 Status da aplicação
 
 <details>
-<summary>👋 Hello World</summary>
-
-**GET** `/api/hello`
-
-**Resposta:** `200 OK`
-
-```json
-{
-  "message": "Hello, World!"
-}
-```
-
-</details>
-
-<details>
 <summary>💓 Health Check</summary>
 
 **GET** `/actuator/health`
