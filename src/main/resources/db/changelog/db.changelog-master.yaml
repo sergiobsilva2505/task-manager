@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/db.changelog-1-create-task.yaml
   - include:
       file: db/changelog/db.changelog-2-rename-task-to-tasks.yaml
+  - include:
+      file: db/changelog/db.changelog-3-alter-table-tasks-column-due-date.yaml

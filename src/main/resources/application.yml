@@ -20,8 +20,6 @@ app:
     servers:
       - url: http://localhost:8080
         description: Ambiente local
-      - url: https://taskmanager.azurewebsites.net
-        description: Produção (Azure)
 
 spring:
   application:
@@ -35,7 +33,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update   # opções comuns: none, validate, update, create, create-drop
+      ddl-auto: validate   # opções comuns: none, validate, update, create, create-drop
     show-sql: true       # mostra SQL no console
     properties:
       hibernate:
