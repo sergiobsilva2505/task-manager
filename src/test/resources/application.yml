@@ -1,3 +1,28 @@
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+app:
+  openapi:
+    title: Task Manager API
+    description: API de gerenciamento de tarefas construída com Java 21 + Spring Boot, seguindo Arquitetura Hexagonal (Ports & Adapters)
+    contact:
+      name: Sergio Bezerra da Silva
+      email: sergiobz.silva@gmail.com
+    servers:
+      - url: http://localhost:8080
+        description: Ambiente local
+      - url: https://taskmanager.azurewebsites.net
+        description: Produção (Azure)
+
 spring:
   application:
     name: task-manager
