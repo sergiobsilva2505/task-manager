@@ -84,14 +84,16 @@ jobs:
           java-version: "21"
           cache: maven
 
+      - name: Compilar projeto (gera classes do Lombok/MapStruct para análise)
+        run: mvn -B clean compile
+
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2026.1.3
         with:
-          upload-result: true
-          args: |
-            --linter,jetbrains/qodana-jvm-community:2026.1
-        # env:
-        #   QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}  # descomentar se criar conta no Qodana Cloud
+          pr-mode: true
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_447950036 }}
+          QODANA_ENDPOINT: 'https://qodana.cloud'
 
   deploy:
     runs-on: ubuntu-latest
