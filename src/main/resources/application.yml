@@ -13,7 +13,7 @@ management:
 app:
   openapi:
     title: Task Manager API
-    description: Sistema backend de gerenciamento de tarefas pessoais desenvolvido com Arquitetura Hexagonal (Ports & Adapters), focado em clean code, separacao de responsabilidades e facilidade de evolucao. Esta e a versao base do projeto, estabelecendo fundacoes solidas para futuras expansoes.
+    description: API de gerenciamento de tarefas construída com Java 21 + Spring Boot, seguindo Arquitetura Hexagonal (Ports & Adapters)
     contact:
       name: Sergio Bezerra da Silva
       email: sergiobz.silva@gmail.com
