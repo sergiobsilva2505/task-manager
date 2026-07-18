@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: sergio
+      changes:
+        - renameTable:
+            oldTableName: task
+            newTableName: tasks
+

@@ -13,11 +13,6 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: owner_id
-                  type: UUID
-                  constraints:
-                    nullable: false
-              - column:
                   name: title
                   type: VARCHAR(200)
                   constraints:
