@@ -14,9 +14,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>task-manager</name>
     <description>
-        Sistema backend de gerenciamento de tarefas pessoais desenvolvido com Arquitetura Hexagonal (Ports &amp; Adapters),
-        focado em clean code, separacao de responsabilidades e facilidade de evolucao. Esta e a versao base do projeto,
-        estabelecendo fundacoes solidas para futuras expansoes.
+        API de gerenciamento de tarefas construída com Java 21 + Spring Boot, seguindo Arquitetura Hexagonal (Ports &amp; Adapters)
     </description>
 
     <properties>
