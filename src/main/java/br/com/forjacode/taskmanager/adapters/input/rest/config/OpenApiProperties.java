@@ -1,4 +1,4 @@
-package br.com.forjacode.taskmanager.infrastructure.config.openapi;
+package br.com.forjacode.taskmanager.adapters.input.rest.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -8,7 +8,6 @@ import java.util.List;
 public record OpenApiProperties(
         String title,
         String description,
-        String version,
         Contact contact,
         List<ServerInfo> servers
 ) {
