@@ -25,6 +25,7 @@
         <dotenv.version>5.1.0</dotenv.version>
         <jacoco.version>0.8.15</jacoco.version>
         <testcontainers.version>2.0.5</testcontainers.version>
+        <archunit-junit5.version>1.4.2</archunit-junit5.version>
     </properties>
 
     <dependencies>
@@ -114,6 +115,12 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers-postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5</artifactId>
+            <version>${archunit-junit5.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
