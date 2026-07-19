@@ -1,5 +1,7 @@
 package br.com.forjacode.taskmanager.application.ports.output;
 
+import br.com.forjacode.taskmanager.application.ports.shared.PageQuery;
+import br.com.forjacode.taskmanager.application.ports.shared.PagedResult;
 import br.com.forjacode.taskmanager.domain.model.Task;
 
 import java.util.List;
@@ -17,4 +19,6 @@ public interface TaskRepositoryPort {
     void delete(Task task);
 
     List<Task> findAll();
+
+    PagedResult<Task> findAll(PageQuery query);
 }

@@ -1,13 +1,21 @@
 package br.com.forjacode.taskmanager.adapters.output.persistence;
 
 import br.com.forjacode.taskmanager.application.ports.output.TaskRepositoryPort;
+import br.com.forjacode.taskmanager.application.ports.shared.PageQuery;
+import br.com.forjacode.taskmanager.application.ports.shared.PagedResult;
+import br.com.forjacode.taskmanager.application.ports.shared.SortDirection;
+import br.com.forjacode.taskmanager.application.ports.shared.TaskSortField;
+import br.com.forjacode.taskmanager.application.ports.shared.exception.InvalidPageQueryException;
 import br.com.forjacode.taskmanager.domain.model.Task;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Repository
 public class TaskRepositoryAdapter implements TaskRepositoryPort {
@@ -48,6 +56,43 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
     public List<Task> findAll() {
         return taskJpaRepository.findAll().stream()
                 .map(taskMapper::toDomain)
-                .collect(Collectors.toList());
+                .toList();
+    }
+
+    @Override
+    public PagedResult<Task> findAll(PageQuery query) {
+        Pageable pageable = getPageable(query);
+
+        Page<TaskJpaEntity> tasksPage = taskJpaRepository.findAll(pageable);
+
+        List<Task> tasks = tasksPage.getContent()
+                .stream()
+                .map(taskMapper::toDomain)
+                .toList();
+
+        return new PagedResult<>(
+                tasks,
+                tasksPage.getNumber(),
+                tasksPage.getSize(),
+                tasksPage.getTotalElements(),
+                tasksPage.getTotalPages()
+        );
+    }
+
+    private String getJpaFieldName(TaskSortField fieldName) {
+        return switch (fieldName) {
+            case TITLE -> "title";
+            case CREATED_AT -> "createdAt";
+            case DUE_DATE -> "dueDate";
+            case PRIORITY -> "priority";
+        };
+    }
+
+    private Pageable getPageable(PageQuery query) {
+        Sort.Direction direction = query.sortDirection() == SortDirection.DESC
+                ? Sort.Direction.DESC
+                : Sort.Direction.ASC;
+
+        return PageRequest.of(query.page(), query.size(), direction, getJpaFieldName(query.sortBy()));
     }
 }

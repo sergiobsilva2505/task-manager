@@ -1,0 +1,16 @@
+meta {
+  name: List Tasks - Default
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/tasks
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

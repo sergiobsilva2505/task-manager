@@ -1,0 +1,21 @@
+meta {
+  name: List Tasks - Sorted
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/tasks?sortField=TITLE&sortDirection=DESC
+  body: none
+  auth: inherit
+}
+
+params:query {
+  sortField: TITLE
+  sortDirection: DESC
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
