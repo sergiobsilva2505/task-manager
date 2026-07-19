@@ -1,0 +1,22 @@
+meta {
+  name: Get Task By Id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/tasks/{{taskId}}
+  body: none
+  auth: none
+}
+
+docs {
+  Busca uma tarefa pelo id.
+
+  Depende da variável {{taskId}}, preenchida automaticamente ao rodar
+  o request "Create Task" antes deste (ou defina manualmente na aba
+  de variáveis do environment/request para testar um id específico).
+
+  Resposta esperada: 200 OK com o corpo da tarefa.
+  Erros possíveis: 404 Not Found (application/problem+json) quando o id não existe.
+}

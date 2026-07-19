@@ -1,0 +1,16 @@
+meta {
+  name: Health Check
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/actuator/health
+  body: none
+  auth: none
+}
+
+docs {
+  Retorna o status agregado da aplicação, banco de dados e disco.
+  Resposta esperada: 200 OK.
+}

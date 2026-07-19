@@ -1,0 +1,18 @@
+meta {
+  name: Get Task By Id - Not Found
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/tasks/00000000-0000-0000-0000-000000000000
+  body: none
+  auth: none
+}
+
+docs {
+  Exemplo de cenário de erro: busca por um id que não existe.
+
+  Resposta esperada: 404 Not Found, formato application/problem+json,
+  com title "Task Not Found" e detail contendo o id buscado.
+}

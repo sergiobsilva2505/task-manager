@@ -1,0 +1,43 @@
+meta {
+  name: Create Task
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/tasks
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "title": "Minha primeira tarefa",
+    "description": "Descrição da tarefa",
+    "priority": "HIGH",
+    "dueDate": "2026-08-01T10:00:00"
+  }
+}
+
+vars:post-response {
+  taskId: res.body.id
+}
+
+docs {
+  Cria uma nova tarefa.
+
+  Campos obrigatórios: title, priority, dueDate.
+  dueDate deve ser presente ou futuro (validação de borda) e não pode
+  ser anterior ao momento de criação (regra de domínio).
+
+  Resposta esperada: 201 Created, com header Location e o corpo da tarefa criada.
+  O id retornado é salvo automaticamente na variável {{taskId}} para uso
+  no request "Get Task By Id".
+
+  Erros possíveis: 400 Bad Request (application/problem+json) para
+  campos ausentes ou inválidos.
+}
