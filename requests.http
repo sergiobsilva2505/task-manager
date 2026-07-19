@@ -36,3 +36,29 @@ Content-Type: application/json
 }
 
 ###
+
+# busca um id existente (usa um dos que você já criou antes)
+GET http://localhost:8080/api/tasks/83509a61-0df4-4629-b172-0870f5190d37
+
+###
+
+# busca um id aleatório (espera 404)
+GET http://localhost:8080/api/tasks/bac0e58f-79e8-4a67-9e58-eb3d72f6fe68
+
+###
+
+
+# curl -X POST http://localhost:8080/api/tasks
+#  -H "Content-Type: application/json"
+#  -d '{"title":"Teste hora","description":"verificando timestamp","priority":"LOW","dueDate":"2026-09-01T15:30:00"}'
+POST http://localhost:8080/api/tasks
+Content-Type: application/json
+
+{
+    "title": "Teste hora",
+    "description": "verificando timestamp",
+    "priority": "LOW",
+    "dueDate": "2026-09-01T15:30:00"
+}
+
+###
