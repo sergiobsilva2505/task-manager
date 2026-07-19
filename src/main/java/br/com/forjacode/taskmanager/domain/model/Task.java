@@ -13,13 +13,13 @@ import java.util.UUID;
 
 public class Task {
 
-    private UUID id;
-    private String title;
-    private String description;
+    private final UUID id;
+    private final String title;
+    private final String description;
     private Status status;
-    private Priority priority;
-    private LocalDateTime dueDate;
-    private Instant createdAt;
+    private final Priority priority;
+    private final LocalDateTime dueDate;
+    private final Instant createdAt;
     private Instant updatedAt;
 
     private Task(UUID id, String title, String description, Status status, Priority priority, LocalDateTime dueDate,

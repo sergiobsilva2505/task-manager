@@ -12,7 +12,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/swagger-ui.html","/swagger-ui/**","/v3/api-docs/**","/api/hello", "/api/tasks/**", "/actuator/health").permitAll()
+                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/api/hello",
+                                "/api/tasks/**", "/actuator/health").permitAll()
                         .anyRequest().authenticated())
                 // CSRF desabilitado: API REST stateless, autenticação via Bearer/JWT (não via cookie de
                 // sessão). Proteção CSRF é irrelevante nesse modelo, já que o token é enviado
