@@ -185,6 +185,9 @@ integração (com Docker):
 | Maven                              | Build e dependências                                              |
 | [Bruno](https://www.usebruno.com/) | Cliente de API para testes manuais (coleções versionáveis em Git) |
 
+> A coleção de requisições do Bruno fica versionada na pasta `bruno/` na raiz do repositório — basta abrir a pasta no
+> Bruno ("Open Collection") e selecionar o environment **Local** para testar a API.
+
 ---
 
 ## 📖 Guia de uso da API
