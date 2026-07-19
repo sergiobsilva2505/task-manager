@@ -48,7 +48,9 @@ class TaskTest {
         @Test
         @DisplayName("should throw exception when title is null")
         void shouldThrowExceptionWhenTitleIsNull() {
-            assertThatThrownBy(() -> Task.create(null, "description", Priority.MEDIUM, LocalDateTime.now().plusDays(1)))
+            LocalDateTime dueDate = LocalDateTime.now().plusDays(1);
+
+            assertThatThrownBy(() -> Task.create(null, "description", Priority.MEDIUM, dueDate))
                     .isInstanceOf(MissingRequiredFieldException.class)
                     .hasMessage("Title cannot be null or blank");
         }
@@ -56,7 +58,9 @@ class TaskTest {
         @Test
         @DisplayName("should throw exception when title is blank")
         void shouldThrowExceptionWhenTitleIsBlank() {
-            assertThatThrownBy(() -> Task.create("   ", "description", Priority.MEDIUM, LocalDateTime.now().plusDays(1)))
+            LocalDateTime dueDate = LocalDateTime.now().plusDays(1);
+
+            assertThatThrownBy(() -> Task.create("   ", "description", Priority.MEDIUM, dueDate))
                     .isInstanceOf(MissingRequiredFieldException.class)
                     .hasMessage("Title cannot be null or blank");
         }
@@ -64,7 +68,9 @@ class TaskTest {
         @Test
         @DisplayName("should throw exception when priority is null")
         void shouldThrowExceptionWhenPriorityIsNull() {
-            assertThatThrownBy(() -> Task.create("Task", "description", null, LocalDateTime.now().plusDays(1)))
+            LocalDateTime dueDate = LocalDateTime.now().plusDays(1);
+
+            assertThatThrownBy(() -> Task.create("Task", "description", null, dueDate))
                     .isInstanceOf(MissingRequiredFieldException.class)
                     .hasMessage("Priority cannot be null");
         }
@@ -80,11 +86,12 @@ class TaskTest {
         @Test
         @DisplayName("should throw exception when due date is before creation date")
         void shouldThrowExceptionWhenDueDateIsBeforeCreationDate() {
+            UUID id = UUID.randomUUID();
             Instant createdAt = Instant.parse("2026-07-18T10:00:00Z");
             LocalDateTime dueDate = createdAt.atZone(ZoneId.systemDefault()).toLocalDateTime().minusMinutes(1);
 
             assertThatThrownBy(() -> Task.reconstruct(
-                    UUID.randomUUID(),
+                    id,
                     "Task",
                     "description",
                     Status.TODO,
@@ -99,11 +106,12 @@ class TaskTest {
         @Test
         @DisplayName("should throw exception when reconstructing task with null title")
         void shouldThrowExceptionWhenReconstructingTaskWithNullTitle() {
+            UUID id = UUID.randomUUID();
             Instant createdAt = Instant.parse("2026-07-18T10:00:00Z");
             LocalDateTime dueDate = createdAt.atZone(ZoneId.systemDefault()).toLocalDateTime().plusHours(1);
 
             assertThatThrownBy(() -> Task.reconstruct(
-                    UUID.randomUUID(),
+                    id,
                     null,
                     "description",
                     Status.TODO,
@@ -118,11 +126,12 @@ class TaskTest {
         @Test
         @DisplayName("should throw exception when reconstructing task with null priority")
         void shouldThrowExceptionWhenReconstructingTaskWithNullPriority() {
+            UUID id = UUID.randomUUID();
             Instant createdAt = Instant.parse("2026-07-18T10:00:00Z");
             LocalDateTime dueDate = createdAt.atZone(ZoneId.systemDefault()).toLocalDateTime().plusHours(1);
 
             assertThatThrownBy(() -> Task.reconstruct(
-                    UUID.randomUUID(),
+                    id,
                     "Task",
                     "description",
                     Status.TODO,

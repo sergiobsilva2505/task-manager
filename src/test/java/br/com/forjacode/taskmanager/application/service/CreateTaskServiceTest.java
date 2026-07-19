@@ -6,6 +6,7 @@ import br.com.forjacode.taskmanager.domain.exception.MissingRequiredFieldExcepti
 import br.com.forjacode.taskmanager.domain.model.Task;
 import br.com.forjacode.taskmanager.domain.model.enums.Priority;
 import br.com.forjacode.taskmanager.domain.model.enums.Status;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -62,10 +63,17 @@ class CreateTaskServiceTest {
 	@DisplayName("Creation with error")
 	class WithError {
 
+		private LocalDateTime futureDueDate;
+
+		@BeforeEach
+		void setUp() {
+			futureDueDate = LocalDateTime.now().plusDays(1);
+		}
+
 		@Test
 		@DisplayName("should throw exception when title is null")
 		void shouldThrowExceptionWhenTitleIsNull() {
-			CreateTaskCommand command = new CreateTaskCommand(null, "description", Priority.MEDIUM, LocalDateTime.now().plusDays(1));
+			CreateTaskCommand command = new CreateTaskCommand(null, "description", Priority.MEDIUM, futureDueDate);
 
 			assertThatThrownBy(() -> createTaskService.execute(command))
 					.isInstanceOf(MissingRequiredFieldException.class);
@@ -76,7 +84,7 @@ class CreateTaskServiceTest {
 		@Test
 		@DisplayName("should throw exception when title is blank")
 		void shouldThrowExceptionWhenTitleIsBlank() {
-			CreateTaskCommand command = new CreateTaskCommand("   ", "description", Priority.MEDIUM, LocalDateTime.now().plusDays(1));
+			CreateTaskCommand command = new CreateTaskCommand("   ", "description", Priority.MEDIUM, futureDueDate);
 
 			assertThatThrownBy(() -> createTaskService.execute(command))
 					.isInstanceOf(MissingRequiredFieldException.class);
@@ -87,7 +95,7 @@ class CreateTaskServiceTest {
 		@Test
 		@DisplayName("should throw exception when priority is null")
 		void shouldThrowExceptionWhenPriorityIsNull() {
-			CreateTaskCommand command = new CreateTaskCommand("Task", "description", null, LocalDateTime.now().plusDays(1));
+			CreateTaskCommand command = new CreateTaskCommand("Task", "description", null, futureDueDate);
 
 			assertThatThrownBy(() -> createTaskService.execute(command))
 					.isInstanceOf(MissingRequiredFieldException.class);
