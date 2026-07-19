@@ -5,7 +5,6 @@ import br.com.forjacode.taskmanager.application.ports.shared.PageQuery;
 import br.com.forjacode.taskmanager.application.ports.shared.PagedResult;
 import br.com.forjacode.taskmanager.application.ports.shared.SortDirection;
 import br.com.forjacode.taskmanager.application.ports.shared.TaskSortField;
-import br.com.forjacode.taskmanager.application.ports.shared.exception.InvalidPageQueryException;
 import br.com.forjacode.taskmanager.domain.model.Task;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
