@@ -9,9 +9,10 @@
 ![Liquibase](https://img.shields.io/badge/Liquibase-2962FF?style=for-the-badge&logo=liquibase&logoColor=white)
 ![Spring Security](https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white)
 ![OpenAPI](https://img.shields.io/badge/OpenAPI-Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=white)
+![Testcontainers](https://img.shields.io/badge/Testcontainers-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![JUnit5](https://img.shields.io/badge/JUnit5-25A162?style=for-the-badge&logo=junit5&logoColor=white)
 ![Lombok](https://img.shields.io/badge/Lombok-BC0836?style=for-the-badge&logoColor=white)
 ![MapStruct](https://img.shields.io/badge/MapStruct-1.6.3-orange?style=for-the-badge&logoColor=white)
-![JUnit5](https://img.shields.io/badge/JUnit5-25A162?style=for-the-badge&logo=junit5&logoColor=white)
 
 *API de gerenciamento de tarefas construída com Java 21 + Spring Boot, seguindo Arquitetura Hexagonal (Ports &
 Adapters)*
@@ -121,6 +122,29 @@ Nunca o inverso. O `domain` não conhece `application`; o `application` não con
 - **Segurança liberada temporariamente:** com `Spring Security` no classpath mas sem autenticação implementada ainda, as
   rotas atuais estão liberadas via `permitAll()` como dívida técnica documentada — a implementação de autenticação (JWT)
   está prevista no roadmap.
+- **Arquitetura protegida por teste (ArchUnit):** as regras de dependência entre camadas, o isolamento do domínio em
+  relação a frameworks e as convenções de nomenclatura (`UseCase`/`Port` como interfaces) são verificadas
+  automaticamente a cada build, evitando regressão arquitetural silenciosa.
+
+---
+
+## 🧪 Estratégia de testes
+
+O projeto segue uma pirâmide de testes com separação explícita entre testes rápidos (sem infraestrutura) e testes de
+integração (com Docker):
+
+| Camada                                               | Tipo                          | Ferramenta                      | Comando      |
+|------------------------------------------------------|-------------------------------|---------------------------------|--------------|
+| Domínio (`Task`, `Status`)                           | Unitário                      | JUnit 6 + AssertJ               | `mvn test`   |
+| Serviços (`CreateTaskService`, `GetTaskByIdService`) | Unitário, mocks               | Mockito                         | `mvn test`   |
+| Persistência (`TaskRepositoryAdapter`)               | Integração, Postgres real     | Testcontainers + `@DataJpaTest` | `mvn verify` |
+| API REST (`TaskController`)                          | Integração, contexto completo | MockMvc + Testcontainers        | `mvn verify` |
+| Arquitetura                                          | Estático                      | ArchUnit                        | `mvn test`   |
+
+- `mvn test` roda apenas os testes rápidos (Surefire), sem exigir Docker.
+- `mvn verify` inclui os testes de integração (Failsafe), que sobem um PostgreSQL real via Testcontainers.
+- Cobertura de código gerada pelo JaCoCo em relatórios separados por tipo de teste (`jacoco.exec` para unitários,
+  `jacoco-it.exec` para integração), visível diretamente na IDE ou via `target/site/jacoco`.
 
 ---
 
@@ -141,27 +165,47 @@ Nunca o inverso. O `domain` não conhece `application`; o `application` não con
 | **Lombok**                                           | Redução de boilerplate (getters/setters em classes de infraestrutura) |
 | **springdoc-openapi**                                | Documentação da API (Swagger UI)                                      |
 | **springboot4-dotenv**                               | Carregamento de variáveis de ambiente a partir de arquivo `.env`      |
+| **Testcontainers**                                   | Testes de integração com PostgreSQL real via Docker                   |
+| **Mockito**                                          | Mocks para testes unitários de serviços                               |
+| **ArchUnit**                                         | Testes de arquitetura (regras de camadas e convenções)                |
+| **JaCoCo**                                           | Relatórios de cobertura de testes (unitário e integração separados)   |
 
 > Dependências de teste (`spring-boot-starter-data-jpa-test`, `spring-boot-starter-liquibase-test`,
 > `spring-boot-starter-security-test`, `spring-boot-starter-webmvc-test`) já estão configuradas no `pom.xml`, junto com o
-> goal `build-info` do `spring-boot-maven-plugin` (expõe metadados de build via Actuator).
+> goal `build-info` do `spring-boot-maven-plugin` (expõe metadados de build via Actuator) e o plugin **Failsafe**,
+> responsável por rodar os testes de integração separadamente dos unitários.
 
 ---
 
 ## 🔧 Ferramentas
 
-| Ferramenta         | Finalidade           |
-|--------------------|----------------------|
-| IntelliJ IDEA      | IDE                  |
-| Git                | Controle de versão   |
-| Maven              | Build e dependências |
-| Postman / Insomnia | Testes de API        |
+| Ferramenta                         | Finalidade                                                        |
+|------------------------------------|-------------------------------------------------------------------|
+| IntelliJ IDEA                      | IDE                                                               |
+| Git                                | Controle de versão                                                |
+| Maven                              | Build e dependências                                              |
+| [Bruno](https://www.usebruno.com/) | Cliente de API para testes manuais (coleções versionáveis em Git) |
 
 ---
 
 ## 📖 Guia de uso da API
 
 ### 👋 Status da aplicação
+
+<details>
+<summary>👋 Hello World</summary>
+
+**GET** `/api/hello`
+
+**Resposta:** `200 OK`
+
+```json
+{
+    "message": "Hello, World!"
+}
+```
+
+</details>
 
 <details>
 <summary>💓 Health Check</summary>
@@ -210,8 +254,32 @@ prazo inválido ou falha de validação de formato.
 
 </details>
 
-> Os demais endpoints (buscar por ID, listar, atualizar status, remover) estão em desenvolvimento — veja
-> o [Roadmap](#-roadmap).
+<details>
+<summary>🔍 Buscar tarefa por ID</summary>
+
+**GET** `/api/tasks/{id}`
+
+**Resposta:** `200 OK`
+
+```json
+{
+    "id": "83509a61-0df4-4629-b172-0870f5190d37",
+    "title": "Minha primeira tarefa",
+    "description": "Descrição da tarefa",
+    "status": "TODO",
+    "priority": "HIGH",
+    "dueDate": "2026-08-01T10:00:00",
+    "createdAt": "2026-07-18T01:35:06.740981200Z",
+    "updatedAt": "2026-07-18T01:35:06.740981200Z"
+}
+```
+
+**Erros possíveis:** `404 Not Found` (formato `application/problem+json`) quando o ID não existe.
+
+</details>
+
+> Os demais endpoints (listar, atualizar status, remover) estão em desenvolvimento — veja o [Roadmap](#-roadmap). A
+> documentação interativa completa está disponível em `/swagger-ui/index.html` com a aplicação em execução.
 
 ---
 
@@ -223,13 +291,15 @@ prazo inválido ou falha de validação de formato.
 - [x] Caso de uso: criar tarefa (`POST /api/tasks`)
 - [x] Persistência via JPA + PostgreSQL
 - [x] Tratamento global de erros com `ProblemDetail` (RFC 7807)
-- [x] Testes unitários de domínio e serviço
+- [x] Documentação OpenAPI/Swagger, sincronizada com o README
+- [x] Testes unitários de domínio e serviço (100% linha/branch no domínio)
+- [x] Testes de integração (persistência e API) com Testcontainers
 - [x] Testes de arquitetura com ArchUnit
-- [ ] Caso de uso: buscar tarefa por ID (`GET /api/tasks/{id}`)
+- [x] Caso de uso: buscar tarefa por ID (`GET /api/tasks/{id}`)
 - [ ] Caso de uso: listar tarefas (`GET /api/tasks`)
 - [ ] Caso de uso: alterar status da tarefa
+- [ ] Cobertura de teste do handler de exceções de domínio no `GlobalExceptionHandler` (pendente até `ChangeTaskStatus`)
 - [ ] Multiusuário (`ownerId`, autenticação JWT)
-- [ ] Documentação OpenAPI/Swagger
 - [ ] Deploy (Docker + cloud)
 
 ---

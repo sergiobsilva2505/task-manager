@@ -3,6 +3,7 @@ package br.com.forjacode.taskmanager.adapters.input.rest.exception;
 import br.com.forjacode.taskmanager.domain.exception.InvalidInputException;
 import br.com.forjacode.taskmanager.domain.exception.InvalidStatusTransitionException;
 import br.com.forjacode.taskmanager.domain.exception.MissingRequiredFieldException;
+import br.com.forjacode.taskmanager.domain.exception.TaskNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -40,6 +41,14 @@ public class GlobalExceptionHandler {
         problemDetail.setTitle("Validation Failed");
         problemDetail.setProperty("path", extractPath(request));
         problemDetail.setProperty("errors", fieldErrors);
+        return problemDetail;
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ProblemDetail handleTaskNotFoundException(TaskNotFoundException ex, WebRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        problemDetail.setTitle("Task Not Found");
+        problemDetail.setProperty("path", extractPath(request));
         return problemDetail;
     }
 
