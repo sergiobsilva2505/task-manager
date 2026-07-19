@@ -60,7 +60,6 @@ A API estará disponível em `http://localhost:8080`.
 3. Teste rapidamente:
 
 ```bash
-curl http://localhost:8080/api/hello
 curl http://localhost:8080/actuator/health
 ```
 
@@ -190,22 +189,7 @@ integração (com Docker):
 
 ## 📖 Guia de uso da API
 
-### 👋 Status da aplicação
-
-<details>
-<summary>👋 Hello World</summary>
-
-**GET** `/api/hello`
-
-**Resposta:** `200 OK`
-
-```json
-{
-    "message": "Hello, World!"
-}
-```
-
-</details>
+### 💓 Status da aplicação
 
 <details>
 <summary>💓 Health Check</summary>
