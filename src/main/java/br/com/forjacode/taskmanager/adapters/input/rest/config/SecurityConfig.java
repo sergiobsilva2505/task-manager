@@ -14,6 +14,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/swagger-ui.html","/swagger-ui/**","/v3/api-docs/**","/api/hello", "/api/tasks/**", "/actuator/health").permitAll()
                         .anyRequest().authenticated())
+                // CSRF desabilitado: API REST stateless, autenticação via Bearer/JWT (não via cookie de
+                // sessão). Proteção CSRF é irrelevante nesse modelo, já que o token é enviado
+                // explicitamente pelo cliente, nunca de forma automática pelo navegador.
                 .csrf(csrf -> csrf.disable());
         return http.build();
     }
