@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.UUID;
 
-@SuppressWarnings("LombokGetterMayBeUsed") // Suppress warning for too many parameters in constructor
+@SuppressWarnings({"LombokGetterMayBeUsed", "java:S107"}) // Suppress warning for too many parameters in constructor
 public class Task {
 
     private final UUID id;
@@ -23,6 +23,7 @@ public class Task {
     private final Instant createdAt;
     private Instant updatedAt;
 
+    @SuppressWarnings("java:S107") // Suppress warning for too many parameters in constructor
     private Task(UUID id, String title, String description, Status status, Priority priority, LocalDateTime dueDate,
             Instant createdAt, Instant updatedAt) {
         if (title == null || title.isBlank()) throw new MissingRequiredFieldException("Title cannot be null or blank");
