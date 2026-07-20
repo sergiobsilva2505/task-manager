@@ -1,0 +1,21 @@
+meta {
+  name: List Tasks - Paginated
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/tasks?page=0&size=2
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 0
+  size: 2
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

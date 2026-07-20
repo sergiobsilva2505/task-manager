@@ -1,0 +1,16 @@
+meta {
+  name: Get Task By Id - Invalid UUID Format
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/api/tasks/abc
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}
