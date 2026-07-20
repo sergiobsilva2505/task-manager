@@ -124,6 +124,25 @@ Nunca o inverso. O `domain` não conhece `application`; o `application` não con
 - **Arquitetura protegida por teste (ArchUnit):** as regras de dependência entre camadas, o isolamento do domínio em
   relação a frameworks e as convenções de nomenclatura (`UseCase`/`Port` como interfaces) são verificadas
   automaticamente a cada build, evitando regressão arquitetural silenciosa.
+- **Paginação desacoplada do Spring Data:** a camada `application` não conhece `Pageable`/`Page` — usa tipos próprios
+  (`PageQuery`, `PagedResult<T>`, em `application/ports/shared`), com uma whitelist de campos ordenáveis por entidade
+  (`TaskSortField`). A conversão para `Pageable`/`Page` do Spring Data acontece só dentro do `TaskRepositoryAdapter`,
+  mantendo a aplicação livre de framework mesmo nesse ponto.
+- **Swagger e Bruno coexistindo (não é redundância):** os dois servem propósitos diferentes, então nenhum substitui o
+  outro:
+    - **Swagger** é gerado automaticamente a partir do código (`springdoc-openapi`) — reflete sempre o contrato *real*
+      da API no momento, sem esforço manual de manutenção. É a fonte de verdade para "o que existe e qual o formato
+      exato", útil para explorar endpoints novos ou consultar rapidamente sem sair do navegador.
+    - **Bruno** guarda **exemplos de uso reais e cenários específicos** que o Swagger não descreve: fluxos encadeados
+      (ex: criar uma tarefa e já reaproveitar o `id` retornado para buscar essa mesma tarefa, via `vars:post-response`),
+      casos de erro documentados com o resultado esperado (`sortField` inválido, UUID malformado, validação de campo), e
+      environments por ambiente (`Local`, e futuramente `Staging`/`Production`). Como fica versionado em `bruno/` no
+      repositório, também serve de documentação viva de "como esse endpoint costuma ser chamado na prática" — algo que a
+      especificação OpenAPI, por natureza, não descreve.
+    - Na prática: Swagger responde "o que a API aceita e devolve"; Bruno responde "como usar a API para resolver uma
+      tarefa específica, incluindo os erros esperados". Manter os dois evita que a coleção Bruno vire uma cópia manual
+      (e desatualizável) da especificação, e evita que o Swagger precise carregar exemplos de fluxo/erro que não são sua
+      responsabilidade.
 
 ---
 
@@ -261,12 +280,55 @@ prazo inválido ou falha de validação de formato.
 }
 ```
 
-**Erros possíveis:** `404 Not Found` (formato `application/problem+json`) quando o ID não existe.
+**Erros possíveis:** `404 Not Found` (formato `application/problem+json`) quando o ID não existe. `400 Bad Request`
+quando o `id` informado não é um UUID válido.
 
 </details>
 
-> Os demais endpoints (listar, atualizar status, remover) estão em desenvolvimento — veja o [Roadmap](#-roadmap). A
-> documentação interativa completa está disponível em `/swagger-ui/index.html` com a aplicação em execução.
+<details>
+<summary>📋 Listar tarefas (paginado)</summary>
+
+**GET** `/api/tasks`
+
+**Query params (todos opcionais):**
+
+| Parâmetro       | Padrão       | Valores aceitos                               |
+|-----------------|--------------|-----------------------------------------------|
+| `page`          | `0`          | inteiro >= 0                                  |
+| `size`          | `20`         | inteiro > 0                                   |
+| `sortField`     | `CREATED_AT` | `TITLE`, `CREATED_AT`, `DUE_DATE`, `PRIORITY` |
+| `sortDirection` | `DESC`       | `ASC`, `DESC`                                 |
+
+**Resposta:** `200 OK`
+
+```json
+{
+    "content": [
+        {
+            "id": "83509a61-0df4-4629-b172-0870f5190d37",
+            "title": "Minha primeira tarefa",
+            "description": "Descrição da tarefa",
+            "status": "TODO",
+            "priority": "HIGH",
+            "dueDate": "2026-08-01T10:00:00",
+            "createdAt": "2026-07-18T01:35:06.740981200Z",
+            "updatedAt": "2026-07-18T01:35:06.740981200Z"
+        }
+    ],
+    "page": 0,
+    "size": 20,
+    "totalElements": 1,
+    "totalPages": 1
+}
+```
+
+**Erros possíveis:** `400 Bad Request` quando `sortField`/`sortDirection` recebem um valor fora da whitelist (ex:
+`?sortField=NAOEXISTE`).
+
+</details>
+
+> Os demais endpoints (atualizar status, remover) estão em desenvolvimento — veja o [Roadmap](#-roadmap). A documentação
+> interativa completa está disponível em `/swagger-ui/index.html` com a aplicação em execução.
 
 ---
 
@@ -283,7 +345,7 @@ prazo inválido ou falha de validação de formato.
 - [x] Testes de integração (persistência e API) com Testcontainers
 - [x] Testes de arquitetura com ArchUnit
 - [x] Caso de uso: buscar tarefa por ID (`GET /api/tasks/{id}`)
-- [ ] Caso de uso: listar tarefas (`GET /api/tasks`)
+- [x] Caso de uso: listar tarefas com paginação e ordenação (`GET /api/tasks`)
 - [ ] Caso de uso: alterar status da tarefa
 - [ ] Cobertura de teste do handler de exceções de domínio no `GlobalExceptionHandler` (pendente até `ChangeTaskStatus`)
 - [ ] Multiusuário (`ownerId`, autenticação JWT)
