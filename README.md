@@ -350,6 +350,7 @@ quando o `id` informado não é um UUID válido.
 - [ ] Cobertura de teste do handler de exceções de domínio no `GlobalExceptionHandler` (pendente até `ChangeTaskStatus`)
 - [ ] Multiusuário (`ownerId`, autenticação JWT)
 - [ ] Deploy (Docker + cloud)
+- [ ] Avaliar SonarQube/SonarCloud no CI (complementar ao Qodana já configurado) — retomar ao final do projeto
 
 ---
 
