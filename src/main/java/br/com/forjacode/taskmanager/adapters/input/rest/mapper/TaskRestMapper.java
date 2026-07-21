@@ -1,14 +1,17 @@
 package br.com.forjacode.taskmanager.adapters.input.rest.mapper;
 
+import br.com.forjacode.taskmanager.adapters.input.rest.dto.ChangeTaskStatusRequest;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.CreateTaskRequest;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.PagedResponse;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.TaskResponse;
+import br.com.forjacode.taskmanager.application.ports.input.command.ChangeTaskStatusCommand;
 import br.com.forjacode.taskmanager.application.ports.input.command.CreateTaskCommand;
 import br.com.forjacode.taskmanager.application.ports.shared.PagedResult;
 import br.com.forjacode.taskmanager.domain.model.Task;
 import org.mapstruct.Mapper;
 
 import java.util.List;
+import java.util.UUID;
 
 @Mapper(componentModel = "spring")
 public interface TaskRestMapper {
@@ -29,4 +32,5 @@ public interface TaskRestMapper {
         );
     }
 
+    ChangeTaskStatusCommand toCommand(UUID taskId, ChangeTaskStatusRequest changeTaskStatusRequest);
 }
