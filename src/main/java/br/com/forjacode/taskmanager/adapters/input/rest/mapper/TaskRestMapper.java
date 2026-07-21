@@ -9,6 +9,7 @@ import br.com.forjacode.taskmanager.application.ports.input.command.CreateTaskCo
 import br.com.forjacode.taskmanager.application.ports.shared.PagedResult;
 import br.com.forjacode.taskmanager.domain.model.Task;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,5 +33,7 @@ public interface TaskRestMapper {
         );
     }
 
+    @Mapping(source = "taskId", target = "taskId")
+    @Mapping(source = "changeTaskStatusRequest.status", target = "newStatus")
     ChangeTaskStatusCommand toCommand(UUID taskId, ChangeTaskStatusRequest changeTaskStatusRequest);
 }

@@ -1,0 +1,26 @@
+meta {
+  name: Change Task Status - Task Not Found
+  type: http
+  seq: 11
+}
+
+patch {
+  url: {{baseUrl}}/api/tasks/49678861-f43a-4ce6-a355-e7fafcb113/status
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "status": "DONE"
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}
