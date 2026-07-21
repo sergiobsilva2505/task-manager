@@ -1,12 +1,15 @@
 package br.com.forjacode.taskmanager.adapters.input.rest;
 
+import br.com.forjacode.taskmanager.adapters.input.rest.dto.ChangeTaskStatusRequest;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.CreateTaskRequest;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.PagedResponse;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.TaskResponse;
 import br.com.forjacode.taskmanager.adapters.input.rest.mapper.TaskRestMapper;
+import br.com.forjacode.taskmanager.application.ports.input.ChangeTaskStatusUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.CreateTaskUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.GetTaskByIdUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.ListTasksUseCase;
+import br.com.forjacode.taskmanager.application.ports.input.command.ChangeTaskStatusCommand;
 import br.com.forjacode.taskmanager.application.ports.input.command.CreateTaskCommand;
 import br.com.forjacode.taskmanager.application.ports.shared.PageQuery;
 import br.com.forjacode.taskmanager.application.ports.shared.PagedResult;
@@ -16,6 +19,7 @@ import br.com.forjacode.taskmanager.domain.model.Task;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,13 +38,16 @@ public class TaskController {
     private final CreateTaskUseCase createTaskUseCase;
     private final GetTaskByIdUseCase getTaskByIdUseCase;
     private final ListTasksUseCase listTasksUseCase;
+    private final ChangeTaskStatusUseCase changeTaskStatusUseCase;
 
     public TaskController(TaskRestMapper mapper, CreateTaskUseCase createTaskUseCase,
-            GetTaskByIdUseCase getTaskByIdUseCase, ListTasksUseCase listTasksUseCase) {
+            GetTaskByIdUseCase getTaskByIdUseCase, ListTasksUseCase listTasksUseCase,
+            ChangeTaskStatusUseCase changeTaskStatusUseCase) {
         this.mapper = mapper;
         this.createTaskUseCase = createTaskUseCase;
         this.getTaskByIdUseCase = getTaskByIdUseCase;
         this.listTasksUseCase = listTasksUseCase;
+        this.changeTaskStatusUseCase = changeTaskStatusUseCase;
     }
 
     @PostMapping("/tasks")
@@ -72,6 +79,15 @@ public class TaskController {
         PageQuery query = new PageQuery(page, size, resolvedSortField, resolvedSortDirection);
         PagedResult<Task> pagedResult = listTasksUseCase.execute(query);
         PagedResponse<TaskResponse> response = mapper.toResponse(pagedResult);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/tasks/{taskId}/status")
+    public ResponseEntity<TaskResponse> changeTaskStatus(@PathVariable UUID taskId, @RequestBody @Valid
+    ChangeTaskStatusRequest changeTaskStatusRequest) {
+        ChangeTaskStatusCommand command = mapper.toCommand(taskId, changeTaskStatusRequest);
+        Task updatedTask = changeTaskStatusUseCase.execute(command);
+        TaskResponse response = mapper.toResponse(updatedTask);
         return ResponseEntity.ok(response);
     }
 }
