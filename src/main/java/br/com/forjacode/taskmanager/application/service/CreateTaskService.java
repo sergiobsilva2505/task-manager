@@ -3,10 +3,7 @@ package br.com.forjacode.taskmanager.application.service;
 import br.com.forjacode.taskmanager.application.ports.input.CreateTaskUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.command.CreateTaskCommand;
 import br.com.forjacode.taskmanager.application.ports.output.TaskRepositoryPort;
-import br.com.forjacode.taskmanager.domain.exception.TaskNotFoundException;
 import br.com.forjacode.taskmanager.domain.model.Task;
-
-import java.util.UUID;
 
 public class CreateTaskService implements CreateTaskUseCase {
 
