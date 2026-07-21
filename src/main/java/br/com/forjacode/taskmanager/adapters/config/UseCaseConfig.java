@@ -1,9 +1,11 @@
 package br.com.forjacode.taskmanager.adapters.config;
 
+import br.com.forjacode.taskmanager.application.ports.input.ChangeTaskStatusUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.CreateTaskUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.GetTaskByIdUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.ListTasksUseCase;
 import br.com.forjacode.taskmanager.application.ports.output.TaskRepositoryPort;
+import br.com.forjacode.taskmanager.application.service.ChangeTaskStatusService;
 import br.com.forjacode.taskmanager.application.service.CreateTaskService;
 import br.com.forjacode.taskmanager.application.service.GetTaskByIdService;
 import br.com.forjacode.taskmanager.application.service.ListTasksService;
@@ -26,5 +28,10 @@ public class UseCaseConfig {
     @Bean
     public ListTasksUseCase listTasksUseCase(TaskRepositoryPort taskRepositoryPort) {
         return new ListTasksService(taskRepositoryPort);
+    }
+
+    @Bean
+    public ChangeTaskStatusUseCase changeTaskStatusUseCase(TaskRepositoryPort taskRepositoryPort) {
+        return new ChangeTaskStatusService(taskRepositoryPort);
     }
 }
