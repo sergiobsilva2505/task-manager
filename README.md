@@ -128,6 +128,11 @@ Nunca o inverso. O `domain` não conhece `application`; o `application` não con
   (`PageQuery`, `PagedResult<T>`, em `application/ports/shared`), com uma whitelist de campos ordenáveis por entidade
   (`TaskSortField`). A conversão para `Pageable`/`Page` do Spring Data acontece só dentro do `TaskRepositoryAdapter`,
   mantendo a aplicação livre de framework mesmo nesse ponto.
+- **CORS configurável, sem origem coringa:** liberação de CORS (`CorsConfig`, em `adapters/input/rest/config`) para o
+  futuro frontend, com origem, métodos e headers permitidos externalizados via `application.yml` (`app.cors.*`) em vez
+  de hardcoded. `allowed-origins` é sempre uma origem específica (nunca `*`), já que uma origem coringa combinada com
+  `allowCredentials(true)` é rejeitada pelo próprio navegador e enfraqueceria a defesa que complementa a decisão de
+  desabilitar CSRF.
 - **Swagger e Bruno coexistindo (não é redundância):** os dois servem propósitos diferentes, então nenhum substitui o
   outro:
     - **Swagger** é gerado automaticamente a partir do código (`springdoc-openapi`) — reflete sempre o contrato *real*
@@ -327,8 +332,45 @@ quando o `id` informado não é um UUID válido.
 
 </details>
 
-> Os demais endpoints (atualizar status, remover) estão em desenvolvimento — veja o [Roadmap](#-roadmap). A documentação
-> interativa completa está disponível em `/swagger-ui/index.html` com a aplicação em execução.
+<details>
+<summary>🔄 Alterar status de uma tarefa</summary>
+
+**PATCH** `/api/tasks/{id}/status`
+
+```json
+{
+    "status": "IN_PROGRESS"
+}
+```
+
+**Transições válidas:** `TODO → IN_PROGRESS`, `TODO → CANCELLED`, `IN_PROGRESS → DONE`, `IN_PROGRESS → CANCELLED`.
+`DONE` e `CANCELLED` são estados terminais — nenhuma transição é permitida a partir deles.
+
+**Resposta:** `200 OK`
+
+```json
+{
+    "id": "83509a61-0df4-4629-b172-0870f5190d37",
+    "title": "Minha primeira tarefa",
+    "description": "Descrição da tarefa",
+    "status": "IN_PROGRESS",
+    "priority": "HIGH",
+    "dueDate": "2026-08-01T10:00:00",
+    "createdAt": "2026-07-18T01:35:06.740981200Z",
+    "updatedAt": "2026-07-19T14:20:11.120981200Z"
+}
+```
+
+**Erros possíveis:**
+
+- `404 Not Found` quando o `id` não existe.
+- `400 Bad Request` quando a transição de status é inválida (ex: pular etapa), quando o campo `status` está ausente, ou
+  quando o valor enviado não corresponde a nenhum status válido (corpo JSON malformado).
+
+</details>
+
+> Os demais endpoints (remover tarefa) estão em desenvolvimento — veja o [Roadmap](#-roadmap). A documentação interativa
+> completa está disponível em `/swagger-ui/index.html` com a aplicação em execução.
 
 ---
 
@@ -346,11 +388,15 @@ quando o `id` informado não é um UUID válido.
 - [x] Testes de arquitetura com ArchUnit
 - [x] Caso de uso: buscar tarefa por ID (`GET /api/tasks/{id}`)
 - [x] Caso de uso: listar tarefas com paginação e ordenação (`GET /api/tasks`)
-- [ ] Caso de uso: alterar status da tarefa
-- [ ] Cobertura de teste do handler de exceções de domínio no `GlobalExceptionHandler` (pendente até `ChangeTaskStatus`)
+- [x] Caso de uso: alterar status da tarefa (`PATCH /api/tasks/{id}/status`)
+- [x] Cobertura de teste do handler de exceções de domínio no `GlobalExceptionHandler`
+  (`InvalidStatusTransitionException` e `TaskNotFoundException` exercitadas via HTTP real; `InvalidInputException`/
+  `MissingRequiredFieldException` permanecem cobertas apenas via validação de borda, já que essa camada intercepta antes
+  de alcançar o domínio nos fluxos atuais)
 - [ ] Multiusuário (`ownerId`, autenticação JWT)
 - [ ] Deploy (Docker + cloud)
 - [ ] Avaliar SonarQube/SonarCloud no CI (complementar ao Qodana já configurado) — retomar ao final do projeto
+- [ ] Definir estratégia e padrão de logging (o que logar, em qual nível, formato) — task dedicada
 
 ---
 

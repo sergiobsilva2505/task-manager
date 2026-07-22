@@ -1,0 +1,30 @@
+meta {
+  name: Change Task Status - Success
+  type: http
+  seq: 7
+}
+
+patch {
+  url: {{baseUrl}}/api/tasks/{{taskId}}/status
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "status": "IN_PROGRESS"
+  }
+}
+
+docs {
+  Altera o status de uma tarefa existente (transição válida).
+
+  Depende da variável {{taskId}}, preenchida automaticamente ao rodar
+  o request "Create Task" antes deste.
+
+  Resposta esperada: 200 OK, com o corpo da tarefa refletindo o novo status.
+}

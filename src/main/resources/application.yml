@@ -21,6 +21,13 @@ app:
       - url: http://localhost:8080
         description: Ambiente local
 
+  cors:
+    address: /api/**
+    allowed-origins: http://localhost:4200
+    allowed-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
+    allowed-headers: "*"
+#    allow-credentials: true
+
 spring:
   application:
     name: task-manager

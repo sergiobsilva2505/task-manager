@@ -1,0 +1,32 @@
+meta {
+  name: Change Task Status - Invalid Status Value
+  type: http
+  seq: 11
+}
+
+patch {
+  url: {{baseUrl}}/api/tasks/{{taskId}}/status
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "status": "NAOEXISTE"
+  }
+}
+
+docs {
+  Exemplo de cenário de erro: valor de status que não existe no enum Status.
+
+  Depende da variável {{taskId}}. Rode "Create Task" antes.
+
+  Resposta esperada: 400 Bad Request, formato application/problem+json,
+  title "Malformed JSON". Capturado pelo handler de
+  HttpMessageNotReadableException (falha de desserialização do enum
+  pelo Jackson durante o parsing do corpo da requisição).
+}

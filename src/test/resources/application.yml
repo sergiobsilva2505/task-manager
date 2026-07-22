@@ -20,8 +20,12 @@ app:
     servers:
       - url: http://localhost:8080
         description: Ambiente local
-      - url: https://taskmanager.azurewebsites.net
-        description: Produção (Azure)
+
+  cors:
+    address: /api/**
+    allowed-origins: http://localhost:4200
+    allowed-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
+    allowed-headers: "*"
 
 spring:
   application:
@@ -29,7 +33,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
