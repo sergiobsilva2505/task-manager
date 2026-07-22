@@ -2,11 +2,13 @@ package br.com.forjacode.taskmanager.adapters.config;
 
 import br.com.forjacode.taskmanager.application.ports.input.ChangeTaskStatusUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.CreateTaskUseCase;
+import br.com.forjacode.taskmanager.application.ports.input.DeleteTaskUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.GetTaskByIdUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.ListTasksUseCase;
 import br.com.forjacode.taskmanager.application.ports.output.TaskRepositoryPort;
 import br.com.forjacode.taskmanager.application.service.ChangeTaskStatusService;
 import br.com.forjacode.taskmanager.application.service.CreateTaskService;
+import br.com.forjacode.taskmanager.application.service.DeleteTaskService;
 import br.com.forjacode.taskmanager.application.service.GetTaskByIdService;
 import br.com.forjacode.taskmanager.application.service.ListTasksService;
 import org.springframework.context.annotation.Bean;
@@ -33,5 +35,10 @@ public class UseCaseConfig {
     @Bean
     public ChangeTaskStatusUseCase changeTaskStatusUseCase(TaskRepositoryPort taskRepositoryPort) {
         return new ChangeTaskStatusService(taskRepositoryPort);
+    }
+
+    @Bean
+    public DeleteTaskUseCase deleteTaskUseCase(TaskRepositoryPort taskRepositoryPort) {
+        return new DeleteTaskService(taskRepositoryPort);
     }
 }

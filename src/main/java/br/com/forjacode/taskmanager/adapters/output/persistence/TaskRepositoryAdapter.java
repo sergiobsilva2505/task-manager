@@ -78,6 +78,11 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
         );
     }
 
+    @Override
+    public void deleteById(UUID taskId) {
+        taskJpaRepository.deleteById(taskId);
+    }
+
     private String getJpaFieldName(TaskSortField fieldName) {
         return switch (fieldName) {
             case TITLE -> "title";

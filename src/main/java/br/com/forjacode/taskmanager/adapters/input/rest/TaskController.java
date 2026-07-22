@@ -7,6 +7,7 @@ import br.com.forjacode.taskmanager.adapters.input.rest.dto.TaskResponse;
 import br.com.forjacode.taskmanager.adapters.input.rest.mapper.TaskRestMapper;
 import br.com.forjacode.taskmanager.application.ports.input.ChangeTaskStatusUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.CreateTaskUseCase;
+import br.com.forjacode.taskmanager.application.ports.input.DeleteTaskUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.GetTaskByIdUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.ListTasksUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.command.ChangeTaskStatusCommand;
@@ -18,6 +19,7 @@ import br.com.forjacode.taskmanager.application.ports.shared.TaskSortField;
 import br.com.forjacode.taskmanager.domain.model.Task;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,15 +41,17 @@ public class TaskController {
     private final GetTaskByIdUseCase getTaskByIdUseCase;
     private final ListTasksUseCase listTasksUseCase;
     private final ChangeTaskStatusUseCase changeTaskStatusUseCase;
+    private final DeleteTaskUseCase deleteTaskUseCase;
 
     public TaskController(TaskRestMapper mapper, CreateTaskUseCase createTaskUseCase,
             GetTaskByIdUseCase getTaskByIdUseCase, ListTasksUseCase listTasksUseCase,
-            ChangeTaskStatusUseCase changeTaskStatusUseCase) {
+            ChangeTaskStatusUseCase changeTaskStatusUseCase, DeleteTaskUseCase deleteTaskUseCase) {
         this.mapper = mapper;
         this.createTaskUseCase = createTaskUseCase;
         this.getTaskByIdUseCase = getTaskByIdUseCase;
         this.listTasksUseCase = listTasksUseCase;
         this.changeTaskStatusUseCase = changeTaskStatusUseCase;
+        this.deleteTaskUseCase = deleteTaskUseCase;
     }
 
     @PostMapping("/tasks")
@@ -89,5 +93,11 @@ public class TaskController {
         Task updatedTask = changeTaskStatusUseCase.execute(command);
         TaskResponse response = mapper.toResponse(updatedTask);
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/tasks/{taskId}")
+    public ResponseEntity<Void> deleteTask(@PathVariable UUID taskId) {
+        deleteTaskUseCase.execute(taskId);
+        return ResponseEntity.noContent().build();
     }
 }
