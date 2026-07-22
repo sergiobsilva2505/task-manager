@@ -18,6 +18,7 @@ import tools.jackson.databind.ObjectMapper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -268,6 +269,136 @@ class TaskControllerIT extends AbstractIntegrationTest {
                         .andExpect(jsonPath("$.content.length()").value(0))
                         .andExpect(jsonPath("$.totalElements").value(1))
                         .andExpect(jsonPath("$.totalPages").value(1));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("Change task status")
+    class ChangeTaskStatus {
+
+        @Nested
+        @DisplayName("Success")
+        class Success {
+
+            @Test
+            @DisplayName("should change status when transition is valid")
+            void shouldChangeStatusWhenTransitionIsValid() throws Exception {
+                String createResponse = mockMvc.perform(post("/api/tasks")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        """))
+                        .andExpect(status().isCreated())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
+
+                mockMvc.perform(patch("/api/tasks/{taskId}/status", createdTask.id())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"status":"IN_PROGRESS"}
+                                        """))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.id").value(createdTask.id().toString()))
+                        .andExpect(jsonPath("$.status").value("IN_PROGRESS"))
+                        .andExpect(jsonPath("$.title").value("Task"));
+            }
+        }
+
+        @Nested
+        @DisplayName("WithError")
+        class WithError {
+
+            @Test
+            @DisplayName("should return not found when task does not exist")
+            void shouldReturnNotFoundWhenTaskDoesNotExist() throws Exception {
+                String nonExistentId = "00000000-0000-0000-0000-000000000000";
+
+                mockMvc.perform(patch("/api/tasks/{taskId}/status", nonExistentId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"status":"IN_PROGRESS"}
+                                        """))
+                        .andExpect(status().isNotFound())
+                        .andExpect(jsonPath("$.title").value("Task Not Found"))
+                        .andExpect(jsonPath("$.detail").value("Task with ID %s not found".formatted(nonExistentId)));
+            }
+
+            @Test
+            @DisplayName("should return bad request when transition is invalid")
+            void shouldReturnBadRequestWhenTransitionIsInvalid() throws Exception {
+                String createResponse = mockMvc.perform(post("/api/tasks")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        """))
+                        .andExpect(status().isCreated())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
+
+                mockMvc.perform(patch("/api/tasks/{taskId}/status", createdTask.id())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"status":"DONE"}
+                                        """))
+                        .andExpect(status().isBadRequest())
+                        .andExpect(jsonPath("$.title").value("Invalid Status Transition"))
+                        .andExpect(jsonPath("$.detail").value("Cannot change status from TODO to DONE"));
+            }
+
+            @Test
+            @DisplayName("should return bad request when status is missing")
+            void shouldReturnBadRequestWhenStatusIsMissing() throws Exception {
+                String createResponse = mockMvc.perform(post("/api/tasks")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        """))
+                        .andExpect(status().isCreated())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
+
+                mockMvc.perform(patch("/api/tasks/{taskId}/status", createdTask.id())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"status":null}
+                                        """))
+                        .andExpect(status().isBadRequest())
+                        .andExpect(jsonPath("$.title").value("Validation Failed"))
+                        .andExpect(jsonPath("$.errors.status").exists());
+            }
+
+            @Test
+            @DisplayName("should return bad request when status value is invalid")
+            void shouldReturnBadRequestWhenStatusValueIsInvalid() throws Exception {
+                String createResponse = mockMvc.perform(post("/api/tasks")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        """))
+                        .andExpect(status().isCreated())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
+
+                mockMvc.perform(patch("/api/tasks/{taskId}/status", createdTask.id())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"status":"NAOEXISTE"}
+                                        """))
+                        .andExpect(status().isBadRequest())
+                        .andExpect(jsonPath("$.title").value("Malformed JSON"));
             }
         }
     }
