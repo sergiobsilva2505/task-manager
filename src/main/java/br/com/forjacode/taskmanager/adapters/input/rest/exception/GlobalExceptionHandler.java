@@ -4,8 +4,11 @@ import br.com.forjacode.taskmanager.domain.exception.InvalidInputException;
 import br.com.forjacode.taskmanager.domain.exception.InvalidStatusTransitionException;
 import br.com.forjacode.taskmanager.domain.exception.MissingRequiredFieldException;
 import br.com.forjacode.taskmanager.domain.exception.TaskNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -17,6 +20,8 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler({
             MissingRequiredFieldException.class,
@@ -55,6 +60,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleGenericException(Exception ex, WebRequest request) {
+        log.error("Unexpected error handling request [{}]", extractPath(request), ex);
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
         problemDetail.setTitle("Internal Server Error");
@@ -70,6 +76,14 @@ public class GlobalExceptionHandler {
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, message);
         problemDetail.setTitle("Invalid Parameter Type");
+        problemDetail.setProperty("path", extractPath(request));
+        return problemDetail;
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ProblemDetail handleHttpMessageNotReadableException(HttpMessageNotReadableException ex, WebRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Malformed JSON request");
+        problemDetail.setTitle("Malformed JSON");
         problemDetail.setProperty("path", extractPath(request));
         return problemDetail;
     }
