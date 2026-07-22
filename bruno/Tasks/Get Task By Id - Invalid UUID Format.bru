@@ -1,16 +1,19 @@
 meta {
   name: Get Task By Id - Invalid UUID Format
   type: http
-  seq: 8
+  seq: 4
 }
 
 get {
   url: {{baseUrl}}/api/tasks/abc
   body: none
-  auth: inherit
+  auth: none
 }
 
-settings {
-  encodeUrl: false
-  timeout: 0
+docs {
+  Exemplo de cenário de erro: taskId não é um UUID válido.
+
+  Resposta esperada: 400 Bad Request, formato application/problem+json,
+  title "Invalid Parameter Type", detail explicando o valor recebido,
+  o parâmetro e o tipo esperado (UUID).
 }

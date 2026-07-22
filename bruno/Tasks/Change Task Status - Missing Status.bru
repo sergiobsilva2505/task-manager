@@ -1,13 +1,13 @@
 meta {
   name: Change Task Status - Missing Status
   type: http
-  seq: 12
+  seq: 10
 }
 
 patch {
-  url: {{baseUrl}}/api/tasks/49678861-f43a-4ce6-a355-e7fafcb113/status
+  url: {{baseUrl}}/api/tasks/{{taskId}}/status
   body: json
-  auth: inherit
+  auth: none
 }
 
 headers {
@@ -18,7 +18,11 @@ body:json {
   {}
 }
 
-settings {
-  encodeUrl: false
-  timeout: 0
+docs {
+  Exemplo de cenário de erro: corpo da requisição sem o campo "status".
+
+  Depende da variável {{taskId}}. Rode "Create Task" antes.
+
+  Resposta esperada: 400 Bad Request, formato application/problem+json,
+  title "Validation Failed", com errors.status preenchido.
 }

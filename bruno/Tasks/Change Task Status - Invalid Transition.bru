@@ -1,13 +1,13 @@
 meta {
   name: Change Task Status - Invalid Transition
   type: http
-  seq: 10
+  seq: 8
 }
 
 patch {
-  url: {{baseUrl}}/api/tasks/49678861-f43a-4ce6-a355-e7fafcb113b1/status
+  url: {{baseUrl}}/api/tasks/{{taskId}}/status
   body: json
-  auth: inherit
+  auth: none
 }
 
 headers {
@@ -20,7 +20,13 @@ body:json {
   }
 }
 
-settings {
-  encodeUrl: false
-  timeout: 0
+docs {
+  Exemplo de cenário de erro: tenta pular etapa (ex: TODO -> DONE
+  direto, sem passar por IN_PROGRESS).
+
+  Depende da variável {{taskId}}. Rode "Create Task" antes (a tarefa
+  nasce em TODO, então essa transição deve ser rejeitada).
+
+  Resposta esperada: 400 Bad Request, formato application/problem+json,
+  title "Invalid Status Transition".
 }

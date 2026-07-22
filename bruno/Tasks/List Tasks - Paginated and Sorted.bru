@@ -1,0 +1,27 @@
+meta {
+  name: List Tasks - Paginated and Sorted
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/tasks?page=0&size=5&sortField=TITLE&sortDirection=ASC
+  body: none
+  auth: none
+}
+
+params:query {
+  page: 0
+  size: 5
+  sortField: TITLE
+  sortDirection: ASC
+}
+
+docs {
+  Lista tarefas com paginação e ordenação customizadas.
+
+  sortField aceita: TITLE, CREATED_AT, DUE_DATE, PRIORITY.
+  sortDirection aceita: ASC, DESC.
+
+  Resposta esperada: 200 OK.
+}

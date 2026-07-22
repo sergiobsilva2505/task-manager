@@ -1,13 +1,13 @@
 meta {
   name: Change Task Status - Task Not Found
   type: http
-  seq: 11
+  seq: 9
 }
 
 patch {
-  url: {{baseUrl}}/api/tasks/49678861-f43a-4ce6-a355-e7fafcb113/status
+  url: {{baseUrl}}/api/tasks/00000000-0000-0000-0000-000000000000/status
   body: json
-  auth: inherit
+  auth: none
 }
 
 headers {
@@ -16,11 +16,14 @@ headers {
 
 body:json {
   {
-    "status": "DONE"
+    "status": "IN_PROGRESS"
   }
 }
 
-settings {
-  encodeUrl: false
-  timeout: 0
+docs {
+  Exemplo de cenário de erro: tenta alterar o status de uma tarefa
+  que não existe.
+
+  Resposta esperada: 404 Not Found, formato application/problem+json,
+  title "Task Not Found".
 }

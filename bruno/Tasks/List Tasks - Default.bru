@@ -7,10 +7,12 @@ meta {
 get {
   url: {{baseUrl}}/api/tasks
   body: none
-  auth: inherit
+  auth: none
 }
 
-settings {
-  encodeUrl: true
-  timeout: 0
+docs {
+  Lista tarefas com os valores padrão: page=0, size=20,
+  sortField=CREATED_AT, sortDirection=DESC.
+
+  Resposta esperada: 200 OK, com content, page, size, totalElements e totalPages.
 }
