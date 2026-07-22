@@ -1,0 +1,20 @@
+meta {
+  name: Delete Task - Success
+  type: http
+  seq: 12
+}
+
+delete {
+  url: {{baseUrl}}/api/tasks/{{taskId}}
+  body: none
+  auth: none
+}
+
+docs {
+  Remove uma tarefa existente.
+
+  Depende da variável {{taskId}}, preenchida automaticamente ao rodar
+  o request "Create Task" antes deste.
+
+  Resposta esperada: 204 No Content, sem corpo.
+}

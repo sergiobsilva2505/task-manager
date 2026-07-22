@@ -17,6 +17,7 @@ import tools.jackson.databind.ObjectMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -399,6 +400,60 @@ class TaskControllerIT extends AbstractIntegrationTest {
                                         """))
                         .andExpect(status().isBadRequest())
                         .andExpect(jsonPath("$.title").value("Malformed JSON"));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("Delete task")
+    class DeleteTask {
+
+        @Nested
+        @DisplayName("Success")
+        class Success {
+
+            @Test
+            @DisplayName("should delete task when id exists")
+            void shouldDeleteTaskWhenIdExists() throws Exception {
+                String createResponse = mockMvc.perform(post("/api/tasks")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"title":"Task to Delete","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        """))
+                        .andExpect(status().isCreated())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
+
+                mockMvc.perform(delete("/api/tasks/{taskId}", createdTask.id()))
+                        .andExpect(status().isNoContent());
+
+                assertThat(taskJpaRepository.count()).isZero();
+            }
+
+            @Test
+            @DisplayName("should return no content when task does not exist (idempotent)")
+            void shouldReturnNoContentWhenTaskDoesNotExist() throws Exception {
+                String nonExistentId = "00000000-0000-0000-0000-000000000000";
+
+                mockMvc.perform(delete("/api/tasks/{taskId}", nonExistentId))
+                        .andExpect(status().isNoContent());
+            }
+        }
+
+        @Nested
+        @DisplayName("WithError")
+        class WithError {
+
+            @Test
+            @DisplayName("should return bad request when task id format is invalid")
+            void shouldReturnBadRequestWhenTaskIdFormatIsInvalid() throws Exception {
+                String invalidId = "invalid-uuid-format";
+
+                mockMvc.perform(delete("/api/tasks/{taskId}", invalidId))
+                        .andExpect(status().isBadRequest());
             }
         }
     }

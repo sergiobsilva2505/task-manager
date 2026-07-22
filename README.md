@@ -148,6 +148,12 @@ Nunca o inverso. O `domain` não conhece `application`; o `application` não con
       tarefa específica, incluindo os erros esperados". Manter os dois evita que a coleção Bruno vire uma cópia manual
       (e desatualizável) da especificação, e evita que o Swagger precise carregar exemplos de fluxo/erro que não são sua
       responsabilidade.
+- **`DELETE` verdadeiramente idempotente:** remover uma tarefa retorna sempre `204 No Content`, independentemente de o
+  `id` existir ou não — em vez de `404` para IDs inexistentes (padrão usado em `GetTaskById`/`ChangeTaskStatus`), o
+  endpoint segue a semântica de idempotência da spec HTTP: "o recurso não existe" e "o recurso foi removido" resultam no
+  mesmo estado final observável. `DeleteTaskService` delega direto para `TaskRepositoryPort.deleteById(id)`, sem buscar
+  a tarefa antes — evitando uma consulta desnecessária e mantendo o comportamento realmente livre de ramificação de
+  erro.
 
 ---
 
@@ -369,8 +375,18 @@ quando o `id` informado não é um UUID válido.
 
 </details>
 
-> Os demais endpoints (remover tarefa) estão em desenvolvimento — veja o [Roadmap](#-roadmap). A documentação interativa
-> completa está disponível em `/swagger-ui/index.html` com a aplicação em execução.
+<details>
+<summary>🗑️ Remover tarefa</summary>
+
+**DELETE** `/api/tasks/{id}`
+
+**Resposta:** `204 No Content` — sempre, independentemente de o `id` existir ou não (operação idempotente).
+
+**Erros possíveis:** `400 Bad Request` quando o `id` informado não é um UUID válido.
+
+</details>
+
+> A documentação interativa completa está disponível em `/swagger-ui/index.html` com a aplicação em execução.
 
 ---
 
@@ -393,6 +409,7 @@ quando o `id` informado não é um UUID válido.
   (`InvalidStatusTransitionException` e `TaskNotFoundException` exercitadas via HTTP real; `InvalidInputException`/
   `MissingRequiredFieldException` permanecem cobertas apenas via validação de borda, já que essa camada intercepta antes
   de alcançar o domínio nos fluxos atuais)
+- [x] Caso de uso: remover tarefa (`DELETE /api/tasks/{id}`, idempotente) — fecha o CRUD completo
 - [ ] Multiusuário (`ownerId`, autenticação JWT)
 - [ ] Deploy (Docker + cloud)
 - [ ] Avaliar SonarQube/SonarCloud no CI (complementar ao Qodana já configurado) — retomar ao final do projeto
