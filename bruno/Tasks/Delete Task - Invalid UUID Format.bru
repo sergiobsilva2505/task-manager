@@ -1,0 +1,19 @@
+meta {
+  name: Delete Task - Invalid UUID Format
+  type: http
+  seq: 14
+}
+
+delete {
+  url: {{baseUrl}}/api/tasks/invalid-uuid-format
+  body: none
+  auth: none
+}
+
+docs {
+  Exemplo de cenário de erro: taskId não é um UUID válido.
+
+  Resposta esperada: 400 Bad Request, formato application/problem+json,
+  title "Invalid Parameter Type" (mesmo handler usado em GetTaskById
+  para o mesmo tipo de erro).
+}

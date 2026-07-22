@@ -1,0 +1,22 @@
+meta {
+  name: Delete Task - Idempotent (Task Not Found)
+  type: http
+  seq: 13
+}
+
+delete {
+  url: {{baseUrl}}/api/tasks/00000000-0000-0000-0000-000000000000
+  body: none
+  auth: none
+}
+
+docs {
+  Exemplo de idempotência: remove uma tarefa que não existe.
+
+  Diferente de GetTaskById/ChangeTaskStatus (que retornam 404 para
+  ID inexistente), DELETE segue a semântica de idempotência da spec
+  HTTP — o estado final observável ("recurso ausente") é o mesmo,
+  então a operação sempre é bem-sucedida.
+
+  Resposta esperada: 204 No Content, sem corpo.
+}
