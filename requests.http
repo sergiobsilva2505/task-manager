@@ -1,0 +1,5 @@
+###
+# curl -i -X DELETE http://localhost:8080/api/tasks/00000000-0000-0000-0000-000000000000
+DELETE http://localhost:8080/api/tasks/00000000-0000-0000-0000-000000000000
+
+###
