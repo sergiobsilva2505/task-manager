@@ -1,5 +1,6 @@
 package br.com.forjacode.taskmanager.adapters.input.rest.exception;
 
+import br.com.forjacode.taskmanager.adapters.output.persistence.exception.EmailAlreadyInUseException;
 import br.com.forjacode.taskmanager.domain.exception.InvalidInputException;
 import br.com.forjacode.taskmanager.domain.exception.InvalidStatusTransitionException;
 import br.com.forjacode.taskmanager.domain.exception.MissingRequiredFieldException;
@@ -84,6 +85,14 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleHttpMessageNotReadableException(HttpMessageNotReadableException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Malformed JSON request");
         problemDetail.setTitle("Malformed JSON");
+        problemDetail.setProperty("path", extractPath(request));
+        return problemDetail;
+    }
+
+    @ExceptionHandler(EmailAlreadyInUseException.class)
+    public ProblemDetail handleEmailAlreadyInUseException(EmailAlreadyInUseException ex, WebRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+        problemDetail.setTitle("Email Already In Use");
         problemDetail.setProperty("path", extractPath(request));
         return problemDetail;
     }
