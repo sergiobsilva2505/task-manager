@@ -20,6 +20,24 @@ public class UserJpaEntityBuilder {
                 .build();
     }
 
+    public static UserJpaEntity aSecondUser() {
+        return new UserJpaEntityBuilder()
+                .id(UUID.randomUUID())
+                .name("Second User")
+                .email("secondUser@example.com")
+                .createdAt(Instant.now())
+                .build();
+    }
+
+    public static UserJpaEntity aThirdUser() {
+        return new UserJpaEntityBuilder()
+                .id(UUID.randomUUID())
+                .name("Third User")
+                .email("thirdUser@example.com")
+                .createdAt(Instant.now())
+                .build();
+    }
+
     public UserJpaEntityBuilder id(UUID id) {
         this.id = id;
         return this;

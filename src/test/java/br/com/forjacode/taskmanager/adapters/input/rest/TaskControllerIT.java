@@ -3,6 +3,7 @@ package br.com.forjacode.taskmanager.adapters.input.rest;
 import br.com.forjacode.taskmanager.AbstractIntegrationTest;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.TaskResponse;
 import br.com.forjacode.taskmanager.adapters.output.persistence.TaskJpaRepository;
+import br.com.forjacode.taskmanager.adapters.output.persistence.UserJpaRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +16,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
+import java.util.UUID;
+
+import static br.com.forjacode.taskmanager.testsuport.UserJpaEntityBuilder.aSecondUser;
+import static br.com.forjacode.taskmanager.testsuport.UserJpaEntityBuilder.anUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -36,16 +41,27 @@ class TaskControllerIT extends AbstractIntegrationTest {
     private TaskJpaRepository taskJpaRepository;
 
     @Autowired
+    private UserJpaRepository userJpaRepository;
+
+    @Autowired
     private ObjectMapper objectMapper;
+
+    private UUID userId;
 
     @BeforeEach
     void setUp() {
         taskJpaRepository.deleteAll();
+        userJpaRepository.deleteAll();
+
+        var user = anUser();
+        userId = user.getId();
+        userJpaRepository.save(user);
     }
 
     @AfterEach
     void tearDown() {
         taskJpaRepository.deleteAll();
+        userJpaRepository.deleteAll();
     }
 
     @Nested
@@ -60,6 +76,7 @@ class TaskControllerIT extends AbstractIntegrationTest {
             @DisplayName("should create task with valid request")
             void shouldCreateTaskWithValidRequest() throws Exception {
                 mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
@@ -83,6 +100,7 @@ class TaskControllerIT extends AbstractIntegrationTest {
             @DisplayName("should return bad request when title is blank")
             void shouldReturnBadRequestWhenTitleIsBlank() throws Exception {
                 mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
@@ -97,9 +115,10 @@ class TaskControllerIT extends AbstractIntegrationTest {
             @DisplayName("should return bad request when due date is in the past")
             void shouldReturnBadRequestWhenDueDateIsInThePast() throws Exception {
                 mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2020-01-01T10:00:00"}
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-07-24T10:00:00"}
                                         """))
                         .andExpect(status().isBadRequest())
                         .andExpect(jsonPath("$.title").value("Validation Failed"))
@@ -111,6 +130,7 @@ class TaskControllerIT extends AbstractIntegrationTest {
             @DisplayName("should return bad request when priority is null")
             void shouldReturnBadRequestWhenPriorityIsNull() throws Exception {
                 mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task","description":"desc","priority":null,"dueDate":"2026-08-01T10:00:00"}
@@ -135,6 +155,7 @@ class TaskControllerIT extends AbstractIntegrationTest {
             @DisplayName("should return task when id exists")
             void shouldReturnTaskWhenIdExists() throws Exception {
                 String createResponse = mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"My Task","description":"Task description","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
@@ -146,7 +167,8 @@ class TaskControllerIT extends AbstractIntegrationTest {
 
                 TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
 
-                mockMvc.perform(get("/api/tasks/{taskId}", createdTask.id()))
+                mockMvc.perform(get("/api/tasks/{taskId}", createdTask.id())
+                                .header("X-User-Id", userId))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.id").value(createdTask.id().toString()))
                         .andExpect(jsonPath("$.title").value("My Task"))
@@ -165,10 +187,41 @@ class TaskControllerIT extends AbstractIntegrationTest {
             void shouldReturnNotFoundWhenTaskDoesNotExist() throws Exception {
                 String nonExistentId = "00000000-0000-0000-0000-000000000000";
 
-                mockMvc.perform(get("/api/tasks/{taskId}", nonExistentId))
+                mockMvc.perform(get("/api/tasks/{taskId}", nonExistentId)
+                                .header("X-User-Id", userId))
                         .andExpect(status().isNotFound())
                         .andExpect(jsonPath("$.title").value("Task Not Found"))
-                        .andExpect(jsonPath("$.detail").value("Task with ID %s not found".formatted(nonExistentId)));
+                        .andExpect(jsonPath("$.detail").value(containsString("Task with ID %s not found".formatted(nonExistentId))));
+            }
+
+            @Test
+            @DisplayName("should return not found when task belongs to another user")
+            void shouldReturnNotFoundWhenTaskBelongsToAnotherUser() throws Exception {
+                // Cria tarefa com o primeiro usuário
+                String createResponse = mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"title":"My Task","description":"Task description","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        """))
+                        .andExpect(status().isCreated())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
+
+                // Cria um segundo usuário com email único
+                var secondUser = aSecondUser();
+
+                UUID secondUserId = secondUser.getId();
+                userJpaRepository.save(secondUser);
+
+                // Tenta buscar a tarefa usando o segundo usuário
+                mockMvc.perform(get("/api/tasks/{taskId}", createdTask.id())
+                                .header("X-User-Id", secondUserId))
+                        .andExpect(status().isNotFound())
+                        .andExpect(jsonPath("$.title").value("Task Not Found"));
             }
         }
     }
@@ -185,6 +238,8 @@ class TaskControllerIT extends AbstractIntegrationTest {
             @DisplayName("should return paged tasks when request contains valid pagination and sorting")
             void shouldReturnPagedTasksWhenRequestContainsValidPaginationAndSorting() throws Exception {
                 mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
+
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task B","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
@@ -192,6 +247,8 @@ class TaskControllerIT extends AbstractIntegrationTest {
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
+
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task A","description":"desc","priority":"MEDIUM","dueDate":"2026-08-02T10:00:00"}
@@ -216,6 +273,8 @@ class TaskControllerIT extends AbstractIntegrationTest {
             @DisplayName("should use default pagination and sorting when query params are omitted")
             void shouldUseDefaultPaginationAndSortingWhenQueryParamsAreOmitted() throws Exception {
                 mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
+
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task 1","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
@@ -223,6 +282,8 @@ class TaskControllerIT extends AbstractIntegrationTest {
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
+
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task 2","description":"desc","priority":"LOW","dueDate":"2026-08-03T10:00:00"}
@@ -257,6 +318,8 @@ class TaskControllerIT extends AbstractIntegrationTest {
             @DisplayName("should return empty content when requested page exceeds available pages")
             void shouldReturnEmptyContentWhenRequestedPageExceedsAvailablePages() throws Exception {
                 mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
+
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task only","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
@@ -286,6 +349,8 @@ class TaskControllerIT extends AbstractIntegrationTest {
             @DisplayName("should change status when transition is valid")
             void shouldChangeStatusWhenTransitionIsValid() throws Exception {
                 String createResponse = mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
+
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
@@ -332,6 +397,8 @@ class TaskControllerIT extends AbstractIntegrationTest {
             @DisplayName("should return bad request when transition is invalid")
             void shouldReturnBadRequestWhenTransitionIsInvalid() throws Exception {
                 String createResponse = mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
+
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
@@ -357,6 +424,8 @@ class TaskControllerIT extends AbstractIntegrationTest {
             @DisplayName("should return bad request when status is missing")
             void shouldReturnBadRequestWhenStatusIsMissing() throws Exception {
                 String createResponse = mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
+
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
@@ -382,6 +451,8 @@ class TaskControllerIT extends AbstractIntegrationTest {
             @DisplayName("should return bad request when status value is invalid")
             void shouldReturnBadRequestWhenStatusValueIsInvalid() throws Exception {
                 String createResponse = mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
+
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
@@ -416,6 +487,8 @@ class TaskControllerIT extends AbstractIntegrationTest {
             @DisplayName("should delete task when id exists")
             void shouldDeleteTaskWhenIdExists() throws Exception {
                 String createResponse = mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
+
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task to Delete","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
@@ -458,3 +531,4 @@ class TaskControllerIT extends AbstractIntegrationTest {
         }
     }
 }
+

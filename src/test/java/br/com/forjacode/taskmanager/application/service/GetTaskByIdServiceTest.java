@@ -68,7 +68,7 @@ class GetTaskByIdServiceTest {
         void shouldReturnTaskWhenIdExists() {
             when(repositoryPort.findById(taskId)).thenReturn(Optional.of(task));
 
-            Task result = getTaskByIdService.execute(taskId);
+            Task result = getTaskByIdService.execute(taskId, ownerId);
 
             assertThat(result).isNotNull();
             assertThat(result.getId()).isEqualTo(taskId);
@@ -86,10 +86,12 @@ class GetTaskByIdServiceTest {
     class WithError {
 
         private UUID taskId;
+        private UUID ownerId;
 
         @BeforeEach
         void setUp() {
             taskId = UUID.randomUUID();
+            ownerId = UUID.randomUUID();
         }
 
         @Test
@@ -97,8 +99,35 @@ class GetTaskByIdServiceTest {
         void shouldThrowExceptionWhenTaskDoesNotExist() {
             when(repositoryPort.findById(taskId)).thenReturn(Optional.empty());
 
-            assertThatThrownBy(() -> getTaskByIdService.execute(taskId))
+            assertThatThrownBy(() -> getTaskByIdService.execute(taskId, ownerId))
                 .isInstanceOf(TaskNotFoundException.class);
+            verify(repositoryPort).findById(taskId);
+        }
+
+        @Test
+        @DisplayName("should throw exception when task exists but belongs to another user")
+        void shouldThrowExceptionWhenTaskBelongsToAnotherUser() {
+            UUID anotherUserId = UUID.randomUUID();
+            Instant now = Instant.now();
+            LocalDateTime dueDate = LocalDateTime.now().plusDays(1);
+
+            Task task = Task.reconstruct(
+                taskId,
+                "Task title",
+                "Task description",
+                Status.TODO,
+                Priority.HIGH,
+                dueDate,
+                anotherUserId, // task pertence a outro usuário
+                now,
+                now
+            );
+
+            when(repositoryPort.findById(taskId)).thenReturn(Optional.of(task));
+
+            assertThatThrownBy(() -> getTaskByIdService.execute(taskId, ownerId))
+                .isInstanceOf(TaskNotFoundException.class)
+                .hasMessageContaining("Task with ID %s not found for user".formatted(taskId));
             verify(repositoryPort).findById(taskId);
         }
     }

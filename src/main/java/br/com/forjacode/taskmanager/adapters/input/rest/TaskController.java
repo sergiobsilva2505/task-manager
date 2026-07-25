@@ -1,5 +1,6 @@
 package br.com.forjacode.taskmanager.adapters.input.rest;
 
+import br.com.forjacode.taskmanager.adapters.input.rest.annotation.CurrentUserId;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.ChangeTaskStatusRequest;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.CreateTaskRequest;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.PagedResponse;
@@ -55,8 +56,10 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    public ResponseEntity<TaskResponse> createTask(@Valid @RequestBody CreateTaskRequest createTaskRequest) {
-        CreateTaskCommand command = mapper.toCommand(createTaskRequest);
+    public ResponseEntity<TaskResponse> createTask(
+            @Valid @RequestBody CreateTaskRequest createTaskRequest,
+            @CurrentUserId UUID currentUserId) {
+        CreateTaskCommand command = mapper.toCommand(createTaskRequest, currentUserId);
         Task task = createTaskUseCase.execute(command);
         TaskResponse response = mapper.toResponse(task);
         URI location = URI.create("/api/tasks/%s".formatted(task.getId()));
@@ -64,8 +67,8 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/{taskId}")
-    public ResponseEntity<TaskResponse> getTaskById(@PathVariable UUID taskId) {
-        Task task = getTaskByIdUseCase.execute(taskId);
+    public ResponseEntity<TaskResponse> getTaskById(@PathVariable UUID taskId, @CurrentUserId UUID currentUserId) {
+        Task task = getTaskByIdUseCase.execute(taskId, currentUserId);
         TaskResponse response = mapper.toResponse(task);
         return ResponseEntity.ok(response);
     }
