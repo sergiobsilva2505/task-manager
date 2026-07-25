@@ -1,6 +1,6 @@
 package br.com.forjacode.taskmanager.adapters.input.rest.exception;
 
-import br.com.forjacode.taskmanager.adapters.output.persistence.exception.EmailAlreadyInUseException;
+import br.com.forjacode.taskmanager.domain.exception.EmailAlreadyInUseException;
 import br.com.forjacode.taskmanager.domain.exception.InvalidInputException;
 import br.com.forjacode.taskmanager.domain.exception.InvalidStatusTransitionException;
 import br.com.forjacode.taskmanager.domain.exception.MissingRequiredFieldException;

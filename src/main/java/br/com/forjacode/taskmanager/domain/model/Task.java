@@ -20,18 +20,20 @@ public class Task {
     private Status status;
     private final Priority priority;
     private final LocalDateTime dueDate;
+//    private final UUID ownerId;
     private final Instant createdAt;
     private Instant updatedAt;
 
     @SuppressWarnings("java:S107") // Suppress warning for too many parameters in constructor
     private Task(UUID id, String title, String description, Status status, Priority priority, LocalDateTime dueDate,
-            Instant createdAt, Instant updatedAt) {
+            /*UUID ownerId,*/ Instant createdAt, Instant updatedAt) {
         if (title == null || title.isBlank()) throw new MissingRequiredFieldException("Title cannot be null or blank");
         if (priority == null) throw new MissingRequiredFieldException("Priority cannot be null");
         if (dueDate == null) throw new MissingRequiredFieldException("Due date cannot be null");
         if (dueDate.isBefore(createdAt.atZone(ZoneId.systemDefault()).toLocalDateTime())) {
             throw new InvalidInputException("Due date cannot be before creation date");
         }
+        // if (ownerId == null) throw new MissingRequiredFieldException("Owner ID cannot be null");
         this.id = id;
         this.title = title;
         this.status = status;
@@ -42,14 +44,14 @@ public class Task {
         this.updatedAt = updatedAt;
     }
 
-    public static Task create(String title, String description, Priority priority, LocalDateTime dueDate) {
+    public static Task create(String title, String description, Priority priority, LocalDateTime dueDate/*, UUID ownerId*/) {
         Instant now = Instant.now();
-        return new Task(UUID.randomUUID(), title, description, Status.TODO, priority, dueDate, now, now);
+        return new Task(UUID.randomUUID(), title, description, Status.TODO, priority, dueDate, /*ownerId,*/ now, now);
     }
 
     public static Task reconstruct(UUID id, String title, String description, Status status, Priority priority,
-            LocalDateTime dueDate, Instant createdAt, Instant updatedAt) {
-        return new Task(id, title, description, status, priority, dueDate, createdAt, updatedAt);
+            LocalDateTime dueDate, /*UUID ownerId,*/ Instant createdAt, Instant updatedAt) {
+        return new Task(id, title, description, status, priority, dueDate, /*ownerId,*/ createdAt, updatedAt);
     }
 
     public void changeStatus(Status newStatus) {

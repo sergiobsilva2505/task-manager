@@ -1,7 +1,7 @@
 package br.com.forjacode.taskmanager.adapters.output.persistence;
 
-import br.com.forjacode.taskmanager.adapters.output.persistence.exception.EmailAlreadyInUseException;
 import br.com.forjacode.taskmanager.application.ports.output.UserRepositoryPort;
+import br.com.forjacode.taskmanager.domain.exception.EmailAlreadyInUseException;
 import br.com.forjacode.taskmanager.domain.model.User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
@@ -25,7 +25,7 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
         try {
             userJpaRepository.save(userMapper.toEntity(user));
         } catch (DataIntegrityViolationException e) {
-            throw new EmailAlreadyInUseException("Error saving user: " + e.getMessage());
+            throw new EmailAlreadyInUseException("Email %s is already in use".formatted(user.getEmail()));
         }
     }
 

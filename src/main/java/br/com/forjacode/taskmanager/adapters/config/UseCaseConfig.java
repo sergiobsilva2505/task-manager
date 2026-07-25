@@ -5,7 +5,7 @@ import br.com.forjacode.taskmanager.application.ports.input.CreateTaskUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.DeleteTaskUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.GetTaskByIdUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.ListTasksUseCase;
-import br.com.forjacode.taskmanager.application.ports.input.RegisterUserCase;
+import br.com.forjacode.taskmanager.application.ports.input.RegisterUserUseCase;
 import br.com.forjacode.taskmanager.application.ports.output.TaskRepositoryPort;
 import br.com.forjacode.taskmanager.application.ports.output.UserRepositoryPort;
 import br.com.forjacode.taskmanager.application.service.ChangeTaskStatusService;
@@ -46,7 +46,7 @@ public class UseCaseConfig {
     }
 
     @Bean
-    public RegisterUserCase registerUserUseCae(UserRepositoryPort userRepositoryPort) {
+    public RegisterUserUseCase registerUserUseCase(UserRepositoryPort userRepositoryPort) {
         return new RegisterUserService(userRepositoryPort);
     }
 }

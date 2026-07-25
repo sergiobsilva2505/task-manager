@@ -1,4 +1,4 @@
-package br.com.forjacode.taskmanager.adapters.output.persistence.exception;
+package br.com.forjacode.taskmanager.domain.exception;
 
 public class EmailAlreadyInUseException extends RuntimeException {
     public EmailAlreadyInUseException(String message) {

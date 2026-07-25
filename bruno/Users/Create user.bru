@@ -1,0 +1,27 @@
+meta {
+  name: Create user
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/api/users
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "Sergio Bezerra da Silva",
+    "email": "seu-email@exemplo.com"
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

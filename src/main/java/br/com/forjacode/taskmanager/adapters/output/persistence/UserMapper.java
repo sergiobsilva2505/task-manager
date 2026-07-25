@@ -12,7 +12,8 @@ public interface UserMapper {
         return User.reconstruct(
                 entity.getId(),
                 entity.getName(),
-                entity.getEmail()
+                entity.getEmail(),
+                entity.getCreatedAt()
         );
     }
 }

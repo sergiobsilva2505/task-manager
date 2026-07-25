@@ -14,7 +14,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: name
-                  type: VARCHAR(200)
+                  type: VARCHAR(160)
                   constraints:
                     nullable: false
               - column:
@@ -23,3 +23,8 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
