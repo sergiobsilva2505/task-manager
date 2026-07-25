@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static br.com.forjacode.taskmanager.testsuport.UserJpaEntityBuilder.anUser;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -38,14 +39,25 @@ class TaskRepositoryAdapterIT extends AbstractIntegrationTest {
     @Autowired
     private TaskJpaRepository taskJpaRepository;
 
+    @Autowired
+    private UserJpaRepository userJpaRepository;
+
+    private UUID ownerId;
+
     @BeforeEach
     void setUp() {
         taskJpaRepository.deleteAll();
+        userJpaRepository.deleteAll();
+
+        UserJpaEntity user = anUser();
+        ownerId = user.getId();
+        userJpaRepository.save(user);
     }
 
     @AfterEach
     void tearDown() {
         taskJpaRepository.deleteAll();
+        userJpaRepository.deleteAll();
     }
 
     @Nested
@@ -59,7 +71,7 @@ class TaskRepositoryAdapterIT extends AbstractIntegrationTest {
             @Test
             @DisplayName("should persist task and allow retrieval by id")
             void shouldPersistTaskAndAllowRetrievalById() {
-                Task task = Task.create("Task 1", "description", Priority.HIGH, LocalDateTime.now().plusDays(1));
+                Task task = Task.create("Task 1", "description", Priority.HIGH, LocalDateTime.now().plusDays(1), ownerId);
 
                 taskRepositoryAdapter.save(task);
                 Optional<Task> foundTask = taskRepositoryAdapter.findById(task.getId());
@@ -80,7 +92,7 @@ class TaskRepositoryAdapterIT extends AbstractIntegrationTest {
             @Test
             @DisplayName("should keep persisted state unchanged when searching with a different id")
             void shouldKeepPersistedStateUnchangedWhenSearchingWithADifferentId() {
-                Task task = Task.create("Task 1", "description", Priority.HIGH, LocalDateTime.now().plusDays(1));
+                Task task = Task.create("Task 1", "description", Priority.HIGH, LocalDateTime.now().plusDays(1), ownerId);
                 taskRepositoryAdapter.save(task);
 
                 Optional<Task> foundTask = taskRepositoryAdapter.findById(UUID.randomUUID());
@@ -102,7 +114,7 @@ class TaskRepositoryAdapterIT extends AbstractIntegrationTest {
             @Test
             @DisplayName("should return task when id exists")
             void shouldReturnTaskWhenIdExists() {
-                Task task = Task.create("Task 1", "description", Priority.HIGH, LocalDateTime.now().plusDays(1));
+                Task task = Task.create("Task 1", "description", Priority.HIGH, LocalDateTime.now().plusDays(1), ownerId);
                 taskRepositoryAdapter.save(task);
 
                 Optional<Task> foundTask = taskRepositoryAdapter.findById(task.getId());
@@ -137,9 +149,9 @@ class TaskRepositoryAdapterIT extends AbstractIntegrationTest {
             @Test
             @DisplayName("should return all persisted tasks")
             void shouldReturnAllPersistedTasks() {
-                Task firstTask = Task.create("Task 1", "description 1", Priority.HIGH, LocalDateTime.now().plusDays(1));
+                Task firstTask = Task.create("Task 1", "description 1", Priority.HIGH, LocalDateTime.now().plusDays(1), ownerId);
                 Task secondTask = Task.create("Task 2", "description 2", Priority.MEDIUM,
-                        LocalDateTime.now().plusDays(2));
+                        LocalDateTime.now().plusDays(2), ownerId);
 
                 taskRepositoryAdapter.save(firstTask);
                 taskRepositoryAdapter.save(secondTask);
@@ -176,10 +188,10 @@ class TaskRepositoryAdapterIT extends AbstractIntegrationTest {
             @Test
             @DisplayName("should return paged tasks with metadata when query is valid")
             void shouldReturnPagedTasksWithMetadataWhenQueryIsValid() {
-                Task firstTask = Task.create("Task A", "description 1", Priority.HIGH, LocalDateTime.now().plusDays(1));
+                Task firstTask = Task.create("Task A", "description 1", Priority.HIGH, LocalDateTime.now().plusDays(1), ownerId);
                 Task secondTask = Task.create("Task B", "description 2", Priority.MEDIUM,
-                        LocalDateTime.now().plusDays(2));
-                Task thirdTask = Task.create("Task C", "description 3", Priority.LOW, LocalDateTime.now().plusDays(3));
+                        LocalDateTime.now().plusDays(2), ownerId);
+                Task thirdTask = Task.create("Task C", "description 3", Priority.LOW, LocalDateTime.now().plusDays(3), ownerId);
 
                 taskRepositoryAdapter.save(firstTask);
                 taskRepositoryAdapter.save(secondTask);
@@ -200,11 +212,11 @@ class TaskRepositoryAdapterIT extends AbstractIntegrationTest {
             @DisplayName("should return tasks sorted by due date ascending when requested")
             void shouldReturnTasksSortedByDueDateAscendingWhenRequested() {
                 Task latestDueDateTask = Task.create("Task 3", "description 3", Priority.HIGH,
-                        LocalDateTime.now().plusDays(3));
+                        LocalDateTime.now().plusDays(3), ownerId);
                 Task earliestDueDateTask = Task.create("Task 1", "description 1", Priority.MEDIUM,
-                        LocalDateTime.now().plusDays(1));
+                        LocalDateTime.now().plusDays(1), ownerId);
                 Task middleDueDateTask = Task.create("Task 2", "description 2", Priority.LOW,
-                        LocalDateTime.now().plusDays(2));
+                        LocalDateTime.now().plusDays(2), ownerId);
 
                 taskRepositoryAdapter.save(latestDueDateTask);
                 taskRepositoryAdapter.save(earliestDueDateTask);
@@ -240,7 +252,7 @@ class TaskRepositoryAdapterIT extends AbstractIntegrationTest {
             @Test
             @DisplayName("should return empty content when page index is beyond available pages")
             void shouldReturnEmptyContentWhenPageIndexIsBeyondAvailablePages() {
-                Task task = Task.create("Only Task", "description", Priority.HIGH, LocalDateTime.now().plusDays(1));
+                Task task = Task.create("Only Task", "description", Priority.HIGH, LocalDateTime.now().plusDays(1), ownerId);
                 taskRepositoryAdapter.save(task);
 
                 PageQuery query = new PageQuery(2, 1, TaskSortField.CREATED_AT, SortDirection.DESC);

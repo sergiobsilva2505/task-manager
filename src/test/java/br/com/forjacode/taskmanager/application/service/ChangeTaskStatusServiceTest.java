@@ -21,6 +21,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.BeforeEach;
 
 @ExtendWith(MockitoExtension.class)
 class ChangeTaskStatusServiceTest {
@@ -31,6 +32,13 @@ class ChangeTaskStatusServiceTest {
     @InjectMocks
     private ChangeTaskStatusService changeTaskStatusService;
 
+    private UUID ownerId;
+
+    @BeforeEach
+    void setUp() {
+        ownerId = UUID.randomUUID();
+    }
+
     @Nested
     @DisplayName("Successful status change")
     class Success {
@@ -39,7 +47,7 @@ class ChangeTaskStatusServiceTest {
         @DisplayName("should change status from TODO to IN_PROGRESS")
         void shouldChangeStatusFromTodoToInProgress() {
             UUID taskId = UUID.randomUUID();
-            Task task = Task.create("Task title", "Task description", Priority.MEDIUM, LocalDateTime.now().plusDays(1));
+            Task task = Task.create("Task title", "Task description", Priority.MEDIUM, LocalDateTime.now().plusDays(1), ownerId);
             ChangeTaskStatusCommand command = new ChangeTaskStatusCommand(taskId, Status.IN_PROGRESS);
 
             when(repositoryPort.findById(taskId)).thenReturn(Optional.of(task));
@@ -56,7 +64,7 @@ class ChangeTaskStatusServiceTest {
         @DisplayName("should change status from IN_PROGRESS to DONE")
         void shouldChangeStatusFromInProgressToDone() {
             UUID taskId = UUID.randomUUID();
-            Task task = Task.create("Task title", "Task description", Priority.HIGH, LocalDateTime.now().plusDays(2));
+            Task task = Task.create("Task title", "Task description", Priority.HIGH, LocalDateTime.now().plusDays(2), ownerId);
             task.changeStatus(Status.IN_PROGRESS);
             ChangeTaskStatusCommand command = new ChangeTaskStatusCommand(taskId, Status.DONE);
 
@@ -74,10 +82,10 @@ class ChangeTaskStatusServiceTest {
         @DisplayName("should return the task returned by the repository, not the locally mutated one")
         void shouldReturnTaskReturnedByRepository() {
             UUID taskId = UUID.randomUUID();
-            Task task = Task.create("Task title", "Task description", Priority.LOW, LocalDateTime.now().plusDays(3));
+            Task task = Task.create("Task title", "Task description", Priority.LOW, LocalDateTime.now().plusDays(3), ownerId);
             ChangeTaskStatusCommand command = new ChangeTaskStatusCommand(taskId, Status.IN_PROGRESS);
 
-            Task updatedTaskFromRepository = Task.create("Task title", "Task description", Priority.LOW, LocalDateTime.now().plusDays(3));
+            Task updatedTaskFromRepository = Task.create("Task title", "Task description", Priority.LOW, LocalDateTime.now().plusDays(3), ownerId);
             updatedTaskFromRepository.changeStatus(Status.IN_PROGRESS);
 
             when(repositoryPort.findById(taskId)).thenReturn(Optional.of(task));
@@ -114,7 +122,7 @@ class ChangeTaskStatusServiceTest {
         @DisplayName("should throw InvalidStatusTransitionException when changing from TODO to DONE")
         void shouldThrowInvalidStatusTransitionExceptionWhenChangingFromTodoToDone() {
             UUID taskId = UUID.randomUUID();
-            Task task = Task.create("Task title", "Task description", Priority.MEDIUM, LocalDateTime.now().plusDays(1));
+            Task task = Task.create("Task title", "Task description", Priority.MEDIUM, LocalDateTime.now().plusDays(1), ownerId);
             ChangeTaskStatusCommand command = new ChangeTaskStatusCommand(taskId, Status.DONE);
 
             when(repositoryPort.findById(taskId)).thenReturn(Optional.of(task));
@@ -130,7 +138,7 @@ class ChangeTaskStatusServiceTest {
         @DisplayName("should throw InvalidStatusTransitionException when changing from DONE to any status")
         void shouldThrowInvalidStatusTransitionExceptionWhenChangingFromDone() {
             UUID taskId = UUID.randomUUID();
-            Task task = Task.create("Task title", "Task description", Priority.HIGH, LocalDateTime.now().plusDays(1));
+            Task task = Task.create("Task title", "Task description", Priority.HIGH, LocalDateTime.now().plusDays(1), ownerId);
             task.changeStatus(Status.IN_PROGRESS);
             task.changeStatus(Status.DONE);
             ChangeTaskStatusCommand command = new ChangeTaskStatusCommand(taskId, Status.TODO);

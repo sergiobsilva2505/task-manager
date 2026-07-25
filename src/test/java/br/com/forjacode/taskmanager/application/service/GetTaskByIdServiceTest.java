@@ -41,10 +41,12 @@ class GetTaskByIdServiceTest {
         private Task task;
         private Instant now;
         private LocalDateTime dueDate;
+        private UUID ownerId;
 
         @BeforeEach
         void setUp() {
             taskId = UUID.randomUUID();
+            ownerId = UUID.randomUUID();
             now = Instant.now();
             dueDate = LocalDateTime.now().plusDays(1);
 
@@ -55,6 +57,7 @@ class GetTaskByIdServiceTest {
                 Status.TODO,
                 Priority.HIGH,
                 dueDate,
+                ownerId,
                 now,
                 now
             );

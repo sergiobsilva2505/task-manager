@@ -155,6 +155,16 @@ class TaskTest {
                     .isInstanceOf(MissingRequiredFieldException.class)
                     .hasMessage("Priority cannot be null");
         }
+
+        @Test
+        @DisplayName("should throw exception when owner id is null")
+        void shouldThrowExceptionWhenOwnerIdIsNull() {
+            LocalDateTime dueDate = LocalDateTime.now().plusDays(1);
+
+            assertThatThrownBy(() -> Task.create("Task", "description", Priority.MEDIUM, dueDate, null))
+                    .isInstanceOf(MissingRequiredFieldException.class)
+                    .hasMessage("Owner ID cannot be null");
+        }
     }
 
     @Nested
