@@ -1,6 +1,6 @@
 package br.com.forjacode.taskmanager.adapters.input.rest;
 
-import br.com.forjacode.taskmanager.AbstractIntegrationTest;
+import br.com.forjacode.taskmanager.IntegrationTestSupport;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.TaskResponse;
 import br.com.forjacode.taskmanager.adapters.output.persistence.TaskJpaRepository;
 import br.com.forjacode.taskmanager.adapters.output.persistence.UserJpaRepository;
@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class TaskControllerIT extends AbstractIntegrationTest {
+class TaskControllerIT extends IntegrationTestSupport {
 
     @Autowired
     private MockMvc mockMvc;

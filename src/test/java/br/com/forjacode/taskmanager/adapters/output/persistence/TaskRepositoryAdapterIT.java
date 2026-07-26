@@ -1,6 +1,6 @@
 package br.com.forjacode.taskmanager.adapters.output.persistence;
 
-import br.com.forjacode.taskmanager.AbstractIntegrationTest;
+import br.com.forjacode.taskmanager.IntegrationTestSupport;
 import br.com.forjacode.taskmanager.application.ports.shared.PageQuery;
 import br.com.forjacode.taskmanager.application.ports.shared.PagedResult;
 import br.com.forjacode.taskmanager.application.ports.shared.SortDirection;
@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Testcontainers
 @Import({TaskRepositoryAdapter.class, TaskMapperImpl.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class TaskRepositoryAdapterIT extends AbstractIntegrationTest {
+class TaskRepositoryAdapterIT extends IntegrationTestSupport {
 
     @Autowired
     private TaskRepositoryAdapter taskRepositoryAdapter;

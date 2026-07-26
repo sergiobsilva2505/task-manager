@@ -204,7 +204,7 @@ integração (com Docker):
 - Cobertura de código gerada pelo JaCoCo em relatórios separados por tipo de teste (`jacoco.exec` para unitários,
   `jacoco-it.exec` para integração), visível diretamente na IDE ou via `target/site/jacoco`.
 - **Container Postgres compartilhado via padrão "Singleton Container" (sem `@Container`/`@Testcontainers`):**
-  `AbstractIntegrationTest` inicia o `PostgreSQLContainer` manualmente, num bloco estático, em vez de usar as anotações
+  `IntegrationTestSupport` inicia o `PostgreSQLContainer` manualmente, num bloco estático, em vez de usar as anotações
   padrão do JUnit 5. Motivo: `@Container` em campo `static` faz o **JUnit** (não o Testcontainers) encerrar o container
   automaticamente ao final da última classe de teste que o usa — a garantia de "container único compartilhado" desse
   padrão vale de forma confiável só *dentro* de uma classe, não necessariamente *entre* classes diferentes que estendem

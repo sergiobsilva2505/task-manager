@@ -1,6 +1,6 @@
 package br.com.forjacode.taskmanager.adapters.input.rest;
 
-import br.com.forjacode.taskmanager.AbstractIntegrationTest;
+import br.com.forjacode.taskmanager.IntegrationTestSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
@@ -19,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class UserControllerIT extends AbstractIntegrationTest {
+class UserControllerIT extends IntegrationTestSupport {
 
     @Autowired
     private MockMvc mockMvc;
