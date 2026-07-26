@@ -4,6 +4,8 @@ import br.com.forjacode.taskmanager.application.ports.shared.PageQuery;
 import br.com.forjacode.taskmanager.application.ports.shared.PagedResult;
 import br.com.forjacode.taskmanager.domain.model.Task;
 
+import java.util.UUID;
+
 public interface ListTasksUseCase {
-    PagedResult<Task> execute(PageQuery query);
+    PagedResult<Task> execute(PageQuery query, UUID ownerId);
 }

@@ -53,10 +53,10 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
     }
 
     @Override
-    public PagedResult<Task> findAll(PageQuery query) {
+    public PagedResult<Task> findAll(PageQuery query, UUID ownerId) {
         Pageable pageable = getPageable(query);
 
-        Page<TaskJpaEntity> tasksPage = taskJpaRepository.findAll(pageable);
+        Page<TaskJpaEntity> tasksPage = taskJpaRepository.findAllByOwnerId(ownerId, pageable);
 
         List<Task> tasks = tasksPage.getContent()
                 .stream()

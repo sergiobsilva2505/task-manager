@@ -78,13 +78,14 @@ public class TaskController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size,
             @RequestParam(required = false) TaskSortField sortField,
-            @RequestParam(required = false) SortDirection sortDirection) {
+            @RequestParam(required = false) SortDirection sortDirection,
+            @CurrentUserId UUID currentUserId) {
 
         TaskSortField resolvedSortField = sortField != null ? sortField : TaskSortField.DEFAULT;
         SortDirection resolvedSortDirection = sortDirection != null ? sortDirection : SortDirection.DESC;
 
         PageQuery query = new PageQuery(page, size, resolvedSortField, resolvedSortDirection);
-        PagedResult<Task> pagedResult = listTasksUseCase.execute(query);
+        PagedResult<Task> pagedResult = listTasksUseCase.execute(query, currentUserId);
         PagedResponse<TaskResponse> response = mapper.toResponse(pagedResult);
         return ResponseEntity.ok(response);
     }

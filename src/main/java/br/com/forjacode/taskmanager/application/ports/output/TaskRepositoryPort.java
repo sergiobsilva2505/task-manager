@@ -18,7 +18,7 @@ public interface TaskRepositoryPort {
 
     List<Task> findAll();
 
-    PagedResult<Task> findAll(PageQuery query);
+    PagedResult<Task> findAll(PageQuery query, UUID ownerId);
 
     void deleteByIdAndOwnerId(UUID id, UUID ownerId);
 }

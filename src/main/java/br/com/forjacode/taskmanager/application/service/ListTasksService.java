@@ -6,6 +6,8 @@ import br.com.forjacode.taskmanager.application.ports.shared.PageQuery;
 import br.com.forjacode.taskmanager.application.ports.shared.PagedResult;
 import br.com.forjacode.taskmanager.domain.model.Task;
 
+import java.util.UUID;
+
 public class ListTasksService implements ListTasksUseCase {
 
     private final TaskRepositoryPort taskRepositoryPort;
@@ -15,7 +17,7 @@ public class ListTasksService implements ListTasksUseCase {
     }
 
     @Override
-    public PagedResult<Task> execute(PageQuery query) {
-        return taskRepositoryPort.findAll(query);
+    public PagedResult<Task> execute(PageQuery query, UUID ownerId) {
+        return taskRepositoryPort.findAll(query, ownerId);
     }
 }

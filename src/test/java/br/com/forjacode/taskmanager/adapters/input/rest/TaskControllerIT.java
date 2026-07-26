@@ -257,6 +257,7 @@ class TaskControllerIT extends AbstractIntegrationTest {
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(get("/api/tasks")
+                                .header("X-User-Id", userId)
                                 .param("page", "0")
                                 .param("size", "1")
                                 .param("sortField", "TITLE")
@@ -291,12 +292,68 @@ class TaskControllerIT extends AbstractIntegrationTest {
                                         """))
                         .andExpect(status().isCreated());
 
-                mockMvc.perform(get("/api/tasks"))
+                mockMvc.perform(get("/api/tasks")
+                                .header("X-User-Id", userId))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.page").value(0))
                         .andExpect(jsonPath("$.size").value(20))
                         .andExpect(jsonPath("$.totalElements").value(2))
                         .andExpect(jsonPath("$.content.length()").value(2));
+            }
+
+            @Test
+            @DisplayName("should only return tasks owned by the user (isolation)")
+            void shouldOnlyReturnTasksOwnedByTheUser() throws Exception {
+                // Usuário A cria duas tarefas
+                mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"title":"User A Task 1","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        """))
+                        .andExpect(status().isCreated());
+
+                mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"title":"User A Task 2","description":"desc","priority":"MEDIUM","dueDate":"2026-08-02T10:00:00"}
+                                        """))
+                        .andExpect(status().isCreated());
+
+                // Cria um segundo usuário
+                var secondUser = aSecondUser();
+                UUID secondUserId = secondUser.getId();
+                userJpaRepository.save(secondUser);
+
+                // Usuário B cria uma tarefa
+                mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", secondUserId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"title":"User B Task 1","description":"desc","priority":"LOW","dueDate":"2026-08-03T10:00:00"}
+                                        """))
+                        .andExpect(status().isCreated());
+
+                // CRITICAL: Usuário B lista suas tarefas e vê apenas a própria
+                mockMvc.perform(get("/api/tasks")
+                                .header("X-User-Id", secondUserId))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.totalElements").value(1))
+                        .andExpect(jsonPath("$.content.length()").value(1))
+                        .andExpect(jsonPath("$.content[0].title").value("User B Task 1"));
+
+                // Confirma que usuário A ainda vê suas 2 tarefas
+                mockMvc.perform(get("/api/tasks")
+                                .header("X-User-Id", userId))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.totalElements").value(2))
+                        .andExpect(jsonPath("$.content.length()").value(2))
+                        .andExpect(jsonPath("$.content[*].title").value(
+                                org.hamcrest.Matchers.containsInAnyOrder("User A Task 1", "User A Task 2")));
+
+                // Verificação adicional: total no banco deve ser 3 tarefas
+                assertThat(taskJpaRepository.count()).isEqualTo(3);
             }
         }
 
@@ -308,6 +365,7 @@ class TaskControllerIT extends AbstractIntegrationTest {
             @DisplayName("should return bad request when sort field is invalid")
             void shouldReturnBadRequestWhenSortFieldIsInvalid() throws Exception {
                 mockMvc.perform(get("/api/tasks")
+                                .header("X-User-Id", userId)
                                 .param("sortField", "INVALID_SORT")
                                 .param("sortDirection", "ASC"))
                         .andExpect(status().isBadRequest())
@@ -328,6 +386,7 @@ class TaskControllerIT extends AbstractIntegrationTest {
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(get("/api/tasks")
+                                .header("X-User-Id", userId)
                                 .param("page", "3")
                                 .param("size", "10"))
                         .andExpect(status().isOk())

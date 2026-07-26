@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -40,13 +41,14 @@ class ListTasksServiceTest {
             PageQuery query = new PageQuery(0, 20, TaskSortField.DEFAULT, SortDirection.DESC);
             Task firstTask = mock(Task.class);
             Task secondTask = mock(Task.class);
+            UUID ownerId = UUID.randomUUID();
             PagedResult<Task> expected = new PagedResult<>(List.of(firstTask, secondTask), 0, 20, 2, 1);
-            when(repositoryPort.findAll(query)).thenReturn(expected);
+            when(repositoryPort.findAll(query, ownerId)).thenReturn(expected);
 
-            PagedResult<Task> result = listTasksService.execute(query);
+            PagedResult<Task> result = listTasksService.execute(query, ownerId);
 
             assertThat(result).isEqualTo(expected);
-            verify(repositoryPort).findAll(query);
+            verify(repositoryPort).findAll(query, ownerId);
         }
     }
 }
