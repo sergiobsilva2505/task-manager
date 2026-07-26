@@ -6,7 +6,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
 @SpringBootTest
-class TaskManagerApplicationTests extends AbstractIntegrationTest {
+class TaskManagerApplicationTests extends IntegrationTestSupport {
 
     @Test
     void contextLoads() {

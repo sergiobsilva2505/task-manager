@@ -20,6 +20,9 @@ public class User {
             throw new InvalidInputException("Name must be between 3 and 160 characters");
         if (email == null || email.isBlank()) throw new MissingRequiredFieldException("Email cannot be null or blank");
         if (createdAt == null) throw new MissingRequiredFieldException("CreatedAt cannot be null");
+        if (!name.matches("^[\\p{L}\\s'-]+$")) {
+            throw new InvalidInputException("Name must contain only letters, spaces, hyphens or apostrophes");
+        }
         this.id = id;
         this.name = name;
         this.email = email;
