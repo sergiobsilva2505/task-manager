@@ -1,0 +1,4683 @@
+﻿[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< br.com.forjacode:task-manager >--------------------
+[INFO] Building task-manager 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.15:prepare-agent (prepare-agent) @ task-manager ---
+[INFO] argLine set to -javaagent:C:\\Users\\sergi\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.8.15\\org.jacoco.agent-0.8.15-runtime.jar=destfile=C:\\Users\\sergi\\IdeaProjects\\task-manager\\target\\jacoco.exec
+[INFO] 
+[INFO] --- spring-boot:4.1.0:build-info (default) @ task-manager ---
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ task-manager ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 7 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ task-manager ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ task-manager ---
+[INFO] Copying 1 resource from src\test\resources to target\test-classes
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ task-manager ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ task-manager ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running br.com.forjacode.taskmanager.application.ports.shared.PageQueryTest
+[INFO] Running Creation with error
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.384 s -- in Creation with error
+[INFO] Running Successful creation
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 s -- in Successful creation
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.443 s -- in br.com.forjacode.taskmanager.application.ports.shared.PageQueryTest
+[INFO] Running br.com.forjacode.taskmanager.application.service.ChangeTaskStatusServiceTest
+[INFO] Running Successful status change
+mvn : Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: 
+https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+No linha:1 caractere:1
++ mvn verify 2>&1 | Out-File -Encoding utf8 build-log.txt
++ ~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Mockito is curr...ockito.html#0.3:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+WARNING: A Java agent has been loaded dynamically (C:\Users\sergi\.m2\repository\net\bytebuddy\byte-buddy-agent\1.18.10\byte-buddy-agent-1.18.10.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.496 s -- in Successful status change
+[INFO] Running Status change with error
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.032 s -- in Status change with error
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.535 s -- in br.com.forjacode.taskmanager.application.service.ChangeTaskStatusServiceTest
+[INFO] Running br.com.forjacode.taskmanager.application.service.CreateTaskServiceTest
+[INFO] Running Successful creation
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in Successful creation
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s -- in br.com.forjacode.taskmanager.application.service.CreateTaskServiceTest
+[INFO] Running br.com.forjacode.taskmanager.application.service.DeleteTaskServiceTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in br.com.forjacode.taskmanager.application.service.DeleteTaskServiceTest
+[INFO] Running br.com.forjacode.taskmanager.application.service.GetTaskByIdServiceTest
+[INFO] Running Successful retrieval
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in Successful retrieval
+[INFO] Running Retrieval with error
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in Retrieval with error
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in br.com.forjacode.taskmanager.application.service.GetTaskByIdServiceTest
+[INFO] Running br.com.forjacode.taskmanager.application.service.ListTasksServiceTest
+[INFO] Running Successful retrieval
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.214 s -- in Successful retrieval
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.217 s -- in br.com.forjacode.taskmanager.application.service.ListTasksServiceTest
+[INFO] Running br.com.forjacode.taskmanager.application.service.RegisterUserServiceTest
+[INFO] Running Successful creation
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.085 s -- in Successful creation
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.089 s -- in br.com.forjacode.taskmanager.application.service.RegisterUserServiceTest
+[INFO] Running br.com.forjacode.taskmanager.domain.model.TaskTest
+[INFO] Running Reconstruction
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in Reconstruction
+[INFO] Running Creation with error
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.051 s -- in Creation with error
+[INFO] Running Successful creation
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in Successful creation
+[INFO] Running Status transitions
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.052 s -- in Status transitions
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.130 s -- in br.com.forjacode.taskmanager.domain.model.TaskTest
+[INFO] Running br.com.forjacode.taskmanager.domain.model.UserTest
+[INFO] Running Reconstruction
+[INFO] Running Successful reconstruction
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in Successful reconstruction
+[INFO] Running Reconstruction with error
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in Reconstruction with error
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s -- in Reconstruction
+[INFO] Running Successful creation
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.031 s -- in Successful creation
+[INFO] Running Creation with error
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.060 s -- in Creation with error
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.122 s -- in br.com.forjacode.taskmanager.domain.model.UserTest
+[INFO] Running br.com.forjacode.taskmanager.TaskManagerApplicationTests
+18:24:16.159 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.TaskManagerApplicationTests]: TaskManagerApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:24:16.429 [main] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+18:24:16.441 [main] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+18:24:16.474 [main] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 2.0.5
+18:24:18.287 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+18:24:19.647 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+18:24:19.650 [main] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+18:24:19.691 [main] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  Server Version: 29.6.1
+  API Version: 1.55
+  Operating System: Docker Desktop
+  Total Memory: 7883 MB
+  Labels: 
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+18:24:19.713 [main] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+18:24:19.714 [main] INFO org.testcontainers.DockerClientFactory -- Ô£ö´©Ä Docker server version should be at least 1.6.0
+18:24:19.892 [main] INFO tc.postgres:16 -- Creating container for image: postgres:16
+18:24:21.248 [main] INFO org.testcontainers.utility.RegistryAuthLocator -- Credential helper/store (docker-credential-desktop) does not have credentials for https://index.docker.io/v1/
+18:24:21.559 [main] INFO tc.postgres:16 -- Reusing container with ID: edee9a9b7747f157055d38d75741421b9bf418d9e3ec96ca5db1984c9936ecec and hash: 10c5c78ac6df69fcf3df7982b726dec7cf1255ec
+18:24:21.560 [main] INFO tc.postgres:16 -- Reusing existing container (edee9a9b7747f157055d38d75741421b9bf418d9e3ec96ca5db1984c9936ecec) and not creating a new one
+18:24:21.968 [main] INFO tc.postgres:16 -- Container postgres:16 started in PT2.0751516S
+18:24:21.969 [main] INFO tc.postgres:16 -- Container is started (JDBC URL: jdbc:postgresql://localhost:49919/test?loggerLevel=OFF)
+18:24:22.273 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.TaskManagerApplicationTests
+18:24:22.505 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.TaskManagerApplicationTests]: TaskManagerApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:24:22.505 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:24:22.517 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.TaskManagerApplicationTests
+ _____         _     ___  ___                                     ___  ______ _____ 
+|_   _|       | |    |  \/  |                                    / _ \ | ___ \_   _|
+  | | __ _ ___| | __ | .  . | __ _ _ __   __ _  __ _  ___ _ __  / /_\ \| |_/ / | |  
+  | |/ _` / __| |/ / | |\/| |/ _` | '_ \ / _` |/ _` |/ _ \ '__| |  _  ||  __/  | |  
+  | | (_| \__ \   <  | |  | | (_| | | | | (_| | (_| |  __/ |    | | | || |    _| |_ 
+  \_/\__,_|___/_|\_\ \_|  |_/\__,_|_| |_|\__,_|\__, |\___|_|    \_| |_/\_|    \___/ 
+                                                __/ |                               
+                                               |___/                                
+ 
+Powered by Spring Boot 4.1.0
+2026-07-26T18:24:23.563-03:00  INFO 15488 --- [task-manager] [           main] b.c.f.t.TaskManagerApplicationTests      : Starting TaskManagerApplicationTests using Java 23.0.2 with PID 15488 (started by sergio in C:\Users\sergi\IdeaProjects\task-manager)
+2026-07-26T18:24:23.567-03:00  INFO 15488 --- [task-manager] [           main] b.c.f.t.TaskManagerApplicationTests      : No active profile set, falling back to 1 default profile: "default"
+2026-07-26T18:24:27.093-03:00  INFO 15488 --- [task-manager] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-26T18:24:27.350-03:00  INFO 15488 --- [task-manager] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 226 ms. Found 2 JPA repository interfaces.
+2026-07-26T18:24:29.908-03:00  INFO 15488 --- [task-manager] [           main] liquibase.database                       : Set default schema name to public
+2026-07-26T18:24:32.718-03:00  INFO 15488 --- [task-manager] [           main] liquibase.changelog                      : Reading from public.databasechangelog
+2026-07-26T18:24:32.954-03:00  INFO 15488 --- [task-manager] [           main] liquibase.ui                             : Database is up to date, no changesets to execute
+2026-07-26T18:24:32.960-03:00  INFO 15488 --- [task-manager] [           main] liquibase.changelog                      : Reading from public.databasechangelog
+2026-07-26T18:24:32.988-03:00  INFO 15488 --- [task-manager] [           main] liquibase.util                           : UPDATE SUMMARY
+2026-07-26T18:24:32.989-03:00  INFO 15488 --- [task-manager] [           main] liquibase.util                           : Run:                          0
+2026-07-26T18:24:32.989-03:00  INFO 15488 --- [task-manager] [           main] liquibase.util                           : Previously run:               5
+2026-07-26T18:24:32.989-03:00  INFO 15488 --- [task-manager] [           main] liquibase.util                           : Filtered out:                 0
+2026-07-26T18:24:32.989-03:00  INFO 15488 --- [task-manager] [           main] liquibase.util                           : -------------------------------
+2026-07-26T18:24:32.989-03:00  INFO 15488 --- [task-manager] [           main] liquibase.util                           : Total change sets:            5
+2026-07-26T18:24:32.992-03:00  INFO 15488 --- [task-manager] [           main] liquibase.util                           : Update summary generated
+2026-07-26T18:24:32.996-03:00  INFO 15488 --- [task-manager] [           main] liquibase.command                        : Command execution complete
+2026-07-26T18:24:33.363-03:00  INFO 15488 --- [task-manager] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-07-26T18:24:33.507-03:00  INFO 15488 --- [task-manager] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.1.Final
+2026-07-26T18:24:34.335-03:00  INFO 15488 --- [task-manager] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-26T18:24:34.426-03:00  INFO 15488 --- [task-manager] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-07-26T18:24:34.485-03:00  INFO 15488 --- [task-manager] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1a48ab39
+2026-07-26T18:24:34.490-03:00  INFO 15488 --- [task-manager] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-07-26T18:24:34.593-03:00  WARN 15488 --- [task-manager] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-07-26T18:24:34.671-03:00  INFO 15488 --- [task-manager] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:49919/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.14
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-07-26T18:24:37.338-03:00  INFO 15488 --- [task-manager] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-26T18:24:37.447-03:00  INFO 15488 --- [task-manager] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-26T18:24:37.647-03:00  INFO 15488 --- [task-manager] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-07-26T18:24:38.350-03:00  WARN 15488 --- [task-manager] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-07-26T18:24:38.637-03:00  WARN 15488 --- [task-manager] [           main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 424d1e4f-d7a2-49d9-ac51-6555b67d4f9a
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-07-26T18:24:38.653-03:00  INFO 15488 --- [task-manager] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-07-26T18:24:39.694-03:00  INFO 15488 --- [task-manager] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
+2026-07-26T18:24:40.582-03:00  INFO 15488 --- [task-manager] [           main] b.c.f.t.TaskManagerApplicationTests      : Started TaskManagerApplicationTests in 17.923 seconds (process running for 31.26)
+2026-07-26T18:24:40.713-03:00  WARN 15488 --- [task-manager] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-07-26T18:24:40.713-03:00  WARN 15488 --- [task-manager] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 25.14 s -- in br.com.forjacode.taskmanager.TaskManagerApplicationTests
+[INFO] Running br.com.forjacode.taskmanager.architecture.HexagonalArchitectureTest
+2026-07-26T18:24:40.821-03:00  INFO 15488 --- [task-manager] [           main] com.tngtech.archunit.core.PluginLoader   : Detected Java version 23.0.2
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.240 s -- in br.com.forjacode.taskmanager.architecture.HexagonalArchitectureTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 62, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco:0.8.15:report (report) @ task-manager ---
+[INFO] Loading execution data file C:\Users\sergi\IdeaProjects\task-manager\target\jacoco.exec
+[INFO] Analyzed bundle 'task-manager' with 56 classes
+[INFO] 
+[INFO] --- jar:3.5.0:jar (default-jar) @ task-manager ---
+[INFO] Building jar: C:\Users\sergi\IdeaProjects\task-manager\target\task-manager-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.0:repackage (repackage) @ task-manager ---
+[INFO] Replacing main artifact C:\Users\sergi\IdeaProjects\task-manager\target\task-manager-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\sergi\IdeaProjects\task-manager\target\task-manager-0.0.1-SNAPSHOT.jar.original
+[INFO] 
+[INFO] --- jacoco:0.8.15:prepare-agent-integration (prepare-agent-integration) @ task-manager ---
+[INFO] argLine set to -javaagent:C:\\Users\\sergi\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.8.15\\org.jacoco.agent-0.8.15-runtime.jar=destfile=C:\\Users\\sergi\\IdeaProjects\\task-manager\\target\\jacoco-it.exec
+[INFO] 
+[INFO] --- failsafe:3.5.6:integration-test (default) @ task-manager ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT
+18:24:52.951 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:24:53.165 [main] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+18:24:53.172 [main] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+18:24:53.270 [main] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 2.0.5
+18:24:54.224 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+18:24:55.313 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+18:24:55.317 [main] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+18:24:55.357 [main] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  Server Version: 29.6.1
+  API Version: 1.55
+  Operating System: Docker Desktop
+  Total Memory: 7883 MB
+  Labels: 
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+18:24:55.386 [main] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+18:24:55.387 [main] INFO org.testcontainers.DockerClientFactory -- Ô£ö´©Ä Docker server version should be at least 1.6.0
+18:24:55.558 [main] INFO tc.postgres:16 -- Creating container for image: postgres:16
+18:24:55.857 [main] INFO org.testcontainers.utility.RegistryAuthLocator -- Credential helper/store (docker-credential-desktop) does not have credentials for https://index.docker.io/v1/
+18:24:56.196 [main] INFO tc.postgres:16 -- Reusing container with ID: edee9a9b7747f157055d38d75741421b9bf418d9e3ec96ca5db1984c9936ecec and hash: 10c5c78ac6df69fcf3df7982b726dec7cf1255ec
+18:24:56.197 [main] INFO tc.postgres:16 -- Reusing existing container (edee9a9b7747f157055d38d75741421b9bf418d9e3ec96ca5db1984c9936ecec) and not creating a new one
+18:24:56.569 [main] INFO tc.postgres:16 -- Container postgres:16 started in PT1.0105199S
+18:24:56.571 [main] INFO tc.postgres:16 -- Container is started (JDBC URL: jdbc:postgresql://localhost:49919/test?loggerLevel=OFF)
+18:24:56.860 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT
+18:24:57.080 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:24:57.081 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:24:57.098 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT
+[INFO] Running Change task status
+18:24:57.167 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ChangeTaskStatus]: ChangeTaskStatus does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:24:57.180 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ChangeTaskStatus
+18:24:57.183 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ChangeTaskStatus]: ChangeTaskStatus does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:24:57.184 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:24:57.184 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:24:57.198 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ChangeTaskStatus
+[INFO] Running WithError
+18:24:57.205 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ChangeTaskStatus$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:24:57.219 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ChangeTaskStatus$WithError
+18:24:57.221 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ChangeTaskStatus$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:24:57.222 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ChangeTaskStatus]: ChangeTaskStatus does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:24:57.222 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:24:57.223 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:24:57.236 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ChangeTaskStatus$WithError
+ _____         _     ___  ___                                     ___  ______ _____ 
+|_   _|       | |    |  \/  |                                    / _ \ | ___ \_   _|
+  | | __ _ ___| | __ | .  . | __ _ _ __   __ _  __ _  ___ _ __  / /_\ \| |_/ / | |  
+  | |/ _` / __| |/ / | |\/| |/ _` | '_ \ / _` |/ _` |/ _ \ '__| |  _  ||  __/  | |  
+  | | (_| \__ \   <  | |  | | (_| | | | | (_| | (_| |  __/ |    | | | || |    _| |_ 
+  \_/\__,_|___/_|\_\ \_|  |_/\__,_|_| |_|\__,_|\__, |\___|_|    \_| |_/\_|    \___/ 
+                                                __/ |                               
+                                               |___/                                
+ 
+Powered by Spring Boot 4.1.0
+2026-07-26T18:24:58.225-03:00  INFO 29876 --- [task-manager] [           main] kControllerIT$ChangeTaskStatus$WithError : Starting TaskControllerIT.ChangeTaskStatus.WithError using Java 23.0.2 with PID 29876 (started by sergio in C:\Users\sergi\IdeaProjects\task-manager)
+2026-07-26T18:24:58.230-03:00  INFO 29876 --- [task-manager] [           main] kControllerIT$ChangeTaskStatus$WithError : No active profile set, falling back to 1 default profile: "default"
+2026-07-26T18:25:00.802-03:00  INFO 29876 --- [task-manager] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-26T18:25:01.000-03:00  INFO 29876 --- [task-manager] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 166 ms. Found 2 JPA repository interfaces.
+2026-07-26T18:25:03.813-03:00  INFO 29876 --- [task-manager] [           main] liquibase.database                       : Set default schema name to public
+2026-07-26T18:25:05.658-03:00  INFO 29876 --- [task-manager] [           main] liquibase.changelog                      : Reading from public.databasechangelog
+2026-07-26T18:25:05.844-03:00  INFO 29876 --- [task-manager] [           main] liquibase.ui                             : Database is up to date, no changesets to execute
+2026-07-26T18:25:05.849-03:00  INFO 29876 --- [task-manager] [           main] liquibase.changelog                      : Reading from public.databasechangelog
+2026-07-26T18:25:05.872-03:00  INFO 29876 --- [task-manager] [           main] liquibase.util                           : UPDATE SUMMARY
+2026-07-26T18:25:05.873-03:00  INFO 29876 --- [task-manager] [           main] liquibase.util                           : Run:                          0
+2026-07-26T18:25:05.873-03:00  INFO 29876 --- [task-manager] [           main] liquibase.util                           : Previously run:               5
+2026-07-26T18:25:05.873-03:00  INFO 29876 --- [task-manager] [           main] liquibase.util                           : Filtered out:                 0
+2026-07-26T18:25:05.873-03:00  INFO 29876 --- [task-manager] [           main] liquibase.util                           : -------------------------------
+2026-07-26T18:25:05.873-03:00  INFO 29876 --- [task-manager] [           main] liquibase.util                           : Total change sets:            5
+2026-07-26T18:25:05.875-03:00  INFO 29876 --- [task-manager] [           main] liquibase.util                           : Update summary generated
+2026-07-26T18:25:05.877-03:00  INFO 29876 --- [task-manager] [           main] liquibase.command                        : Command execution complete
+2026-07-26T18:25:06.182-03:00  INFO 29876 --- [task-manager] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-07-26T18:25:06.329-03:00  INFO 29876 --- [task-manager] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.1.Final
+2026-07-26T18:25:07.580-03:00  INFO 29876 --- [task-manager] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-26T18:25:07.698-03:00  INFO 29876 --- [task-manager] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-07-26T18:25:07.750-03:00  INFO 29876 --- [task-manager] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@71c23923
+2026-07-26T18:25:07.754-03:00  INFO 29876 --- [task-manager] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-07-26T18:25:07.824-03:00  WARN 29876 --- [task-manager] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-07-26T18:25:07.890-03:00  INFO 29876 --- [task-manager] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:49919/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.14
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-07-26T18:25:10.165-03:00  INFO 29876 --- [task-manager] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-26T18:25:10.258-03:00  INFO 29876 --- [task-manager] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-26T18:25:10.501-03:00  INFO 29876 --- [task-manager] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-07-26T18:25:11.221-03:00  WARN 29876 --- [task-manager] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-07-26T18:25:11.491-03:00  WARN 29876 --- [task-manager] [           main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 0f7cc31f-bd1c-4e80-8cfd-589aee422b50
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-07-26T18:25:11.513-03:00  INFO 29876 --- [task-manager] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-07-26T18:25:12.460-03:00  INFO 29876 --- [task-manager] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
+2026-07-26T18:25:13.130-03:00  INFO 29876 --- [task-manager] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-07-26T18:25:13.130-03:00  INFO 29876 --- [task-manager] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-07-26T18:25:13.134-03:00  INFO 29876 --- [task-manager] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-07-26T18:25:13.393-03:00  INFO 29876 --- [task-manager] [           main] kControllerIT$ChangeTaskStatus$WithError : Started TaskControllerIT.ChangeTaskStatus.WithError in 16.058 seconds (process running for 23.51)
+2026-07-26T18:25:13.510-03:00  WARN 29876 --- [task-manager] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-07-26T18:25:13.510-03:00  WARN 29876 --- [task-manager] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: 
+https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\sergi\.m2\repository\net\bytebuddy\byte-buddy-agent\1.18.10\byte-buddy-agent-1.18.10.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 19.02 s -- in WithError
+[INFO] Running Success
+2026-07-26T18:25:16.232-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ChangeTaskStatus$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.249-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ChangeTaskStatus$Success
+2026-07-26T18:25:16.251-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ChangeTaskStatus$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.251-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ChangeTaskStatus]: ChangeTaskStatus does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.252-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.253-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.264-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ChangeTaskStatus$Success
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    update
+        tasks 
+    set
+        created_at=?,
+        description=?,
+        due_date=?,
+        owner_id=?,
+        priority=?,
+        status=?,
+        title=?,
+        updated_at=? 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.150 s -- in Success
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 19.23 s -- in Change task status
+[INFO] Running Get task by id
+2026-07-26T18:25:16.389-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$GetTaskById]: GetTaskById does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.407-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$GetTaskById
+2026-07-26T18:25:16.410-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$GetTaskById]: GetTaskById does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.411-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.411-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.428-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$GetTaskById
+[INFO] Running WithError
+2026-07-26T18:25:16.438-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$GetTaskById$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.457-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$GetTaskById$WithError
+2026-07-26T18:25:16.464-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$GetTaskById$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.466-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$GetTaskById]: GetTaskById does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.468-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.469-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.492-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$GetTaskById$WithError
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.250 s -- in WithError
+[INFO] Running Success
+2026-07-26T18:25:16.690-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$GetTaskById$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.706-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$GetTaskById$Success
+2026-07-26T18:25:16.708-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$GetTaskById$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.709-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$GetTaskById]: GetTaskById does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.710-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.711-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.723-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$GetTaskById$Success
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.279 s -- in Success
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.583 s -- in Get task by id
+[INFO] Running List tasks
+2026-07-26T18:25:16.973-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ListTasks]: ListTasks does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.990-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ListTasks
+2026-07-26T18:25:16.992-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ListTasks]: ListTasks does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.993-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:16.994-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:17.035-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ListTasks
+[INFO] Running WithError
+2026-07-26T18:25:17.043-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ListTasks$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:17.078-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ListTasks$WithError
+2026-07-26T18:25:17.080-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ListTasks$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:17.081-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ListTasks]: ListTasks does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:17.082-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:17.083-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:17.098-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ListTasks$WithError
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.owner_id=? 
+    order by
+        tje1_0.created_at desc 
+    offset
+        ? rows 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        count(tje1_0.id) 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.owner_id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.678 s -- in WithError
+[INFO] Running Success
+2026-07-26T18:25:18.722-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ListTasks$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:18.738-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ListTasks$Success
+2026-07-26T18:25:18.740-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ListTasks$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:18.740-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ListTasks]: ListTasks does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:18.741-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:18.742-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:18.757-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$ListTasks$Success
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.owner_id=? 
+    order by
+        tje1_0.title 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        count(tje1_0.id) 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.owner_id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.owner_id=? 
+    order by
+        tje1_0.created_at desc 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.owner_id=? 
+    order by
+        tje1_0.created_at desc 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.owner_id=? 
+    order by
+        tje1_0.created_at desc 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        count(*) 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.692 s -- in Success
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.445 s -- in List tasks
+[INFO] Running Create task
+2026-07-26T18:25:19.420-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$CreateTask]: CreateTask does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.439-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$CreateTask
+2026-07-26T18:25:19.441-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$CreateTask]: CreateTask does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.442-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.443-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.459-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$CreateTask
+[INFO] Running Success
+2026-07-26T18:25:19.466-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$CreateTask$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.485-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$CreateTask$Success
+2026-07-26T18:25:19.488-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$CreateTask$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.489-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$CreateTask]: CreateTask does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.489-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.491-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.507-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$CreateTask$Success
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        count(*) 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.125 s -- in Success
+[INFO] Running WithError
+2026-07-26T18:25:19.593-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$CreateTask$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.609-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$CreateTask$WithError
+2026-07-26T18:25:19.611-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$CreateTask$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.612-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$CreateTask]: CreateTask does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.613-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.613-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.628-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$CreateTask$WithError
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        count(*) 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        count(*) 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        count(*) 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.201 s -- in WithError
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.376 s -- in Create task
+[INFO] Running Delete task
+2026-07-26T18:25:19.798-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$DeleteTask]: DeleteTask does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.813-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$DeleteTask
+2026-07-26T18:25:19.815-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$DeleteTask]: DeleteTask does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.815-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.816-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.829-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$DeleteTask
+[INFO] Running WithError
+2026-07-26T18:25:19.835-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$DeleteTask$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.850-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$DeleteTask$WithError
+2026-07-26T18:25:19.852-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$DeleteTask$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.853-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$DeleteTask]: DeleteTask does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.854-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.855-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.873-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$DeleteTask$WithError
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.100 s -- in WithError
+[INFO] Running Success
+2026-07-26T18:25:19.937-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$DeleteTask$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.950-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$DeleteTask$Success
+2026-07-26T18:25:19.951-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$DeleteTask$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.952-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$DeleteTask]: DeleteTask does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.952-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT]: TaskControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.952-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:19.963-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT$DeleteTask$Success
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=? 
+        and tje1_0.owner_id=?
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    select
+        count(*) 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=? 
+        and tje1_0.owner_id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=? 
+        and tje1_0.owner_id=?
+Hibernate: 
+    select
+        count(*) 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    delete 
+    from
+        tasks 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.261 s -- in Success
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.402 s -- in Delete task
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 27.69 s -- in br.com.forjacode.taskmanager.adapters.input.rest.TaskControllerIT
+[INFO] Running br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT
+2026-07-26T18:25:20.203-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT]: UserControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.211-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT
+2026-07-26T18:25:20.213-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT]: UserControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.213-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.223-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT
+[INFO] Running Create user
+2026-07-26T18:25:20.227-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT$CreateUser]: CreateUser does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.237-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT$CreateUser
+2026-07-26T18:25:20.238-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT$CreateUser]: CreateUser does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.239-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT]: UserControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.239-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.249-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT$CreateUser
+[INFO] Running WithError
+2026-07-26T18:25:20.253-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT$CreateUser$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.264-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT$CreateUser$WithError
+2026-07-26T18:25:20.265-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT$CreateUser$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.265-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT$CreateUser]: CreateUser does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.266-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT]: UserControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.267-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.276-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT$CreateUser$WithError
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.233 s -- in WithError
+[INFO] Running Success
+2026-07-26T18:25:20.490-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT$CreateUser$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.501-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT$CreateUser$Success
+2026-07-26T18:25:20.503-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT$CreateUser$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.503-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT$CreateUser]: CreateUser does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.504-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT]: UserControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.504-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.513-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT$CreateUser$Success
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.178 s -- in Success
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.442 s -- in Create user
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.467 s -- in br.com.forjacode.taskmanager.adapters.input.rest.UserControllerIT
+[INFO] Running br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT
+2026-07-26T18:25:20.676-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT]: TaskRepositoryAdapterIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.758-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT
+2026-07-26T18:25:20.759-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT]: TaskRepositoryAdapterIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.760-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.792-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT
+[INFO] Running save()
+2026-07-26T18:25:20.803-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$SaveMethod]: SaveMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.837-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$SaveMethod
+2026-07-26T18:25:20.838-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$SaveMethod]: SaveMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.839-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT]: TaskRepositoryAdapterIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.840-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.877-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$SaveMethod
+[INFO] Running WithError
+2026-07-26T18:25:20.881-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$SaveMethod$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.912-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$SaveMethod$WithError
+2026-07-26T18:25:20.913-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$SaveMethod$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.913-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$SaveMethod]: SaveMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.914-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT]: TaskRepositoryAdapterIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.914-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:20.944-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$SaveMethod$WithError
+ _____         _     ___  ___                                     ___  ______ _____ 
+|_   _|       | |    |  \/  |                                    / _ \ | ___ \_   _|
+  | | __ _ ___| | __ | .  . | __ _ _ __   __ _  __ _  ___ _ __  / /_\ \| |_/ / | |  
+  | |/ _` / __| |/ / | |\/| |/ _` | '_ \ / _` |/ _` |/ _ \ '__| |  _  ||  __/  | |  
+  | | (_| \__ \   <  | |  | | (_| | | | | (_| | (_| |  __/ |    | | | || |    _| |_ 
+  \_/\__,_|___/_|\_\ \_|  |_/\__,_|_| |_|\__,_|\__, |\___|_|    \_| |_/\_|    \___/ 
+                                                __/ |                               
+                                               |___/                                
+ 
+Powered by Spring Boot 4.1.0
+2026-07-26T18:25:21.027-03:00  INFO 29876 --- [task-manager] [           main] RepositoryAdapterIT$SaveMethod$WithError : Starting TaskRepositoryAdapterIT.SaveMethod.WithError using Java 23.0.2 with PID 29876 (started by sergio in C:\Users\sergi\IdeaProjects\task-manager)
+2026-07-26T18:25:21.027-03:00  INFO 29876 --- [task-manager] [           main] RepositoryAdapterIT$SaveMethod$WithError : No active profile set, falling back to 1 default profile: "default"
+2026-07-26T18:25:21.234-03:00  INFO 29876 --- [task-manager] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-26T18:25:21.293-03:00  INFO 29876 --- [task-manager] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 55 ms. Found 2 JPA repository interfaces.
+2026-07-26T18:25:21.543-03:00  INFO 29876 --- [task-manager] [           main] liquibase.database                       : Set default schema name to public
+2026-07-26T18:25:21.590-03:00  INFO 29876 --- [task-manager] [           main] liquibase.changelog                      : Reading from public.databasechangelog
+2026-07-26T18:25:21.641-03:00  INFO 29876 --- [task-manager] [           main] liquibase.ui                             : Database is up to date, no changesets to execute
+2026-07-26T18:25:21.645-03:00  INFO 29876 --- [task-manager] [           main] liquibase.util                           : UPDATE SUMMARY
+2026-07-26T18:25:21.645-03:00  INFO 29876 --- [task-manager] [           main] liquibase.util                           : Run:                          0
+2026-07-26T18:25:21.645-03:00  INFO 29876 --- [task-manager] [           main] liquibase.util                           : Previously run:               5
+2026-07-26T18:25:21.645-03:00  INFO 29876 --- [task-manager] [           main] liquibase.util                           : Filtered out:                 0
+2026-07-26T18:25:21.645-03:00  INFO 29876 --- [task-manager] [           main] liquibase.util                           : -------------------------------
+2026-07-26T18:25:21.645-03:00  INFO 29876 --- [task-manager] [           main] liquibase.util                           : Total change sets:            5
+2026-07-26T18:25:21.645-03:00  INFO 29876 --- [task-manager] [           main] liquibase.util                           : Update summary generated
+2026-07-26T18:25:21.646-03:00  INFO 29876 --- [task-manager] [           main] liquibase.command                        : Command execution complete
+2026-07-26T18:25:21.684-03:00  INFO 29876 --- [task-manager] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-07-26T18:25:21.733-03:00  INFO 29876 --- [task-manager] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-26T18:25:21.736-03:00  INFO 29876 --- [task-manager] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-07-26T18:25:21.768-03:00  INFO 29876 --- [task-manager] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@58901302
+2026-07-26T18:25:21.769-03:00  INFO 29876 --- [task-manager] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-07-26T18:25:21.775-03:00  WARN 29876 --- [task-manager] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-07-26T18:25:21.784-03:00  INFO 29876 --- [task-manager] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:49919/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.14
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-07-26T18:25:21.855-03:00  INFO 29876 --- [task-manager] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-26T18:25:21.876-03:00  INFO 29876 --- [task-manager] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-26T18:25:21.956-03:00  INFO 29876 --- [task-manager] [           main] RepositoryAdapterIT$SaveMethod$WithError : Started TaskRepositoryAdapterIT.SaveMethod.WithError in 0.999 seconds (process running for 32.072)
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.207 s -- in WithError
+[INFO] Running Success
+2026-07-26T18:25:22.091-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$SaveMethod$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.122-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$SaveMethod$Success
+2026-07-26T18:25:22.123-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$SaveMethod$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.124-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$SaveMethod]: SaveMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.124-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT]: TaskRepositoryAdapterIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.125-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.154-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$SaveMethod$Success
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.170 s -- in Success
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.469 s -- in save()
+[INFO] Running findAll() paged
+2026-07-26T18:25:22.274-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllPagedMethod]: FindAllPagedMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.308-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllPagedMethod
+2026-07-26T18:25:22.309-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllPagedMethod]: FindAllPagedMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.309-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT]: TaskRepositoryAdapterIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.310-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.339-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllPagedMethod
+[INFO] Running Success
+2026-07-26T18:25:22.345-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllPagedMethod$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.371-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllPagedMethod$Success
+2026-07-26T18:25:22.372-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllPagedMethod$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.373-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllPagedMethod]: FindAllPagedMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.373-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT]: TaskRepositoryAdapterIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.373-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.404-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllPagedMethod$Success
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.owner_id=? 
+    order by
+        tje1_0.due_date 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.owner_id=? 
+    order by
+        tje1_0.created_at desc 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        count(*) 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.owner_id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.280 s -- in Success
+[INFO] Running WithError
+2026-07-26T18:25:22.627-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllPagedMethod$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.663-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllPagedMethod$WithError
+2026-07-26T18:25:22.664-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllPagedMethod$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.664-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllPagedMethod]: FindAllPagedMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.665-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT]: TaskRepositoryAdapterIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.665-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.691-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllPagedMethod$WithError
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.owner_id=? 
+    order by
+        tje1_0.created_at desc 
+    offset
+        ? rows 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        count(*) 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.owner_id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.owner_id=? 
+    order by
+        tje1_0.title 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.248 s -- in WithError
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.609 s -- in findAll() paged
+[INFO] Running findAll()
+2026-07-26T18:25:22.885-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllMethod]: FindAllMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.917-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllMethod
+2026-07-26T18:25:22.918-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllMethod]: FindAllMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.919-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT]: TaskRepositoryAdapterIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.919-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.943-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllMethod
+[INFO] Running WithError
+2026-07-26T18:25:22.949-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllMethod$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.974-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllMethod$WithError
+2026-07-26T18:25:22.975-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllMethod$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.975-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllMethod]: FindAllMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.976-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT]: TaskRepositoryAdapterIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:22.976-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.001-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllMethod$WithError
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.149 s -- in WithError
+[INFO] Running Success
+2026-07-26T18:25:23.098-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllMethod$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.137-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllMethod$Success
+2026-07-26T18:25:23.138-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllMethod$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.139-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllMethod]: FindAllMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.140-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT]: TaskRepositoryAdapterIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.140-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.165-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindAllMethod$Success
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.179 s -- in Success
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.404 s -- in findAll()
+[INFO] Running findById()
+2026-07-26T18:25:23.291-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindByIdMethod]: FindByIdMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.321-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindByIdMethod
+2026-07-26T18:25:23.322-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindByIdMethod]: FindByIdMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.323-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT]: TaskRepositoryAdapterIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.323-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.348-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindByIdMethod
+[INFO] Running Success
+2026-07-26T18:25:23.354-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindByIdMethod$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.382-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindByIdMethod$Success
+2026-07-26T18:25:23.383-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindByIdMethod$Success]: Success does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.383-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindByIdMethod]: FindByIdMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.384-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT]: TaskRepositoryAdapterIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.384-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.408-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindByIdMethod$Success
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        tasks
+        (created_at, description, due_date, owner_id, priority, status, title, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.154 s -- in Success
+[INFO] Running WithError
+2026-07-26T18:25:23.511-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindByIdMethod$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.549-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindByIdMethod$WithError
+2026-07-26T18:25:23.551-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindByIdMethod$WithError]: WithError does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.551-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindByIdMethod]: FindByIdMethod does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.552-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT]: TaskRepositoryAdapterIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.552-03:00  INFO 29876 --- [task-manager] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.forjacode.taskmanager.AbstractIntegrationTest]: AbstractIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-26T18:25:23.582-03:00  INFO 29876 --- [task-manager] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.forjacode.taskmanager.TaskManagerApplication for test class br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT$FindByIdMethod$WithError
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0 
+    where
+        uje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0 
+    where
+        tje1_0.id=?
+Hibernate: 
+    select
+        tje1_0.id,
+        tje1_0.created_at,
+        tje1_0.description,
+        tje1_0.due_date,
+        tje1_0.owner_id,
+        tje1_0.priority,
+        tje1_0.status,
+        tje1_0.title,
+        tje1_0.updated_at 
+    from
+        tasks tje1_0
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        users 
+    where
+        id=?
+Hibernate: 
+    select
+        uje1_0.id,
+        uje1_0.created_at,
+        uje1_0.email,
+        uje1_0.name 
+    from
+        users uje1_0
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.179 s -- in WithError
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.410 s -- in findById()
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.036 s -- in br.com.forjacode.taskmanager.adapters.output.persistence.TaskRepositoryAdapterIT
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 52, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco:0.8.15:report-integration (report-integration) @ task-manager ---
+[INFO] Loading execution data file C:\Users\sergi\IdeaProjects\task-manager\target\jacoco-it.exec
+[INFO] Analyzed bundle 'task-manager' with 56 classes
+[INFO] 
+[INFO] --- failsafe:3.5.6:verify (default) @ task-manager ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:21 min
+[INFO] Finished at: 2026-07-26T18:25:25-03:00
+[INFO] ------------------------------------------------------------------------

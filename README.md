@@ -169,6 +169,20 @@ Nunca o inverso. O `domain` não conhece `application`; o `application` não con
 - **Isolamento por dono sem SELECT extra:** `ListTasks` filtra por `ownerId` diretamente na consulta paginada
   (`findAllByOwnerId`), e `DeleteTask` usa `deleteByIdAndOwnerId` — os dois evitam buscar a tarefa antes de agir,
   deixando o próprio banco resolver "existe e é do usuário" em uma única operação.
+- **`User.name` validado por formato, não só por tamanho:** além do intervalo de 3-160 caracteres, o nome precisa conter
+  apenas letras (incluindo acentuadas, via `\p{L}`), espaços, hífens ou apóstrofos — barrando entradas como `"98765"`. A
+  regra é duplicada por design (defesa em profundidade): validada no domínio (`User`, sempre) e replicada como
+  `@Pattern` em `CreateUserRequest` (borda da API, mensagem de erro mais específica por campo).
+- **Testes de serviço padronizados como "delegação pura" (sem duplicar validação de domínio):** todo `*Service` de caso
+  de uso tem cobertura de teste unitário proporcional à sua **própria** responsabilidade — orquestração, ramificação de
+  negócio (`TaskNotFoundException`, checagem de ownership) — nunca revalidando invariantes que já são garantidas e
+  testadas em `Task`/`User` (domínio). Um serviço de delegação pura (`GetTaskByIdService`, `DeleteTaskService`,
+  `ListTasksService`, `RegisterUserService`) recebe um teste de sucesso enxuto; um serviço com lógica de orquestração
+  real (`ChangeTaskStatusService`) recebe testes proporcionais a essa lógica. Esse padrão foi unificado deliberadamente:
+  as primeiras versões de `CreateTaskServiceTest`/`RegisterUserServiceTest` replicavam todos os cenários de erro de
+  validação do domínio, criando duplicação — se a mensagem de uma invariante mudasse no domínio, dois arquivos de teste
+  precisariam ser atualizados. Enxugar para o padrão único reduz manutenção sem perder cobertura real, já que a garantia
+  de invariante permanece 100% coberta em `TaskTest`/`UserTest`.
 
 ---
 
@@ -189,6 +203,17 @@ integração (com Docker):
 - `mvn verify` inclui os testes de integração (Failsafe), que sobem um PostgreSQL real via Testcontainers.
 - Cobertura de código gerada pelo JaCoCo em relatórios separados por tipo de teste (`jacoco.exec` para unitários,
   `jacoco-it.exec` para integração), visível diretamente na IDE ou via `target/site/jacoco`.
+- **Container Postgres compartilhado via padrão "Singleton Container" (sem `@Container`/`@Testcontainers`):**
+  `AbstractIntegrationTest` inicia o `PostgreSQLContainer` manualmente, num bloco estático, em vez de usar as anotações
+  padrão do JUnit 5. Motivo: `@Container` em campo `static` faz o **JUnit** (não o Testcontainers) encerrar o container
+  automaticamente ao final da última classe de teste que o usa — a garantia de "container único compartilhado" desse
+  padrão vale de forma confiável só *dentro* de uma classe, não necessariamente *entre* classes diferentes que estendem
+  a mesma base. Isso causava falhas intermitentes de conexão (`Connection refused`) especificamente na transição entre
+  duas classes `@SpringBootTest` consecutivas (`TaskControllerIT` → `UserControllerIT`), porque o `ApplicationContext`/
+  `HikariPool` cacheado pelo Spring Test continuava apontando para um container que o JUnit já tinha derrubado.
+  `@ServiceConnection` continua presente (é o mecanismo do Spring Boot que lê a conexão do container, independente de
+  quem gerencia seu ciclo de vida). Investigação completa, com todos os comandos e hipóteses testadas, documentada em [
+  `docs/investigacao-testcontainers-connection-refused.md`](docs/investigacao-testcontainers-connection-refused.md).
 
 ---
 
@@ -281,8 +306,8 @@ integração (com Docker):
 
 **Erros possíveis:**
 
-- `400 Bad Request` quando `name`/`email` estão ausentes, `name` fora do intervalo de 3-160 caracteres, ou `email` com
-  formato inválido.
+- `400 Bad Request` quando `name`/`email` estão ausentes, `name` fora do intervalo de 3-160 caracteres ou contendo
+  caracteres além de letras/espaços/hífen/apóstrofo (ex: números), ou `email` com formato inválido.
 - `409 Conflict` quando o `email` já está em uso por outro usuário.
 
 > O `id` retornado aqui é o valor a ser usado no header `X-User-Id` em todos os endpoints de `Task`.
@@ -472,6 +497,8 @@ ausente/malformado.
 - [x] Caso de uso: remover tarefa (`DELETE /api/tasks/{id}`, idempotente) — fecha o CRUD completo
 - [x] Multiusuário: entidade `User`, `ownerId` em `Task`, isolamento por dono em todos os casos de uso, autenticação
   simulada via header `X-User-Id` (etapa intermediária antes do JWT)
+- [x] Cobertura de teste completa para `User` (domínio, serviço, persistência, API) e validação de formato de nome;
+  padronização de todos os `*ServiceTest` no mesmo estilo (sem duplicar validação de domínio)
 - [ ] Autenticação JWT (substituindo o header `X-User-Id` temporário)
 - [ ] Deploy (Docker + cloud)
 - [ ] Avaliar SonarQube/SonarCloud no CI (complementar ao Qodana já configurado) — retomar ao final do projeto
