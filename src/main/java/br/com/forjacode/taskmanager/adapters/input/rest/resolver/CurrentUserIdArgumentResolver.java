@@ -2,6 +2,7 @@ package br.com.forjacode.taskmanager.adapters.input.rest.resolver;
 
 import br.com.forjacode.taskmanager.adapters.input.rest.annotation.CurrentUserId;
 import br.com.forjacode.taskmanager.domain.exception.MissingCurrentUserException;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -12,6 +13,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import java.util.UUID;
 
+@NullMarked
 public class CurrentUserIdArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter parameter) {

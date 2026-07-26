@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -48,7 +49,7 @@ class GetTaskByIdServiceTest {
             taskId = UUID.randomUUID();
             ownerId = UUID.randomUUID();
             now = Instant.parse("2026-08-01T12:00:00Z");
-            dueDate = LocalDateTime.of(2026, 8, 1, 12, 0).plusDays(1);
+            dueDate = LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1);
 
             task = Task.reconstruct(
                 taskId,
@@ -109,7 +110,7 @@ class GetTaskByIdServiceTest {
         void shouldThrowExceptionWhenTaskBelongsToAnotherUser() {
             UUID anotherUserId = UUID.randomUUID();
             Instant now = Instant.parse("2026-08-01T12:00:00Z");
-            LocalDateTime dueDate = LocalDateTime.of(2026, 8, 1, 12, 0).plusDays(1);
+            LocalDateTime dueDate = LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1);
 
             Task task = Task.reconstruct(
                 taskId,
@@ -132,4 +133,3 @@ class GetTaskByIdServiceTest {
         }
     }
 }
-
