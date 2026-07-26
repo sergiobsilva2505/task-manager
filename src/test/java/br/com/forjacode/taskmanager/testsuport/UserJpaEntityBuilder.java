@@ -16,7 +16,7 @@ public class UserJpaEntityBuilder {
                 .id(UUID.randomUUID())
                 .name("Test User")
                 .email("test@example.com")
-                .createdAt(Instant.now())
+                .createdAt(Instant.parse("2026-08-01T12:00:00Z"))
                 .build();
     }
 
@@ -25,7 +25,7 @@ public class UserJpaEntityBuilder {
                 .id(UUID.randomUUID())
                 .name("Second User")
                 .email("secondUser@example.com")
-                .createdAt(Instant.now())
+                .createdAt(Instant.parse("2026-08-01T12:00:00Z"))
                 .build();
     }
 
@@ -34,7 +34,7 @@ public class UserJpaEntityBuilder {
                 .id(UUID.randomUUID())
                 .name("Third User")
                 .email("thirdUser@example.com")
-                .createdAt(Instant.now())
+                .createdAt(Instant.parse("2026-08-01T12:00:00Z"))
                 .build();
     }
 
@@ -67,4 +67,3 @@ public class UserJpaEntityBuilder {
         return entity;
     }
 }
-

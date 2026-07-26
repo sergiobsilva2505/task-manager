@@ -42,7 +42,7 @@ class CreateTaskServiceTest {
         @Test
         @DisplayName("should create task and save it when command is valid")
         void shouldCreateTaskAndSaveItWhenCommandIsValid() {
-            LocalDateTime dueDate = LocalDateTime.now().plusDays(1);
+            LocalDateTime dueDate = LocalDateTime.of(2026, 8, 1, 12, 0).plusDays(1);
             UUID ownerId = UUID.randomUUID();
             CreateTaskCommand command = new CreateTaskCommand("Pay bills", "Monthly bills", Priority.HIGH, dueDate,
                     ownerId);
@@ -75,7 +75,7 @@ class CreateTaskServiceTest {
 
         @BeforeEach
         void setUp() {
-            futureDueDate = LocalDateTime.now().plusDays(1);
+            futureDueDate = LocalDateTime.of(2026, 8, 1, 12, 0).plusDays(1);
             ownerId = UUID.randomUUID();
         }
 

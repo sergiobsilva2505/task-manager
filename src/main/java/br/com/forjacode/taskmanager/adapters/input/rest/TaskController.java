@@ -91,8 +91,8 @@ public class TaskController {
 
     @PatchMapping("/tasks/{taskId}/status")
     public ResponseEntity<TaskResponse> changeTaskStatus(@PathVariable UUID taskId,
-            @RequestBody @Valid ChangeTaskStatusRequest changeTaskStatusRequest) {
-        ChangeTaskStatusCommand command = mapper.toCommand(taskId, changeTaskStatusRequest);
+            @RequestBody @Valid ChangeTaskStatusRequest changeTaskStatusRequest, @CurrentUserId UUID currentUserId) {
+        ChangeTaskStatusCommand command = mapper.toCommand(taskId, changeTaskStatusRequest, currentUserId);
         Task updatedTask = changeTaskStatusUseCase.execute(command);
         TaskResponse response = mapper.toResponse(updatedTask);
         return ResponseEntity.ok(response);

@@ -191,7 +191,8 @@ class TaskControllerIT extends AbstractIntegrationTest {
                                 .header("X-User-Id", userId))
                         .andExpect(status().isNotFound())
                         .andExpect(jsonPath("$.title").value("Task Not Found"))
-                        .andExpect(jsonPath("$.detail").value(containsString("Task with ID %s not found".formatted(nonExistentId))));
+                        .andExpect(jsonPath("$.detail").value(
+                                containsString("Task with ID %s not found".formatted(nonExistentId))));
             }
 
             @Test
@@ -353,7 +354,7 @@ class TaskControllerIT extends AbstractIntegrationTest {
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-09-01T10:00:00"}
                                         """))
                         .andExpect(status().isCreated())
                         .andReturn()
@@ -363,6 +364,7 @@ class TaskControllerIT extends AbstractIntegrationTest {
                 TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
 
                 mockMvc.perform(patch("/api/tasks/{taskId}/status", createdTask.id())
+                                .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"status":"IN_PROGRESS"}
@@ -384,13 +386,15 @@ class TaskControllerIT extends AbstractIntegrationTest {
                 String nonExistentId = "00000000-0000-0000-0000-000000000000";
 
                 mockMvc.perform(patch("/api/tasks/{taskId}/status", nonExistentId)
+                                .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"status":"IN_PROGRESS"}
                                         """))
                         .andExpect(status().isNotFound())
                         .andExpect(jsonPath("$.title").value("Task Not Found"))
-                        .andExpect(jsonPath("$.detail").value("Task with ID %s not found".formatted(nonExistentId)));
+                        .andExpect(jsonPath("$.detail").value(
+                                containsString("Task with ID %s not found".formatted(nonExistentId))));
             }
 
             @Test
@@ -401,7 +405,7 @@ class TaskControllerIT extends AbstractIntegrationTest {
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-09-01T10:00:00"}
                                         """))
                         .andExpect(status().isCreated())
                         .andReturn()
@@ -411,6 +415,7 @@ class TaskControllerIT extends AbstractIntegrationTest {
                 TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
 
                 mockMvc.perform(patch("/api/tasks/{taskId}/status", createdTask.id())
+                                .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"status":"DONE"}
@@ -428,7 +433,7 @@ class TaskControllerIT extends AbstractIntegrationTest {
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-09-01T10:00:00"}
                                         """))
                         .andExpect(status().isCreated())
                         .andReturn()
@@ -438,6 +443,7 @@ class TaskControllerIT extends AbstractIntegrationTest {
                 TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
 
                 mockMvc.perform(patch("/api/tasks/{taskId}/status", createdTask.id())
+                                .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"status":null}
@@ -455,7 +461,7 @@ class TaskControllerIT extends AbstractIntegrationTest {
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-09-01T10:00:00"}
                                         """))
                         .andExpect(status().isCreated())
                         .andReturn()
@@ -465,12 +471,46 @@ class TaskControllerIT extends AbstractIntegrationTest {
                 TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
 
                 mockMvc.perform(patch("/api/tasks/{taskId}/status", createdTask.id())
+                                .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"status":"NAOEXISTE"}
                                         """))
                         .andExpect(status().isBadRequest())
                         .andExpect(jsonPath("$.title").value("Malformed JSON"));
+            }
+
+            @Test
+            @DisplayName("should return not found when task belongs to another user")
+            void shouldReturnNotFoundWhenTaskBelongsToAnotherUser() throws Exception {
+                // Cria tarefa com o primeiro usuário
+                String createResponse = mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-09-01T10:00:00"}
+                                        """))
+                        .andExpect(status().isCreated())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
+
+                // Cria um segundo usuário
+                var secondUser = aSecondUser();
+                UUID secondUserId = secondUser.getId();
+                userJpaRepository.save(secondUser);
+
+                // Tenta alterar o status da tarefa usando o segundo usuário
+                mockMvc.perform(patch("/api/tasks/{taskId}/status", createdTask.id())
+                                .header("X-User-Id", secondUserId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"status":"IN_PROGRESS"}
+                                        """))
+                        .andExpect(status().isNotFound())
+                        .andExpect(jsonPath("$.title").value("Task Not Found"));
             }
         }
     }

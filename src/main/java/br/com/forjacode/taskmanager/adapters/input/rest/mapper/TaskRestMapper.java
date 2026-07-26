@@ -35,6 +35,7 @@ public interface TaskRestMapper {
         );
     }
 
+    @Mapping(source = "currentUserId", target = "ownerId")
     @Mapping(source = "changeTaskStatusRequest.status", target = "newStatus")
-    ChangeTaskStatusCommand toCommand(UUID taskId, ChangeTaskStatusRequest changeTaskStatusRequest);
+    ChangeTaskStatusCommand toCommand(UUID taskId, ChangeTaskStatusRequest changeTaskStatusRequest, UUID currentUserId);
 }
