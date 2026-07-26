@@ -1,7 +1,7 @@
 meta {
   name: Change Task Status - Missing Status
   type: http
-  seq: 10
+  seq: 13
 }
 
 patch {
@@ -12,6 +12,7 @@ patch {
 
 headers {
   Content-Type: application/json
+  X-User-Id: {{currentUserId}}
 }
 
 body:json {
@@ -21,7 +22,8 @@ body:json {
 docs {
   Exemplo de cenário de erro: corpo da requisição sem o campo "status".
 
-  Depende da variável {{taskId}}. Rode "Create Task" antes.
+  Depende das variáveis {{taskId}} e {{currentUserId}}. Rode "Register User"
+  e "Create Task" antes.
 
   Resposta esperada: 400 Bad Request, formato application/problem+json,
   title "Validation Failed", com errors.status preenchido.

@@ -16,6 +16,7 @@ public interface TaskMapper {
                 entity.getStatus(),
                 entity.getPriority(),
                 entity.getDueDate(),
+                entity.getOwnerId(),
                 entity.getCreatedAt(),
                 entity.getUpdatedAt()
         );

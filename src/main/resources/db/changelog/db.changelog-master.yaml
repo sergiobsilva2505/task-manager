@@ -5,3 +5,7 @@ databaseChangeLog:
       file: db/changelog/db.changelog-2-rename-task-to-tasks.yaml
   - include:
       file: db/changelog/db.changelog-3-alter-table-tasks-column-due-date.yaml
+  - include:
+      file: db/changelog/db.changelog-4-create-users.yaml
+  - include:
+      file: db/changelog/db.changelog-5-add-owner-id-to-tasks.yaml

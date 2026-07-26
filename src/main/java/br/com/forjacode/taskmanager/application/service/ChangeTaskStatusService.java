@@ -17,7 +17,9 @@ public class ChangeTaskStatusService implements ChangeTaskStatusUseCase {
     @Override
     public Task execute(ChangeTaskStatusCommand command) {
         Task task = repositoryPort.findById(command.taskId())
-                .orElseThrow(() -> new TaskNotFoundException("Task with ID %s not found".formatted(command.taskId())));
+                .filter(t -> t.getOwnerId().equals(command.ownerId()))
+                .orElseThrow(() -> new TaskNotFoundException(
+                        "Task with ID %s not found for user %s".formatted(command.taskId(), command.ownerId())));
 
         task.changeStatus(command.newStatus());
         return repositoryPort.update(task);

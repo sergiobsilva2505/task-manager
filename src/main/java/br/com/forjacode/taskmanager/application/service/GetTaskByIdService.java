@@ -16,8 +16,11 @@ public class GetTaskByIdService implements GetTaskByIdUseCase {
     }
 
     @Override
-    public Task execute(UUID taskId) {
+    public Task execute(UUID taskId, UUID currentUserId) {
         return repositoryPort.findById(taskId)
-                .orElseThrow(() -> new TaskNotFoundException("Task with ID %s not found".formatted(taskId)));
+                .filter(task -> currentUserId.equals(task.getOwnerId()))
+                .orElseThrow(() -> new TaskNotFoundException(
+                        "Task with ID %s not found for user %s".formatted(taskId, currentUserId)));
     }
+
 }

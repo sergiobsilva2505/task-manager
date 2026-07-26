@@ -17,7 +17,9 @@ import java.util.UUID;
 @Mapper(componentModel = "spring")
 public interface TaskRestMapper {
 
-    CreateTaskCommand toCommand(CreateTaskRequest createTaskRequest);
+    @Mapping(source = "currentUserId", target = "ownerId")
+    CreateTaskCommand toCommand(CreateTaskRequest createTaskRequest, UUID currentUserId);
+
 
     TaskResponse toResponse(Task task);
 
@@ -33,6 +35,7 @@ public interface TaskRestMapper {
         );
     }
 
+    @Mapping(source = "currentUserId", target = "ownerId")
     @Mapping(source = "changeTaskStatusRequest.status", target = "newStatus")
-    ChangeTaskStatusCommand toCommand(UUID taskId, ChangeTaskStatusRequest changeTaskStatusRequest);
+    ChangeTaskStatusCommand toCommand(UUID taskId, ChangeTaskStatusRequest changeTaskStatusRequest, UUID currentUserId);
 }

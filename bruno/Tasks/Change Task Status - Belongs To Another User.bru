@@ -1,0 +1,33 @@
+meta {
+  name: Change Task Status - Belongs To Another User
+  type: http
+  seq: 11
+}
+
+patch {
+  url: {{baseUrl}}/api/tasks/{{taskId}}/status
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-User-Id: {{secondUserId}}
+}
+
+body:json {
+  {
+    "status": "IN_PROGRESS"
+  }
+}
+
+docs {
+  Exemplo de isolamento entre usuários: tenta alterar o status de uma
+  tarefa que pertence a outro usuário, usando o header X-User-Id de
+  um segundo usuário ({{secondUserId}}).
+
+  Depende de "Create Task" (dono original) e "Register Second User"
+  (pasta Users) terem rodado antes.
+
+  Resposta esperada: 404 Not Found — mesma resposta de "não existe".
+}

@@ -6,5 +6,5 @@ import java.util.UUID;
 
 public interface GetTaskByIdUseCase {
 
-    Task execute(UUID taskId);
+    Task execute(UUID taskId, UUID userId);
 }

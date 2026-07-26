@@ -1,7 +1,7 @@
 meta {
   name: Delete Task - Idempotent (Task Not Found)
   type: http
-  seq: 13
+  seq: 16
 }
 
 delete {
@@ -10,8 +10,14 @@ delete {
   auth: none
 }
 
+headers {
+  X-User-Id: {{currentUserId}}
+}
+
 docs {
   Exemplo de idempotência: remove uma tarefa que não existe.
+
+  Depende da variável {{currentUserId}}. Rode "Register User" antes.
 
   Diferente de GetTaskById/ChangeTaskStatus (que retornam 404 para
   ID inexistente), DELETE segue a semântica de idempotência da spec

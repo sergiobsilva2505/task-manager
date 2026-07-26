@@ -15,7 +15,8 @@ public class CreateTaskService implements CreateTaskUseCase {
 
     @Override
     public Task execute(CreateTaskCommand command) {
-        Task task = Task.create(command.title(), command.description(), command.priority(), command.dueDate());
+        Task task = Task.create(command.title(), command.description(), command.priority(), command.dueDate(),
+                command.ownerId());
         repositoryPort.save(task);
         return task;
     }

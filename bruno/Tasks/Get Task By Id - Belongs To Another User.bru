@@ -1,0 +1,27 @@
+meta {
+  name: Get Task By Id - Belongs To Another User
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/tasks/{{taskId}}
+  body: none
+  auth: none
+}
+
+headers {
+  X-User-Id: {{secondUserId}}
+}
+
+docs {
+  Exemplo de isolamento entre usuários: tenta buscar uma tarefa que
+  pertence a outro usuário (criada com {{currentUserId}}), usando o
+  header X-User-Id de um segundo usuário ({{secondUserId}}).
+
+  Depende de "Create Task" (dono original) e "Register Second User"
+  (pasta Users) terem rodado antes.
+
+  Resposta esperada: 404 Not Found — mesma resposta de "não existe",
+  para não vazar a existência do recurso a quem não tem acesso.
+}

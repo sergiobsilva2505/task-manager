@@ -1,7 +1,7 @@
 meta {
   name: Change Task Status - Task Not Found
   type: http
-  seq: 9
+  seq: 10
 }
 
 patch {
@@ -12,6 +12,7 @@ patch {
 
 headers {
   Content-Type: application/json
+  X-User-Id: {{currentUserId}}
 }
 
 body:json {
@@ -23,6 +24,8 @@ body:json {
 docs {
   Exemplo de cenário de erro: tenta alterar o status de uma tarefa
   que não existe.
+
+  Depende da variável {{currentUserId}}. Rode "Register User" antes.
 
   Resposta esperada: 404 Not Found, formato application/problem+json,
   title "Task Not Found".

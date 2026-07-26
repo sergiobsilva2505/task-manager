@@ -46,12 +46,6 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
     }
 
     @Override
-    public void delete(Task task) {
-        TaskJpaEntity entity = taskMapper.toEntity(task);
-        taskJpaRepository.delete(entity);
-    }
-
-    @Override
     public List<Task> findAll() {
         return taskJpaRepository.findAll().stream()
                 .map(taskMapper::toDomain)
@@ -59,10 +53,10 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
     }
 
     @Override
-    public PagedResult<Task> findAll(PageQuery query) {
+    public PagedResult<Task> findAll(PageQuery query, UUID ownerId) {
         Pageable pageable = getPageable(query);
 
-        Page<TaskJpaEntity> tasksPage = taskJpaRepository.findAll(pageable);
+        Page<TaskJpaEntity> tasksPage = taskJpaRepository.findAllByOwnerId(ownerId, pageable);
 
         List<Task> tasks = tasksPage.getContent()
                 .stream()
@@ -79,8 +73,8 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
     }
 
     @Override
-    public void deleteById(UUID taskId) {
-        taskJpaRepository.deleteById(taskId);
+    public void deleteByIdAndOwnerId(UUID id, UUID ownerId) {
+        taskJpaRepository.deleteByIdAndOwnerId(id, ownerId);
     }
 
     private String getJpaFieldName(TaskSortField fieldName) {

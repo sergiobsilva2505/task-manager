@@ -1,7 +1,9 @@
 package br.com.forjacode.taskmanager.adapters.input.rest.exception;
 
+import br.com.forjacode.taskmanager.domain.exception.EmailAlreadyInUseException;
 import br.com.forjacode.taskmanager.domain.exception.InvalidInputException;
 import br.com.forjacode.taskmanager.domain.exception.InvalidStatusTransitionException;
+import br.com.forjacode.taskmanager.domain.exception.MissingCurrentUserException;
 import br.com.forjacode.taskmanager.domain.exception.MissingRequiredFieldException;
 import br.com.forjacode.taskmanager.domain.exception.TaskNotFoundException;
 import org.slf4j.Logger;
@@ -26,7 +28,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             MissingRequiredFieldException.class,
             InvalidInputException.class,
-            InvalidStatusTransitionException.class
+            InvalidStatusTransitionException.class,
+            MissingCurrentUserException.class
     })
     public ProblemDetail handleDomainExceptions(RuntimeException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
@@ -69,7 +72,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ProblemDetail handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex, WebRequest request) {
+    public ProblemDetail handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex,
+            WebRequest request) {
         String expectedType = ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "unknown";
         String message = String.format("Invalid value '%s' for parameter '%s'. Expected type: %s",
                 ex.getValue(), ex.getName(), expectedType);
@@ -82,8 +86,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ProblemDetail handleHttpMessageNotReadableException(HttpMessageNotReadableException ex, WebRequest request) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Malformed JSON request");
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
+                "Malformed JSON request");
         problemDetail.setTitle("Malformed JSON");
+        problemDetail.setProperty("path", extractPath(request));
+        return problemDetail;
+    }
+
+    @ExceptionHandler(EmailAlreadyInUseException.class)
+    public ProblemDetail handleEmailAlreadyInUseException(EmailAlreadyInUseException ex, WebRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+        problemDetail.setTitle("Email Already In Use");
         problemDetail.setProperty("path", extractPath(request));
         return problemDetail;
     }
@@ -93,6 +106,7 @@ public class GlobalExceptionHandler {
             case MissingRequiredFieldException e -> "Missing Required Field";
             case InvalidInputException e -> "Invalid Input";
             case InvalidStatusTransitionException e -> "Invalid Status Transition";
+            case MissingCurrentUserException e -> "Missing Current User";
             default -> "Bad Request";
         };
     }

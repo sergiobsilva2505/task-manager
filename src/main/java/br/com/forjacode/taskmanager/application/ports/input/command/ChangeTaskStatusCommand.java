@@ -4,5 +4,5 @@ import br.com.forjacode.taskmanager.domain.model.enums.Status;
 
 import java.util.UUID;
 
-public record ChangeTaskStatusCommand(UUID taskId, Status newStatus) {
+public record ChangeTaskStatusCommand(UUID taskId, Status newStatus, UUID ownerId) {
 }

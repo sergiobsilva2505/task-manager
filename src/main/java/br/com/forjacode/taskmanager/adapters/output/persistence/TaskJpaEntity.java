@@ -33,6 +33,7 @@ public class TaskJpaEntity {
     @Enumerated(EnumType.STRING)
     private Priority priority;
     private LocalDateTime dueDate;
+    private UUID ownerId;
     private Instant createdAt;
     private Instant updatedAt;
 

@@ -20,7 +20,8 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/api/hello",
                                 "/api/tasks/**",
-                                "/actuator/health")
+                                "/actuator/health",
+                                "/api/users/**")
                         .permitAll()
                         .anyRequest().authenticated())
                 // CSRF desabilitado: API REST stateless, autenticação via Bearer/JWT (não via cookie de

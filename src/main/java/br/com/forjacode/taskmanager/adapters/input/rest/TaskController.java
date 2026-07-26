@@ -1,5 +1,6 @@
 package br.com.forjacode.taskmanager.adapters.input.rest;
 
+import br.com.forjacode.taskmanager.adapters.input.rest.annotation.CurrentUserId;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.ChangeTaskStatusRequest;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.CreateTaskRequest;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.PagedResponse;
@@ -55,8 +56,10 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    public ResponseEntity<TaskResponse> createTask(@Valid @RequestBody CreateTaskRequest createTaskRequest) {
-        CreateTaskCommand command = mapper.toCommand(createTaskRequest);
+    public ResponseEntity<TaskResponse> createTask(
+            @Valid @RequestBody CreateTaskRequest createTaskRequest,
+            @CurrentUserId UUID currentUserId) {
+        CreateTaskCommand command = mapper.toCommand(createTaskRequest, currentUserId);
         Task task = createTaskUseCase.execute(command);
         TaskResponse response = mapper.toResponse(task);
         URI location = URI.create("/api/tasks/%s".formatted(task.getId()));
@@ -64,8 +67,8 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/{taskId}")
-    public ResponseEntity<TaskResponse> getTaskById(@PathVariable UUID taskId) {
-        Task task = getTaskByIdUseCase.execute(taskId);
+    public ResponseEntity<TaskResponse> getTaskById(@PathVariable UUID taskId, @CurrentUserId UUID currentUserId) {
+        Task task = getTaskByIdUseCase.execute(taskId, currentUserId);
         TaskResponse response = mapper.toResponse(task);
         return ResponseEntity.ok(response);
     }
@@ -75,29 +78,30 @@ public class TaskController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size,
             @RequestParam(required = false) TaskSortField sortField,
-            @RequestParam(required = false) SortDirection sortDirection) {
+            @RequestParam(required = false) SortDirection sortDirection,
+            @CurrentUserId UUID currentUserId) {
 
         TaskSortField resolvedSortField = sortField != null ? sortField : TaskSortField.DEFAULT;
         SortDirection resolvedSortDirection = sortDirection != null ? sortDirection : SortDirection.DESC;
 
         PageQuery query = new PageQuery(page, size, resolvedSortField, resolvedSortDirection);
-        PagedResult<Task> pagedResult = listTasksUseCase.execute(query);
+        PagedResult<Task> pagedResult = listTasksUseCase.execute(query, currentUserId);
         PagedResponse<TaskResponse> response = mapper.toResponse(pagedResult);
         return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/tasks/{taskId}/status")
     public ResponseEntity<TaskResponse> changeTaskStatus(@PathVariable UUID taskId,
-            @RequestBody @Valid ChangeTaskStatusRequest changeTaskStatusRequest) {
-        ChangeTaskStatusCommand command = mapper.toCommand(taskId, changeTaskStatusRequest);
+            @RequestBody @Valid ChangeTaskStatusRequest changeTaskStatusRequest, @CurrentUserId UUID currentUserId) {
+        ChangeTaskStatusCommand command = mapper.toCommand(taskId, changeTaskStatusRequest, currentUserId);
         Task updatedTask = changeTaskStatusUseCase.execute(command);
         TaskResponse response = mapper.toResponse(updatedTask);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/tasks/{taskId}")
-    public ResponseEntity<Void> deleteTask(@PathVariable UUID taskId) {
-        deleteTaskUseCase.execute(taskId);
+    public ResponseEntity<Void> deleteTask(@PathVariable UUID taskId, @CurrentUserId UUID currentUserId) {
+        deleteTaskUseCase.execute(taskId, currentUserId);
         return ResponseEntity.noContent().build();
     }
 }

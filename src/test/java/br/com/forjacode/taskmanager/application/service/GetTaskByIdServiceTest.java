@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -41,12 +42,14 @@ class GetTaskByIdServiceTest {
         private Task task;
         private Instant now;
         private LocalDateTime dueDate;
+        private UUID ownerId;
 
         @BeforeEach
         void setUp() {
             taskId = UUID.randomUUID();
-            now = Instant.now();
-            dueDate = LocalDateTime.now().plusDays(1);
+            ownerId = UUID.randomUUID();
+            now = Instant.parse("2026-08-01T12:00:00Z");
+            dueDate = LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1);
 
             task = Task.reconstruct(
                 taskId,
@@ -55,6 +58,7 @@ class GetTaskByIdServiceTest {
                 Status.TODO,
                 Priority.HIGH,
                 dueDate,
+                ownerId,
                 now,
                 now
             );
@@ -65,7 +69,7 @@ class GetTaskByIdServiceTest {
         void shouldReturnTaskWhenIdExists() {
             when(repositoryPort.findById(taskId)).thenReturn(Optional.of(task));
 
-            Task result = getTaskByIdService.execute(taskId);
+            Task result = getTaskByIdService.execute(taskId, ownerId);
 
             assertThat(result).isNotNull();
             assertThat(result.getId()).isEqualTo(taskId);
@@ -83,10 +87,12 @@ class GetTaskByIdServiceTest {
     class WithError {
 
         private UUID taskId;
+        private UUID ownerId;
 
         @BeforeEach
         void setUp() {
             taskId = UUID.randomUUID();
+            ownerId = UUID.randomUUID();
         }
 
         @Test
@@ -94,10 +100,36 @@ class GetTaskByIdServiceTest {
         void shouldThrowExceptionWhenTaskDoesNotExist() {
             when(repositoryPort.findById(taskId)).thenReturn(Optional.empty());
 
-            assertThatThrownBy(() -> getTaskByIdService.execute(taskId))
+            assertThatThrownBy(() -> getTaskByIdService.execute(taskId, ownerId))
                 .isInstanceOf(TaskNotFoundException.class);
+            verify(repositoryPort).findById(taskId);
+        }
+
+        @Test
+        @DisplayName("should throw exception when task exists but belongs to another user")
+        void shouldThrowExceptionWhenTaskBelongsToAnotherUser() {
+            UUID anotherUserId = UUID.randomUUID();
+            Instant now = Instant.parse("2026-08-01T12:00:00Z");
+            LocalDateTime dueDate = LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1);
+
+            Task task = Task.reconstruct(
+                taskId,
+                "Task title",
+                "Task description",
+                Status.TODO,
+                Priority.HIGH,
+                dueDate,
+                anotherUserId, // task pertence a outro usuário
+                now,
+                now
+            );
+
+            when(repositoryPort.findById(taskId)).thenReturn(Optional.of(task));
+
+            assertThatThrownBy(() -> getTaskByIdService.execute(taskId, ownerId))
+                .isInstanceOf(TaskNotFoundException.class)
+                .hasMessageContaining("Task with ID %s not found for user".formatted(taskId));
             verify(repositoryPort).findById(taskId);
         }
     }
 }
-

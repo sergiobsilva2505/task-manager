@@ -14,7 +14,7 @@ public class DeleteTaskService implements DeleteTaskUseCase {
     }
 
     @Override
-    public void execute(UUID taskId) {
-        taskRepository.deleteById(taskId);
+    public void execute(UUID taskId, UUID userId) {
+        taskRepository.deleteByIdAndOwnerId(taskId, userId);
     }
 }

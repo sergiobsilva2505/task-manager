@@ -1,13 +1,17 @@
 meta {
   name: Delete Task - Invalid UUID Format
   type: http
-  seq: 14
+  seq: 18
 }
 
 delete {
   url: {{baseUrl}}/api/tasks/invalid-uuid-format
   body: none
   auth: none
+}
+
+headers {
+  X-User-Id: {{currentUserId}}
 }
 
 docs {

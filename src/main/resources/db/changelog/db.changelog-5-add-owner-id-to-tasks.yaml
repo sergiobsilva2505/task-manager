@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: sergio
+      changes:
+        - addColumn:
+            tableName: tasks
+            columns:
+              - column:
+                  name: owner_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: tasks
+            baseColumnNames: owner_id
+            constraintName: fk_tasks_owner
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: CASCADE
+

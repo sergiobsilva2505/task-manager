@@ -1,7 +1,7 @@
 meta {
   name: Change Task Status - Success
   type: http
-  seq: 7
+  seq: 9
 }
 
 patch {
@@ -12,6 +12,7 @@ patch {
 
 headers {
   Content-Type: application/json
+  X-User-Id: {{currentUserId}}
 }
 
 body:json {
@@ -21,10 +22,11 @@ body:json {
 }
 
 docs {
-  Altera o status de uma tarefa existente (transição válida).
+  Altera o status de uma tarefa existente (transição válida), exigindo
+  que ela pertença ao usuário identificado pelo header X-User-Id.
 
-  Depende da variável {{taskId}}, preenchida automaticamente ao rodar
-  o request "Create Task" antes deste.
+  Depende das variáveis {{taskId}} e {{currentUserId}}. Rode "Register User"
+  e "Create Task" antes.
 
   Resposta esperada: 200 OK, com o corpo da tarefa refletindo o novo status.
 }

@@ -1,7 +1,7 @@
 meta {
   name: Change Task Status - Invalid Status Value
   type: http
-  seq: 11
+  seq: 14
 }
 
 patch {
@@ -12,6 +12,7 @@ patch {
 
 headers {
   Content-Type: application/json
+  X-User-Id: {{currentUserId}}
 }
 
 body:json {
@@ -23,7 +24,8 @@ body:json {
 docs {
   Exemplo de cenário de erro: valor de status que não existe no enum Status.
 
-  Depende da variável {{taskId}}. Rode "Create Task" antes.
+  Depende das variáveis {{taskId}} e {{currentUserId}}. Rode "Register User"
+  e "Create Task" antes.
 
   Resposta esperada: 400 Bad Request, formato application/problem+json,
   title "Malformed JSON". Capturado pelo handler de

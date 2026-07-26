@@ -77,7 +77,7 @@ src/
     └── java/
         └── br.com.forjacode.taskmanager/
             ├── domain/                     # Núcleo: entidades e regras de negócio puras
-            │   ├── model/                  # Task, enums (Status, Priority)
+            │   ├── model/                  # Task, User, enums (Status, Priority)
             │   └── exception/              # Exceções de regra de negócio
             │
             ├── application/                # Casos de uso (orquestração)
@@ -151,9 +151,24 @@ Nunca o inverso. O `domain` não conhece `application`; o `application` não con
 - **`DELETE` verdadeiramente idempotente:** remover uma tarefa retorna sempre `204 No Content`, independentemente de o
   `id` existir ou não — em vez de `404` para IDs inexistentes (padrão usado em `GetTaskById`/`ChangeTaskStatus`), o
   endpoint segue a semântica de idempotência da spec HTTP: "o recurso não existe" e "o recurso foi removido" resultam no
-  mesmo estado final observável. `DeleteTaskService` delega direto para `TaskRepositoryPort.deleteById(id)`, sem buscar
-  a tarefa antes — evitando uma consulta desnecessária e mantendo o comportamento realmente livre de ramificação de
-  erro.
+  mesmo estado final observável. `DeleteTaskService` delega direto para
+  `TaskRepositoryPort.deleteByIdAndOwnerId(id, ownerId)`, sem buscar a tarefa antes — evitando uma consulta
+  desnecessária e mantendo o comportamento realmente livre de ramificação de erro, mesmo com isolamento por dono.
+- **Multiusuário com autenticação simulada (etapa intermediária antes do JWT):** cada `Task` pertence a um `User`
+  (`ownerId`, com `FOREIGN KEY` no banco). Como a autenticação real (JWT) ainda não existe, o "usuário atual" é
+  resolvido a partir do header **`X-User-Id`** — obrigatório em todo endpoint de `Task`, extraído por um
+  `HandlerMethodArgumentResolver` customizado (`CurrentUserIdArgumentResolver`, acionado via a anotação
+  `@CurrentUserId`) que injeta o valor diretamente como parâmetro do Controller. O header ausente ou malformado resulta
+  em `400 Bad Request`. Esse mecanismo é deliberadamente temporário: quando o JWT for implementado, só o resolver muda
+  (passa a decodificar o token em vez de ler o header) — nenhum Controller ou caso de uso precisa ser alterado.
+- **`404`, não `403`, quando a tarefa não pertence ao usuário atual:** `GetTaskById` e `ChangeTaskStatus` tratam "tarefa
+  não existe" e "tarefa existe mas pertence a outro usuário" com a **mesma resposta** (`404 Not Found`, mesma mensagem),
+  usando `Optional.filter(...)` para colapsar os dois casos antes do `orElseThrow`. Isso evita vazar a existência de
+  recursos que o usuário não deveria nem saber que existem — prática comum em APIs que levam segurança a sério, mesmo
+  custando um pouco de "transparência" sobre o real motivo da falha.
+- **Isolamento por dono sem SELECT extra:** `ListTasks` filtra por `ownerId` diretamente na consulta paginada
+  (`findAllByOwnerId`), e `DeleteTask` usa `deleteByIdAndOwnerId` — os dois evitam buscar a tarefa antes de agir,
+  deixando o próprio banco resolver "existe e é do usuário" em uma única operação.
 
 ---
 
@@ -222,6 +237,10 @@ integração (com Docker):
 
 ## 📖 Guia de uso da API
 
+> ⚠️ **Todo endpoint de `Task` exige o header `X-User-Id`** (um UUID de usuário já registrado). Ele identifica o
+> "usuário atual" enquanto a autenticação real (JWT) não é implementada — sem ele, a API responde `400 Bad Request`.
+> Ver [decisão de design](#-arquitetura-e-decisões-técnicas) para o motivo.
+
 ### 💓 Status da aplicação
 
 <details>
@@ -230,6 +249,43 @@ integração (com Docker):
 **GET** `/actuator/health`
 
 **Resposta:** `200 OK` — status agregado da aplicação, banco de dados e disco.
+
+</details>
+
+---
+
+### 👤 Usuários
+
+<details>
+<summary>➕ Registrar um usuário</summary>
+
+**POST** `/api/users`
+
+```json
+{
+    "name": "Sergio Bezerra da Silva",
+    "email": "sergio@exemplo.com"
+}
+```
+
+**Resposta:** `201 Created` (com header `Location` apontando para o recurso criado)
+
+```json
+{
+    "id": "1911d14f-85b1-47a7-a414-f25dca18c1c2",
+    "name": "Sergio Bezerra da Silva",
+    "email": "sergio@exemplo.com",
+    "createdAt": "2026-07-25T18:45:32.436477200Z"
+}
+```
+
+**Erros possíveis:**
+
+- `400 Bad Request` quando `name`/`email` estão ausentes, `name` fora do intervalo de 3-160 caracteres, ou `email` com
+  formato inválido.
+- `409 Conflict` quando o `email` já está em uso por outro usuário.
+
+> O `id` retornado aqui é o valor a ser usado no header `X-User-Id` em todos os endpoints de `Task`.
 
 </details>
 
@@ -267,7 +323,7 @@ integração (com Docker):
 ```
 
 **Erros possíveis:** `400 Bad Request` (formato `application/problem+json`, RFC 7807) para campos obrigatórios ausentes,
-prazo inválido ou falha de validação de formato.
+prazo inválido, falha de validação de formato, ou header `X-User-Id` ausente/malformado.
 
 </details>
 
@@ -291,8 +347,9 @@ prazo inválido ou falha de validação de formato.
 }
 ```
 
-**Erros possíveis:** `404 Not Found` (formato `application/problem+json`) quando o ID não existe. `400 Bad Request`
-quando o `id` informado não é um UUID válido.
+**Erros possíveis:** `404 Not Found` (formato `application/problem+json`) quando o `id` não existe **ou pertence a outro
+usuário** (mesma resposta nos dois casos, por segurança). `400 Bad Request` quando o `id` não é um UUID válido, ou o
+header `X-User-Id` está ausente/malformado.
 
 </details>
 
@@ -310,7 +367,7 @@ quando o `id` informado não é um UUID válido.
 | `sortField`     | `CREATED_AT` | `TITLE`, `CREATED_AT`, `DUE_DATE`, `PRIORITY` |
 | `sortDirection` | `DESC`       | `ASC`, `DESC`                                 |
 
-**Resposta:** `200 OK`
+**Resposta:** `200 OK` — contém apenas tarefas do usuário identificado pelo header `X-User-Id`.
 
 ```json
 {
@@ -334,7 +391,7 @@ quando o `id` informado não é um UUID válido.
 ```
 
 **Erros possíveis:** `400 Bad Request` quando `sortField`/`sortDirection` recebem um valor fora da whitelist (ex:
-`?sortField=NAOEXISTE`).
+`?sortField=NAOEXISTE`), ou o header `X-User-Id` está ausente/malformado.
 
 </details>
 
@@ -369,9 +426,10 @@ quando o `id` informado não é um UUID válido.
 
 **Erros possíveis:**
 
-- `404 Not Found` quando o `id` não existe.
-- `400 Bad Request` quando a transição de status é inválida (ex: pular etapa), quando o campo `status` está ausente, ou
-  quando o valor enviado não corresponde a nenhum status válido (corpo JSON malformado).
+- `404 Not Found` quando o `id` não existe **ou pertence a outro usuário** (mesma resposta nos dois casos).
+- `400 Bad Request` quando a transição de status é inválida (ex: pular etapa), quando o campo `status` está ausente,
+  quando o valor enviado não corresponde a nenhum status válido (corpo JSON malformado), ou o header `X-User-Id` está
+  ausente/malformado.
 
 </details>
 
@@ -380,9 +438,11 @@ quando o `id` informado não é um UUID válido.
 
 **DELETE** `/api/tasks/{id}`
 
-**Resposta:** `204 No Content` — sempre, independentemente de o `id` existir ou não (operação idempotente).
+**Resposta:** `204 No Content` — sempre, independentemente de o `id` existir, pertencer a outro usuário, ou não existir
+(operação idempotente; ver [decisão de design](#-arquitetura-e-decisões-técnicas)).
 
-**Erros possíveis:** `400 Bad Request` quando o `id` informado não é um UUID válido.
+**Erros possíveis:** `400 Bad Request` quando o `id` informado não é um UUID válido, ou o header `X-User-Id` está
+ausente/malformado.
 
 </details>
 
@@ -410,7 +470,9 @@ quando o `id` informado não é um UUID válido.
   `MissingRequiredFieldException` permanecem cobertas apenas via validação de borda, já que essa camada intercepta antes
   de alcançar o domínio nos fluxos atuais)
 - [x] Caso de uso: remover tarefa (`DELETE /api/tasks/{id}`, idempotente) — fecha o CRUD completo
-- [ ] Multiusuário (`ownerId`, autenticação JWT)
+- [x] Multiusuário: entidade `User`, `ownerId` em `Task`, isolamento por dono em todos os casos de uso, autenticação
+  simulada via header `X-User-Id` (etapa intermediária antes do JWT)
+- [ ] Autenticação JWT (substituindo o header `X-User-Id` temporário)
 - [ ] Deploy (Docker + cloud)
 - [ ] Avaliar SonarQube/SonarCloud no CI (complementar ao Qodana já configurado) — retomar ao final do projeto
 - [ ] Definir estratégia e padrão de logging (o que logar, em qual nível, formato) — task dedicada
