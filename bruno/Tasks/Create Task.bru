@@ -12,6 +12,7 @@ post {
 
 headers {
   Content-Type: application/json
+  X-User-Id: {{currentUserId}}
 }
 
 body:json {
@@ -28,7 +29,9 @@ vars:post-response {
 }
 
 docs {
-  Cria uma nova tarefa.
+  Cria uma nova tarefa, pertencente ao usuário identificado pelo header X-User-Id.
+
+  Depende da variável {{currentUserId}}. Rode "Register User" (pasta Users) antes.
 
   Campos obrigatórios: title, priority, dueDate.
   dueDate deve ser presente ou futuro (validação de borda) e não pode
@@ -36,8 +39,8 @@ docs {
 
   Resposta esperada: 201 Created, com header Location e o corpo da tarefa criada.
   O id retornado é salvo automaticamente na variável {{taskId}} para uso
-  no request "Get Task By Id".
+  nos demais requests de Tasks.
 
   Erros possíveis: 400 Bad Request (application/problem+json) para
-  campos ausentes ou inválidos.
+  campos ausentes/inválidos ou header X-User-Id ausente/malformado.
 }

@@ -1,13 +1,17 @@
 meta {
   name: List Tasks - Invalid Sort Field
   type: http
-  seq: 6
+  seq: 8
 }
 
 get {
   url: {{baseUrl}}/api/tasks?sortField=NAOEXISTE
   body: none
   auth: none
+}
+
+headers {
+  X-User-Id: {{currentUserId}}
 }
 
 params:query {

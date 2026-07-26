@@ -10,13 +10,20 @@ get {
   auth: none
 }
 
-docs {
-  Busca uma tarefa pelo id.
+headers {
+  X-User-Id: {{currentUserId}}
+}
 
-  Depende da variável {{taskId}}, preenchida automaticamente ao rodar
-  o request "Create Task" antes deste (ou defina manualmente na aba
-  de variáveis do environment/request para testar um id específico).
+docs {
+  Busca uma tarefa pelo id, exigindo que ela pertença ao usuário
+  identificado pelo header X-User-Id.
+
+  Depende das variáveis {{taskId}} e {{currentUserId}}. Rode "Register User"
+  e "Create Task" antes (ou defina manualmente na aba de variáveis do
+  environment/request para testar um id específico).
 
   Resposta esperada: 200 OK com o corpo da tarefa.
-  Erros possíveis: 404 Not Found (application/problem+json) quando o id não existe.
+  Erros possíveis: 404 Not Found (application/problem+json) quando o id
+  não existe ou pertence a outro usuário; 400 Bad Request se o header
+  X-User-Id estiver ausente/malformado.
 }

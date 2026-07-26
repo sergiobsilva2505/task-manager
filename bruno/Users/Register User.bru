@@ -1,0 +1,43 @@
+meta {
+  name: Register User
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/users
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "Sergio Bezerra da Silva",
+    "email": "sergio@exemplo.com"
+  }
+}
+
+vars:post-response {
+  currentUserId: res.body.id
+}
+
+docs {
+  Registra um novo usuário.
+
+  Campos obrigatórios: name (3-160 caracteres), email (formato válido).
+
+  Resposta esperada: 201 Created, com header Location e o corpo do usuário criado.
+  O id retornado é salvo automaticamente na variável {{currentUserId}},
+  usada como valor do header X-User-Id em todos os requests de Tasks.
+
+  Erros possíveis:
+  - 400 Bad Request (application/problem+json) para campos ausentes/inválidos.
+  - 409 Conflict quando o email já está em uso.
+
+  Rode este request primeiro (ou "Register Second User", se quiser testar
+  cenários de isolamento entre usuários) antes de qualquer request da pasta Tasks.
+}

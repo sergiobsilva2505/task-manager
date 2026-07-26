@@ -10,6 +10,10 @@ get {
   auth: none
 }
 
+headers {
+  X-User-Id: {{currentUserId}}
+}
+
 docs {
   Exemplo de cenário de erro: taskId não é um UUID válido.
 

@@ -1,0 +1,29 @@
+meta {
+  name: Delete Task - Belongs To Another User (Isolation)
+  type: http
+  seq: 17
+}
+
+delete {
+  url: {{baseUrl}}/api/tasks/{{taskId}}
+  body: none
+  auth: none
+}
+
+headers {
+  X-User-Id: {{secondUserId}}
+}
+
+docs {
+  Exemplo de isolamento entre usuários: tenta remover uma tarefa que
+  pertence a outro usuário, usando o header X-User-Id de um segundo
+  usuário ({{secondUserId}}).
+
+  Depende de "Create Task" (dono original) e "Register Second User"
+  (pasta Users) terem rodado antes.
+
+  Resposta esperada: 204 No Content (idempotente — resposta idêntica
+  à de "não existe"). A tarefa NÃO é removida; confirme rodando
+  "Get Task By Id" com {{currentUserId}} logo em seguida — ela ainda
+  deve existir.
+}

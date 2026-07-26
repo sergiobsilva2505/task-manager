@@ -1,7 +1,7 @@
 meta {
   name: Delete Task - Success
   type: http
-  seq: 12
+  seq: 15
 }
 
 delete {
@@ -10,11 +10,16 @@ delete {
   auth: none
 }
 
-docs {
-  Remove uma tarefa existente.
+headers {
+  X-User-Id: {{currentUserId}}
+}
 
-  Depende da variável {{taskId}}, preenchida automaticamente ao rodar
-  o request "Create Task" antes deste.
+docs {
+  Remove uma tarefa existente, exigindo que ela pertença ao usuário
+  identificado pelo header X-User-Id.
+
+  Depende das variáveis {{taskId}} e {{currentUserId}}. Rode "Register User"
+  e "Create Task" antes.
 
   Resposta esperada: 204 No Content, sem corpo.
 }

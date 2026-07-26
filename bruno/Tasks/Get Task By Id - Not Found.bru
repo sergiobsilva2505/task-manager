@@ -10,8 +10,14 @@ get {
   auth: none
 }
 
+headers {
+  X-User-Id: {{currentUserId}}
+}
+
 docs {
   Exemplo de cenário de erro: busca por um id que não existe.
+
+  Depende da variável {{currentUserId}}. Rode "Register User" antes.
 
   Resposta esperada: 404 Not Found, formato application/problem+json,
   com title "Task Not Found" e detail contendo o id buscado.
