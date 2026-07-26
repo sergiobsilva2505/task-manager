@@ -3,7 +3,6 @@ package br.com.forjacode.taskmanager;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 
-@SuppressWarnings("java:S2187")
 public abstract class IntegrationTestSupport {
 
     @ServiceConnection
