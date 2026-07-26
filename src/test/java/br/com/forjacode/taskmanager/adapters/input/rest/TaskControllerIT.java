@@ -540,7 +540,8 @@ class TaskControllerIT extends AbstractIntegrationTest {
 
                 TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
 
-                mockMvc.perform(delete("/api/tasks/{taskId}", createdTask.id()))
+                mockMvc.perform(delete("/api/tasks/{taskId}", createdTask.id())
+                                .header("X-User-Id", userId))
                         .andExpect(status().isNoContent());
 
                 assertThat(taskJpaRepository.count()).isZero();
@@ -551,8 +552,49 @@ class TaskControllerIT extends AbstractIntegrationTest {
             void shouldReturnNoContentWhenTaskDoesNotExist() throws Exception {
                 String nonExistentId = "00000000-0000-0000-0000-000000000000";
 
-                mockMvc.perform(delete("/api/tasks/{taskId}", nonExistentId))
+                mockMvc.perform(delete("/api/tasks/{taskId}", nonExistentId)
+                                .header("X-User-Id", userId))
                         .andExpect(status().isNoContent());
+            }
+
+            @Test
+            @DisplayName("should not delete task when another user tries to delete it (isolation)")
+            void shouldNotDeleteTaskWhenAnotherUserTriesToDeleteIt() throws Exception {
+                // Cria tarefa com o primeiro usuário
+                String createResponse = mockMvc.perform(post("/api/tasks")
+                                .header("X-User-Id", userId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"title":"Task to Delete","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        """))
+                        .andExpect(status().isCreated())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
+
+                // Cria um segundo usuário
+                var secondUser = aSecondUser();
+                UUID secondUserId = secondUser.getId();
+                userJpaRepository.save(secondUser);
+
+                // Segundo usuário tenta deletar a tarefa do primeiro usuário
+                // A resposta é 204 (idempotente - como se a tarefa não existisse para ele)
+                mockMvc.perform(delete("/api/tasks/{taskId}", createdTask.id())
+                                .header("X-User-Id", secondUserId))
+                        .andExpect(status().isNoContent());
+
+                // CRITICAL: Verifica que a tarefa NÃO foi deletada
+                // Ainda deve existir no banco e ser acessível pelo dono
+                assertThat(taskJpaRepository.count()).isEqualTo(1);
+
+                // Confirma que o primeiro usuário ainda pode acessar sua tarefa
+                mockMvc.perform(get("/api/tasks/{taskId}", createdTask.id())
+                                .header("X-User-Id", userId))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.id").value(createdTask.id().toString()))
+                        .andExpect(jsonPath("$.title").value("Task to Delete"));
             }
         }
 
@@ -565,7 +607,8 @@ class TaskControllerIT extends AbstractIntegrationTest {
             void shouldReturnBadRequestWhenTaskIdFormatIsInvalid() throws Exception {
                 String invalidId = "invalid-uuid-format";
 
-                mockMvc.perform(delete("/api/tasks/{taskId}", invalidId))
+                mockMvc.perform(delete("/api/tasks/{taskId}", invalidId)
+                                .header("X-User-Id", userId))
                         .andExpect(status().isBadRequest());
             }
         }

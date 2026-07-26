@@ -22,12 +22,13 @@ class DeleteTaskServiceTest {
     private DeleteTaskService deleteTaskService;
 
     @Test
-    @DisplayName("should delegate deletion to repository by id")
-    void shouldDelegateDeletionToRepositoryById() {
+    @DisplayName("should delegate deletion to repository by id and owner id")
+    void shouldDelegateDeletionToRepositoryByIdAndOwnerId() {
         UUID taskId = UUID.randomUUID();
+        UUID userId = UUID.randomUUID();
 
-        deleteTaskService.execute(taskId);
+        deleteTaskService.execute(taskId, userId);
 
-        verify(taskRepository).deleteById(taskId);
+        verify(taskRepository).deleteByIdAndOwnerId(taskId, userId);
     }
 }

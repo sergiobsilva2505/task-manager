@@ -99,8 +99,8 @@ public class TaskController {
     }
 
     @DeleteMapping("/tasks/{taskId}")
-    public ResponseEntity<Void> deleteTask(@PathVariable UUID taskId) {
-        deleteTaskUseCase.execute(taskId);
+    public ResponseEntity<Void> deleteTask(@PathVariable UUID taskId, @CurrentUserId UUID currentUserId) {
+        deleteTaskUseCase.execute(taskId, currentUserId);
         return ResponseEntity.noContent().build();
     }
 }

@@ -16,11 +16,9 @@ public interface TaskRepositoryPort {
 
     Task update(Task task);
 
-    void delete(Task task);
-
     List<Task> findAll();
 
     PagedResult<Task> findAll(PageQuery query);
 
-    void deleteById(UUID taskId);
+    void deleteByIdAndOwnerId(UUID id, UUID ownerId);
 }

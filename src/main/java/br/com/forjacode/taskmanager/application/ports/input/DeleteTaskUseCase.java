@@ -4,5 +4,5 @@ import java.util.UUID;
 
 public interface DeleteTaskUseCase {
 
-    void execute(UUID taskId);
+    void execute(UUID taskId, UUID userId);
 }
