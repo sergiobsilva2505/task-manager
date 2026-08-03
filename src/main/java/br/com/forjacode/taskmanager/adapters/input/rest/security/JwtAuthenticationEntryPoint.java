@@ -1,9 +1,8 @@
 package br.com.forjacode.taskmanager.adapters.input.rest.security;
 
-
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
@@ -14,6 +13,7 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
+@NullMarked
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
@@ -24,7 +24,8 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     }
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException authException)
             throws IOException {
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(

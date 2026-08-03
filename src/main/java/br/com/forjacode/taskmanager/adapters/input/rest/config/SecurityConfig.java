@@ -5,7 +5,6 @@ import br.com.forjacode.taskmanager.adapters.input.rest.security.JwtAuthenticati
 import br.com.forjacode.taskmanager.application.ports.output.TokenGeneratorPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
