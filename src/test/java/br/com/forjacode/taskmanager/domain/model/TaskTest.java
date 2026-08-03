@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.ZoneId;
 import java.util.UUID;
 
@@ -26,7 +25,7 @@ class TaskTest {
         @Test
         @DisplayName("should create task with valid data")
         void shouldCreateTaskWithValidData() {
-            LocalDateTime dueDate = LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1);
+            LocalDateTime dueDate = LocalDateTime.now().plusDays(1);
             UUID ownerId = UUID.randomUUID();
 
             Task task = Task.create("Pay bills", "Monthly bills", Priority.HIGH, dueDate, ownerId);
@@ -51,7 +50,7 @@ class TaskTest {
         @Test
         @DisplayName("should throw exception when title is null")
         void shouldThrowExceptionWhenTitleIsNull() {
-            LocalDateTime dueDate = LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1);
+            LocalDateTime dueDate = LocalDateTime.now().plusDays(1);
             UUID ownerId = UUID.randomUUID();
 
             assertThatThrownBy(() -> Task.create(null, "description", Priority.MEDIUM, dueDate, ownerId))
@@ -62,7 +61,7 @@ class TaskTest {
         @Test
         @DisplayName("should throw exception when title is blank")
         void shouldThrowExceptionWhenTitleIsBlank() {
-            LocalDateTime dueDate = LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1);
+            LocalDateTime dueDate = LocalDateTime.now().plusDays(1);
             UUID ownerId = UUID.randomUUID();
 
             assertThatThrownBy(() -> Task.create("   ", "description", Priority.MEDIUM, dueDate, ownerId))
@@ -73,7 +72,7 @@ class TaskTest {
         @Test
         @DisplayName("should throw exception when priority is null")
         void shouldThrowExceptionWhenPriorityIsNull() {
-            LocalDateTime dueDate = LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1);
+            LocalDateTime dueDate = LocalDateTime.now().plusDays(1);
             UUID ownerId = UUID.randomUUID();
 
             assertThatThrownBy(() -> Task.create("Task", "description", null, dueDate, ownerId))
@@ -160,7 +159,7 @@ class TaskTest {
         @Test
         @DisplayName("should throw exception when owner id is null")
         void shouldThrowExceptionWhenOwnerIdIsNull() {
-            LocalDateTime dueDate = LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1);
+            LocalDateTime dueDate = LocalDateTime.now().plusDays(1);
 
             assertThatThrownBy(() -> Task.create("Task", "description", Priority.MEDIUM, dueDate, null))
                     .isInstanceOf(MissingRequiredFieldException.class)
@@ -176,7 +175,7 @@ class TaskTest {
         @DisplayName("should change status from TODO to IN_PROGRESS")
         void shouldChangeStatusFromTodoToInProgress() {
             UUID ownerId = UUID.randomUUID();
-            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1), ownerId);
+            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.now().plusDays(1), ownerId);
             Instant previousUpdatedAt = task.getUpdatedAt();
 
             task.changeStatus(Status.IN_PROGRESS);
@@ -189,7 +188,7 @@ class TaskTest {
         @DisplayName("should change status from IN_PROGRESS to DONE")
         void shouldChangeStatusFromInProgressToDone() {
             UUID ownerId = UUID.randomUUID();
-            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1), ownerId);
+            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.now().plusDays(1), ownerId);
             task.changeStatus(Status.IN_PROGRESS);
 
             task.changeStatus(Status.DONE);
@@ -201,7 +200,7 @@ class TaskTest {
         @DisplayName("should throw exception when changing status from TODO to DONE")
         void shouldThrowExceptionWhenChangingStatusFromTodoToDone() {
             UUID ownerId = UUID.randomUUID();
-            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1), ownerId);
+            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.now().plusDays(1), ownerId);
 
             assertThatThrownBy(() -> task.changeStatus(Status.DONE))
                     .isInstanceOf(InvalidStatusTransitionException.class)
@@ -212,7 +211,7 @@ class TaskTest {
         @DisplayName("should throw exception when changing status to same status")
         void shouldThrowExceptionWhenChangingStatusToSameStatus() {
             UUID ownerId = UUID.randomUUID();
-            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1), ownerId);
+            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.now().plusDays(1), ownerId);
 
             assertThatThrownBy(() -> task.changeStatus(Status.TODO))
                     .isInstanceOf(InvalidStatusTransitionException.class)
@@ -223,7 +222,7 @@ class TaskTest {
         @DisplayName("should change status from TODO to CANCELLED")
         void shouldChangeStatusFromTodoToCancelled() {
             UUID ownerId = UUID.randomUUID();
-            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1), ownerId);
+            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.now().plusDays(1), ownerId);
 
             task.changeStatus(Status.CANCELLED);
 
@@ -234,7 +233,7 @@ class TaskTest {
         @DisplayName("should change status from IN_PROGRESS to CANCELLED")
         void shouldChangeStatusFromInProgressToCancelled() {
             UUID ownerId = UUID.randomUUID();
-            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1), ownerId);
+            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.now().plusDays(1), ownerId);
             task.changeStatus(Status.IN_PROGRESS);
 
             task.changeStatus(Status.CANCELLED);
@@ -246,7 +245,7 @@ class TaskTest {
         @DisplayName("should throw exception when changing status from DONE to CANCELLED")
         void shouldThrowExceptionWhenChangingStatusFromDoneToCancelled() {
             UUID ownerId = UUID.randomUUID();
-            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1), ownerId);
+            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.now().plusDays(1), ownerId);
             task.changeStatus(Status.IN_PROGRESS);
             task.changeStatus(Status.DONE);
 
@@ -259,7 +258,7 @@ class TaskTest {
         @DisplayName("should throw exception when changing status from CANCELLED to DONE")
         void shouldThrowExceptionWhenChangingStatusFromCancelledToDone() {
             UUID ownerId = UUID.randomUUID();
-            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1), ownerId);
+            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.now().plusDays(1), ownerId);
             task.changeStatus(Status.CANCELLED);
 
             assertThatThrownBy(() -> task.changeStatus(Status.DONE))
@@ -271,7 +270,7 @@ class TaskTest {
         @DisplayName("should throw exception when changing status from IN_PROGRESS to TODO")
         void shouldThrowExceptionWhenChangingStatusFromInProgressToTodo() {
             UUID ownerId = UUID.randomUUID();
-            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1), ownerId);
+            Task task = Task.create("Task", "description", Priority.LOW, LocalDateTime.now().plusDays(1), ownerId);
             task.changeStatus(Status.IN_PROGRESS);
 
             assertThatThrownBy(() -> task.changeStatus(Status.TODO))
@@ -289,8 +288,8 @@ class TaskTest {
         void shouldReconstructTaskWithPersistedData() {
             UUID id = UUID.randomUUID();
             UUID ownerId = UUID.randomUUID();
-            Instant createdAt = Instant.parse("2026-07-18T10:00:00Z");
-            Instant updatedAt = Instant.parse("2026-07-18T12:00:00Z");
+            Instant createdAt = Instant.now();
+            Instant updatedAt = createdAt.plusSeconds(7200); // 2 horas depois
             LocalDateTime dueDate = createdAt.atZone(ZoneId.systemDefault()).toLocalDateTime().plusDays(2);
 
             Task task = Task.reconstruct(id, "Task", "description", Status.IN_PROGRESS, Priority.HIGH, dueDate, ownerId, createdAt, updatedAt);

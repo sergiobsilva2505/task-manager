@@ -6,8 +6,9 @@ import br.com.forjacode.taskmanager.application.ports.input.DeleteTaskUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.GetTaskByIdUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.ListTasksUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.RegisterUserUseCase;
+import br.com.forjacode.taskmanager.application.ports.output.PasswordHasherPort;
 import br.com.forjacode.taskmanager.application.ports.output.TaskRepositoryPort;
-import br.com.forjacode.taskmanager.application.ports.output.UserRepositoryPort;
+import br.com.forjacode.taskmanager.application.ports.output.UserRegistrationPort;
 import br.com.forjacode.taskmanager.application.service.ChangeTaskStatusService;
 import br.com.forjacode.taskmanager.application.service.CreateTaskService;
 import br.com.forjacode.taskmanager.application.service.DeleteTaskService;
@@ -46,7 +47,8 @@ public class UseCaseConfig {
     }
 
     @Bean
-    public RegisterUserUseCase registerUserUseCase(UserRepositoryPort userRepositoryPort) {
-        return new RegisterUserService(userRepositoryPort);
+    public RegisterUserUseCase registerUserUseCase(UserRegistrationPort userRegistrationPort,
+            PasswordHasherPort passwordHasherPort) {
+        return new RegisterUserService(userRegistrationPort, passwordHasherPort);
     }
 }

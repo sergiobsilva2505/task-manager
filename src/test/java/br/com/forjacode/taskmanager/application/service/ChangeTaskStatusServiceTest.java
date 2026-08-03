@@ -16,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -48,7 +47,7 @@ class ChangeTaskStatusServiceTest {
         @DisplayName("should change status from TODO to IN_PROGRESS")
         void shouldChangeStatusFromTodoToInProgress() {
             UUID taskId = UUID.randomUUID();
-            Task task = Task.create("Task title", "Task description", Priority.MEDIUM, LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1), ownerId);
+            Task task = Task.create("Task title", "Task description", Priority.MEDIUM, LocalDateTime.now().plusDays(1), ownerId);
             ChangeTaskStatusCommand command = new ChangeTaskStatusCommand(taskId, Status.IN_PROGRESS, ownerId);
 
             when(repositoryPort.findById(taskId)).thenReturn(Optional.of(task));
@@ -65,7 +64,7 @@ class ChangeTaskStatusServiceTest {
         @DisplayName("should change status from IN_PROGRESS to DONE")
         void shouldChangeStatusFromInProgressToDone() {
             UUID taskId = UUID.randomUUID();
-            Task task = Task.create("Task title", "Task description", Priority.HIGH, LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(2), ownerId);
+            Task task = Task.create("Task title", "Task description", Priority.HIGH, LocalDateTime.now().plusDays(2), ownerId);
             task.changeStatus(Status.IN_PROGRESS);
             ChangeTaskStatusCommand command = new ChangeTaskStatusCommand(taskId, Status.DONE, ownerId);
 
@@ -83,10 +82,10 @@ class ChangeTaskStatusServiceTest {
         @DisplayName("should return the task returned by the repository, not the locally mutated one")
         void shouldReturnTaskReturnedByRepository() {
             UUID taskId = UUID.randomUUID();
-            Task task = Task.create("Task title", "Task description", Priority.LOW, LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(3), ownerId);
+            Task task = Task.create("Task title", "Task description", Priority.LOW, LocalDateTime.now().plusDays(3), ownerId);
             ChangeTaskStatusCommand command = new ChangeTaskStatusCommand(taskId, Status.IN_PROGRESS, ownerId);
 
-            Task updatedTaskFromRepository = Task.create("Task title", "Task description", Priority.LOW, LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(3), ownerId);
+            Task updatedTaskFromRepository = Task.create("Task title", "Task description", Priority.LOW, LocalDateTime.now().plusDays(3), ownerId);
             updatedTaskFromRepository.changeStatus(Status.IN_PROGRESS);
 
             when(repositoryPort.findById(taskId)).thenReturn(Optional.of(task));
@@ -123,7 +122,7 @@ class ChangeTaskStatusServiceTest {
         @DisplayName("should throw InvalidStatusTransitionException when changing from TODO to DONE")
         void shouldThrowInvalidStatusTransitionExceptionWhenChangingFromTodoToDone() {
             UUID taskId = UUID.randomUUID();
-            Task task = Task.create("Task title", "Task description", Priority.MEDIUM, LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1), ownerId);
+            Task task = Task.create("Task title", "Task description", Priority.MEDIUM, LocalDateTime.now().plusDays(1), ownerId);
             ChangeTaskStatusCommand command = new ChangeTaskStatusCommand(taskId, Status.DONE, ownerId);
 
             when(repositoryPort.findById(taskId)).thenReturn(Optional.of(task));
@@ -139,7 +138,7 @@ class ChangeTaskStatusServiceTest {
         @DisplayName("should throw InvalidStatusTransitionException when changing from DONE to any status")
         void shouldThrowInvalidStatusTransitionExceptionWhenChangingFromDone() {
             UUID taskId = UUID.randomUUID();
-            Task task = Task.create("Task title", "Task description", Priority.HIGH, LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1), ownerId);
+            Task task = Task.create("Task title", "Task description", Priority.HIGH, LocalDateTime.now().plusDays(1), ownerId);
             task.changeStatus(Status.IN_PROGRESS);
             task.changeStatus(Status.DONE);
             ChangeTaskStatusCommand command = new ChangeTaskStatusCommand(taskId, Status.TODO, ownerId);

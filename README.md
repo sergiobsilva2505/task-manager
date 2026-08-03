@@ -214,6 +214,14 @@ integração (com Docker):
   `@ServiceConnection` continua presente (é o mecanismo do Spring Boot que lê a conexão do container, independente de
   quem gerencia seu ciclo de vida). Investigação completa, com todos os comandos e hipóteses testadas, documentada em [
   `docs/investigacao-testcontainers-connection-refused.md`](docs/investigacao-testcontainers-connection-refused.md).
+- **Nunca usar datas fixas absolutas em testes — sempre relativas a `LocalDateTime.now()`:** alguns testes de `Task`
+  fixavam `dueDate` com uma data absoluta (ex: `LocalDateTime.of(2026, Month.AUGUST, 1, ...)`), inicialmente introduzida
+  para evitar o "magic number" apontado pelo SonarQube (`Month.AUGUST` em vez do inteiro `8`). O problema: uma data fixa
+  no futuro deixa de ser válida assim que o calendário a ultrapassa — o que aconteceu literalmente um dia após
+  `2026-08-01`, quebrando 14 testes em cascata (`TaskTest`, `CreateTaskServiceTest`, `ChangeTaskStatusServiceTest`) com
+  `InvalidInputException: Due date cannot be before creation date`. A correção (e a regra adotada daqui em diante) é
+  usar sempre `LocalDateTime.now().plusDays(N)` — o uso de constantes de enum (`Month.AUGUST`) resolve a legibilidade do
+  número mágico sem exigir uma data fixa; as duas preocupações são independentes.
 
 ---
 

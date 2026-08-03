@@ -17,7 +17,7 @@ headers {
 body:json {
   {
     "name": "Segundo Usuario Teste",
-    "email": "segundo.usuario@exemplo.com"
+    "email": "terceiro.usuario@exemplo.com"
   }
 }
 
@@ -29,10 +29,10 @@ docs {
   Registra um segundo usuário, útil para testar cenários de isolamento
   entre usuários (ex: usuário B tentando acessar/alterar/remover uma
   tarefa que pertence ao usuário A).
-
+  
   O id retornado é salvo na variável {{secondUserId}} — use-o no header
   X-User-Id dos requests que simulam o "outro usuário".
-
+  
   Erros possíveis: 409 Conflict se o email já estiver em uso (rode uma
   vez só, ou ajuste o email no corpo antes de repetir).
 }

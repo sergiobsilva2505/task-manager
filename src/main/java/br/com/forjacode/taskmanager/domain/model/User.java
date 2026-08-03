@@ -15,18 +15,35 @@ public class User {
     private final Instant createdAt;
 
     private User(UUID id, String name, String email, Instant createdAt) {
-        if (name == null || name.isBlank()) throw new MissingRequiredFieldException("Name cannot be null or blank");
-        if (name.length() < 3 || name.length() > 160)
-            throw new InvalidInputException("Name must be between 3 and 160 characters");
-        if (email == null || email.isBlank()) throw new MissingRequiredFieldException("Email cannot be null or blank");
-        if (createdAt == null) throw new MissingRequiredFieldException("CreatedAt cannot be null");
-        if (!name.matches("^[\\p{L}\\s'-]+$")) {
-            throw new InvalidInputException("Name must contain only letters, spaces, hyphens or apostrophes");
-        }
+
+        validateRequiredFields(name, email, createdAt);
+        validateNameFormat(name);
+
         this.id = id;
         this.name = name;
         this.email = email;
         this.createdAt = createdAt;
+    }
+
+    private static void validateRequiredFields(String name, String email, Instant createdAt) {
+        if (name == null || name.isBlank()) {
+            throw new MissingRequiredFieldException("Name cannot be null or blank");
+        }
+        if (email == null || email.isBlank()) {
+            throw new MissingRequiredFieldException("Email cannot be null or blank");
+        }
+        if (createdAt == null) {
+            throw new MissingRequiredFieldException("CreatedAt cannot be null");
+        }
+    }
+
+    private static void validateNameFormat(String name) {
+        if (name.length() < 3 || name.length() > 160) {
+            throw new InvalidInputException("Name must be between 3 and 160 characters");
+        }
+        if (!name.matches("^[\\p{L}\\s'-]+$")) {
+            throw new InvalidInputException("Name must contain only letters, spaces, hyphens or apostrophes");
+        }
     }
 
     public static User create(String name, String email) {

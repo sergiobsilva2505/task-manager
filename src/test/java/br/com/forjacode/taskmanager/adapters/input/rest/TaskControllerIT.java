@@ -79,7 +79,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                                 .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
                                         """))
                         .andExpect(status().isCreated())
                         .andExpect(header().exists("Location"))
@@ -103,7 +103,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                                 .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        {"title":"","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
                                         """))
                         .andExpect(status().isBadRequest())
                         .andExpect(jsonPath("$.title").value("Validation Failed"))
@@ -133,7 +133,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                                 .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task","description":"desc","priority":null,"dueDate":"2026-08-01T10:00:00"}
+                                        {"title":"Task","description":"desc","priority":null,"dueDate":"2027-08-01T10:00:00"}
                                         """))
                         .andExpect(status().isBadRequest())
                         .andExpect(jsonPath("$.title").value("Validation Failed"))
@@ -158,7 +158,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                                 .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"My Task","description":"Task description","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        {"title":"My Task","description":"Task description","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
                                         """))
                         .andExpect(status().isCreated())
                         .andReturn()
@@ -203,7 +203,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                                 .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"My Task","description":"Task description","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        {"title":"My Task","description":"Task description","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
                                         """))
                         .andExpect(status().isCreated())
                         .andReturn()
@@ -243,7 +243,7 @@ class TaskControllerIT extends IntegrationTestSupport {
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task B","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        {"title":"Task B","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
                                         """))
                         .andExpect(status().isCreated());
 
@@ -252,7 +252,7 @@ class TaskControllerIT extends IntegrationTestSupport {
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task A","description":"desc","priority":"MEDIUM","dueDate":"2026-08-02T10:00:00"}
+                                        {"title":"Task A","description":"desc","priority":"MEDIUM","dueDate":"2027-08-02T10:00:00"}
                                         """))
                         .andExpect(status().isCreated());
 
@@ -279,7 +279,7 @@ class TaskControllerIT extends IntegrationTestSupport {
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task 1","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        {"title":"Task 1","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
                                         """))
                         .andExpect(status().isCreated());
 
@@ -288,7 +288,7 @@ class TaskControllerIT extends IntegrationTestSupport {
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task 2","description":"desc","priority":"LOW","dueDate":"2026-08-03T10:00:00"}
+                                        {"title":"Task 2","description":"desc","priority":"LOW","dueDate":"2027-08-03T10:00:00"}
                                         """))
                         .andExpect(status().isCreated());
 
@@ -309,7 +309,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                                 .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"User A Task 1","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        {"title":"User A Task 1","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
                                         """))
                         .andExpect(status().isCreated());
 
@@ -317,7 +317,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                                 .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"User A Task 2","description":"desc","priority":"MEDIUM","dueDate":"2026-08-02T10:00:00"}
+                                        {"title":"User A Task 2","description":"desc","priority":"MEDIUM","dueDate":"2027-08-02T10:00:00"}
                                         """))
                         .andExpect(status().isCreated());
 
@@ -331,7 +331,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                                 .header("X-User-Id", secondUserId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"User B Task 1","description":"desc","priority":"LOW","dueDate":"2026-08-03T10:00:00"}
+                                        {"title":"User B Task 1","description":"desc","priority":"LOW","dueDate":"2027-08-03T10:00:00"}
                                         """))
                         .andExpect(status().isCreated());
 
@@ -381,7 +381,7 @@ class TaskControllerIT extends IntegrationTestSupport {
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task only","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        {"title":"Task only","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
                                         """))
                         .andExpect(status().isCreated());
 
@@ -590,7 +590,7 @@ class TaskControllerIT extends IntegrationTestSupport {
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task to Delete","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        {"title":"Task to Delete","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
                                         """))
                         .andExpect(status().isCreated())
                         .andReturn()
@@ -624,7 +624,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                                 .header("X-User-Id", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task to Delete","description":"desc","priority":"HIGH","dueDate":"2026-08-01T10:00:00"}
+                                        {"title":"Task to Delete","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
                                         """))
                         .andExpect(status().isCreated())
                         .andReturn()

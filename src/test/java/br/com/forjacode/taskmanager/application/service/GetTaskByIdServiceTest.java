@@ -109,8 +109,8 @@ class GetTaskByIdServiceTest {
         @DisplayName("should throw exception when task exists but belongs to another user")
         void shouldThrowExceptionWhenTaskBelongsToAnotherUser() {
             UUID anotherUserId = UUID.randomUUID();
-            Instant now = Instant.parse("2026-08-01T12:00:00Z");
-            LocalDateTime dueDate = LocalDateTime.of(2026, Month.AUGUST, 1, 12, 0).plusDays(1);
+            Instant now = Instant.now();
+            LocalDateTime dueDate = LocalDateTime.now().plusDays(1);
 
             Task task = Task.reconstruct(
                 taskId,

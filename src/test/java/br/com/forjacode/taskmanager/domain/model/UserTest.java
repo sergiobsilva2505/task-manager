@@ -174,7 +174,7 @@ class UserTest {
             @DisplayName("should reconstruct user with valid data")
             void shouldReconstructUserWithValidData() {
                 UUID id = UUID.randomUUID();
-                Instant createdAt = Instant.parse("2026-07-26T10:00:00Z");
+                Instant createdAt = Instant.now().minusSeconds(604800); // 7 dias atrás
 
                 User user = User.reconstruct(id, "John Doe", "john@example.com", createdAt);
 
