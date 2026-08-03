@@ -59,7 +59,7 @@ class UserControllerIT extends IntegrationTestSupport {
                 mockMvc.perform(post("/api/users")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"name":"John Doe","email":"john.doe@example.com","password":"password123"}
+                                        {"name":"John Doe","email":"john.doe@example.com","password":"SenhaForte123!"}
                                         """))
                         .andExpect(status().isCreated())
                         .andExpect(header().exists("Location"))
@@ -75,7 +75,7 @@ class UserControllerIT extends IntegrationTestSupport {
                 mockMvc.perform(post("/api/users")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"name":"Mary-Jane","email":"mary@example.com","password":"password123"}
+                                        {"name":"Mary-Jane","email":"mary@example.com","password":"SenhaForte123!"}
                                         """))
                         .andExpect(status().isCreated())
                         .andExpect(jsonPath("$.name").value("Mary-Jane"));
@@ -87,7 +87,7 @@ class UserControllerIT extends IntegrationTestSupport {
                 mockMvc.perform(post("/api/users")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"name":"O'Connor","email":"oconnor@example.com","password":"password123"}
+                                        {"name":"O'Connor","email":"oconnor@example.com","password":"SenhaForte123!"}
                                         """))
                         .andExpect(status().isCreated())
                         .andExpect(jsonPath("$.name").value("O'Connor"));
@@ -99,7 +99,7 @@ class UserControllerIT extends IntegrationTestSupport {
                 mockMvc.perform(post("/api/users")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"name":"José García","email":"jose@example.com","password":"password123"}
+                                        {"name":"José García","email":"jose@example.com","password":"SenhaForte123!"}
                                         """))
                         .andExpect(status().isCreated())
                         .andExpect(jsonPath("$.name").value("José García"));
@@ -111,7 +111,7 @@ class UserControllerIT extends IntegrationTestSupport {
                 mockMvc.perform(post("/api/users")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"name":"Ana","email":"ana@example.com","password":"password123"}
+                                        {"name":"Ana","email":"ana@example.com","password":"SenhaForte123!"}
                                         """))
                         .andExpect(status().isCreated())
                         .andExpect(jsonPath("$.name").value("Ana"));
@@ -124,7 +124,7 @@ class UserControllerIT extends IntegrationTestSupport {
                 mockMvc.perform(post("/api/users")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"name":"%s","email":"user@example.com","password":"password123"}
+                                        {"name":"%s","email":"user@example.com","password":"SenhaForte123!"}
                                         """.formatted(longName)))
                         .andExpect(status().isCreated())
                         .andExpect(jsonPath("$.name").value(longName));
@@ -136,14 +136,14 @@ class UserControllerIT extends IntegrationTestSupport {
                 mockMvc.perform(post("/api/users")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"name":"John Doe","email":"john@example.com","password":"password123"}
+                                        {"name":"John Doe","email":"john@example.com","password":"SenhaForte123!"}
                                         """))
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(post("/api/users")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"name":"Jane Smith","email":"jane@example.com","password":"password123"}
+                                        {"name":"Jane Smith","email":"jane@example.com","password":"SenhaForte123!"}
                                         """))
                         .andExpect(status().isCreated());
             }
