@@ -1,0 +1,35 @@
+meta {
+  name: Login Second User
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/auth/login
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "{{secondUserEmail}}",
+    "password": "{{secondUserPassword}}"
+  }
+}
+
+vars:post-response {
+  secondUserToken: res.body.token
+}
+
+docs {
+  Autentica o segundo usuário de teste, usado nos cenários de isolamento
+  (ex: "Get Task By Id - Belongs To Another User").
+
+  Depende de "Register Second User" (pasta Users) ter rodado antes.
+
+  O token é salvo automaticamente na variável {{secondUserToken}}.
+}

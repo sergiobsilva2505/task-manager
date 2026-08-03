@@ -20,7 +20,6 @@ public interface TaskRestMapper {
     @Mapping(source = "currentUserId", target = "ownerId")
     CreateTaskCommand toCommand(CreateTaskRequest createTaskRequest, UUID currentUserId);
 
-
     TaskResponse toResponse(Task task);
 
     List<TaskResponse> toResponse(List<Task> tasks);

@@ -26,13 +26,10 @@ public class Task {
 
     private Task(UUID id, String title, String description, Status status, Priority priority, LocalDateTime dueDate,
             UUID ownerId, Instant createdAt, Instant updatedAt) {
-        if (title == null || title.isBlank()) throw new MissingRequiredFieldException("Title cannot be null or blank");
-        if (priority == null) throw new MissingRequiredFieldException("Priority cannot be null");
-        if (dueDate == null) throw new MissingRequiredFieldException("Due date cannot be null");
-        if (dueDate.isBefore(createdAt.atZone(ZoneId.systemDefault()).toLocalDateTime())) {
-            throw new InvalidInputException("Due date cannot be before creation date");
-        }
-         if (ownerId == null) throw new MissingRequiredFieldException("Owner ID cannot be null");
+
+        validateRequiredFields(title, priority, dueDate, ownerId);
+        validateDueDate(dueDate, createdAt);
+
         this.id = id;
         this.title = title;
         this.status = status;
@@ -44,7 +41,29 @@ public class Task {
         this.updatedAt = updatedAt;
     }
 
-    public static Task create(String title, String description, Priority priority, LocalDateTime dueDate, UUID ownerId) {
+    private static void validateRequiredFields(String title, Priority priority, LocalDateTime dueDate, UUID ownerId) {
+        if (title == null || title.isBlank()) {
+            throw new MissingRequiredFieldException("Title cannot be null or blank");
+        }
+        if (priority == null) {
+            throw new MissingRequiredFieldException("Priority cannot be null");
+        }
+        if (dueDate == null) {
+            throw new MissingRequiredFieldException("Due date cannot be null");
+        }
+        if (ownerId == null) {
+            throw new MissingRequiredFieldException("Owner ID cannot be null");
+        }
+    }
+
+    private static void validateDueDate(LocalDateTime dueDate, Instant createdAt) {
+        if (dueDate.isBefore(createdAt.atZone(ZoneId.systemDefault()).toLocalDateTime())) {
+            throw new InvalidInputException("Due date cannot be before creation date");
+        }
+    }
+
+    public static Task create(String title, String description, Priority priority, LocalDateTime dueDate,
+            UUID ownerId) {
         Instant now = Instant.now();
         return new Task(UUID.randomUUID(), title, description, Status.TODO, priority, dueDate, ownerId, now, now);
     }

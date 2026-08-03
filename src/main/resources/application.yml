@@ -28,6 +28,10 @@ app:
     allowed-headers: "*"
 #    allow-credentials: true
 
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-minutes: 60
+
 spring:
   application:
     name: task-manager

@@ -11,14 +11,14 @@ get {
 }
 
 headers {
-  X-User-Id: {{currentUserId}}
+  Authorization: Bearer {{token}}
 }
 
 docs {
-  Lista as tarefas do usuário identificado por X-User-Id, com os
+  Lista as tarefas do usuário identificado pelo token, com os
   valores padrão: page=0, size=20, sortField=CREATED_AT, sortDirection=DESC.
 
-  Depende da variável {{currentUserId}}. Rode "Register User" antes.
+  Depende da variável {{token}}. Rode "Register User" (pasta Users) e "Login" (pasta Auth) antes.
 
   Resposta esperada: 200 OK, com content, page, size, totalElements e totalPages.
 }

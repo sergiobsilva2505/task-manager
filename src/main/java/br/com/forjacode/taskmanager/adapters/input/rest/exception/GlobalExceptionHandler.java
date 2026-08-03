@@ -1,6 +1,7 @@
 package br.com.forjacode.taskmanager.adapters.input.rest.exception;
 
 import br.com.forjacode.taskmanager.domain.exception.EmailAlreadyInUseException;
+import br.com.forjacode.taskmanager.domain.exception.InvalidCredentialsException;
 import br.com.forjacode.taskmanager.domain.exception.InvalidInputException;
 import br.com.forjacode.taskmanager.domain.exception.InvalidStatusTransitionException;
 import br.com.forjacode.taskmanager.domain.exception.MissingCurrentUserException;
@@ -97,6 +98,14 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleEmailAlreadyInUseException(EmailAlreadyInUseException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
         problemDetail.setTitle("Email Already In Use");
+        problemDetail.setProperty("path", extractPath(request));
+        return problemDetail;
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ProblemDetail handleInvalidCredentialsException(InvalidCredentialsException ex, WebRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
+        problemDetail.setTitle("Invalid Credentials");
         problemDetail.setProperty("path", extractPath(request));
         return problemDetail;
     }

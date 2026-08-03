@@ -12,7 +12,7 @@ patch {
 
 headers {
   Content-Type: application/json
-  X-User-Id: {{currentUserId}}
+  Authorization: Bearer {{token}}
 }
 
 body:json {
@@ -23,9 +23,9 @@ body:json {
 
 docs {
   Altera o status de uma tarefa existente (transição válida), exigindo
-  que ela pertença ao usuário identificado pelo header X-User-Id.
+  que ela pertença ao usuário identificado pelo token.
 
-  Depende das variáveis {{taskId}} e {{currentUserId}}. Rode "Register User"
+  Depende das variáveis {{taskId}} e {{token}}. Rode "Register User" (pasta Users) e "Login"
   e "Create Task" antes.
 
   Resposta esperada: 200 OK, com o corpo da tarefa refletindo o novo status.

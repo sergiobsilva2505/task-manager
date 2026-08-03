@@ -11,13 +11,13 @@ get {
 }
 
 headers {
-  X-User-Id: {{currentUserId}}
+  Authorization: Bearer {{token}}
 }
 
 docs {
   Exemplo de cenário de erro: busca por um id que não existe.
 
-  Depende da variável {{currentUserId}}. Rode "Register User" antes.
+  Depende da variável {{token}}. Rode "Register User" (pasta Users) e "Login" (pasta Auth) antes.
 
   Resposta esperada: 404 Not Found, formato application/problem+json,
   com title "Task Not Found" e detail contendo o id buscado.

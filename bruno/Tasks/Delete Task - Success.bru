@@ -11,14 +11,14 @@ delete {
 }
 
 headers {
-  X-User-Id: {{currentUserId}}
+  Authorization: Bearer {{token}}
 }
 
 docs {
   Remove uma tarefa existente, exigindo que ela pertença ao usuário
-  identificado pelo header X-User-Id.
+  identificado pelo token.
 
-  Depende das variáveis {{taskId}} e {{currentUserId}}. Rode "Register User"
+  Depende das variáveis {{taskId}} e {{token}}. Rode "Register User" (pasta Users) e "Login"
   e "Create Task" antes.
 
   Resposta esperada: 204 No Content, sem corpo.

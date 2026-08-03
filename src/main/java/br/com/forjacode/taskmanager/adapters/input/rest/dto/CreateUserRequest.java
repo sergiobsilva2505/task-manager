@@ -12,5 +12,10 @@ public record CreateUserRequest(
         String name,
         @NotBlank
         @Email
-        String email) {
+        String email,
+        @NotBlank
+        @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$",
+                message = "Password must contain at least one uppercase letter, one number, and one special character")
+        @Size(min = 8, max = 72)
+        String password) {
 }

@@ -11,13 +11,13 @@ delete {
 }
 
 headers {
-  X-User-Id: {{currentUserId}}
+  Authorization: Bearer {{token}}
 }
 
 docs {
   Exemplo de idempotência: remove uma tarefa que não existe.
 
-  Depende da variável {{currentUserId}}. Rode "Register User" antes.
+  Depende da variável {{token}}. Rode "Register User" (pasta Users) e "Login" (pasta Auth) antes.
 
   Diferente de GetTaskById/ChangeTaskStatus (que retornam 404 para
   ID inexistente), DELETE segue a semântica de idempotência da spec

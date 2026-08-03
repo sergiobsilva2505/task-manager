@@ -33,6 +33,8 @@ jobs:
 
       - name: Build e testes com Maven
         run: mvn -B clean verify
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
       - name: Publicar artefato da aplicacao (JAR)
         uses: actions/upload-artifact@v6

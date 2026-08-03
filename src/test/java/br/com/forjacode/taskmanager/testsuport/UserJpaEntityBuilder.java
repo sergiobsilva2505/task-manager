@@ -34,7 +34,7 @@ public class UserJpaEntityBuilder {
                 .id(UUID.randomUUID())
                 .name("Third User")
                 .email("thirdUser@example.com")
-                .createdAt(Instant.parse("2026-08-01T12:00:00Z"))
+                .createdAt(Instant.now())
                 .build();
     }
 

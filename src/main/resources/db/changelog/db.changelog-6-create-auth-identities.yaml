@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: sergio
+      changes:
+        - createTable:
+            tableName: auth_identities
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_auth_identities_user
+                    references: users(id)
+              - column:
+                  name: provider
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password_hash
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: provider_user_id
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: auth_identities
+            columnNames: user_id, provider
+            constraintName: uk_auth_identities_user_provider

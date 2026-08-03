@@ -1,6 +1,10 @@
 package br.com.forjacode.taskmanager.adapters.input.rest;
 
 import br.com.forjacode.taskmanager.IntegrationTestSupport;
+import br.com.forjacode.taskmanager.adapters.output.persistence.AuthIdentityJpaRepository;
+import br.com.forjacode.taskmanager.adapters.output.persistence.UserJpaRepository;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -23,6 +27,27 @@ class UserControllerIT extends IntegrationTestSupport {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private AuthIdentityJpaRepository authIdentityJpaRepository;
+
+    @Autowired
+    private UserJpaRepository userJpaRepository;
+
+    @BeforeEach
+    void setUp() {
+        cleanDatabase();
+    }
+
+    @AfterEach
+    void tearDown() {
+        cleanDatabase();
+    }
+
+    private void cleanDatabase() {
+        authIdentityJpaRepository.deleteAll();
+        userJpaRepository.deleteAll();
+    }
+
     @Nested
     @DisplayName("Create user")
     class CreateUser {
@@ -37,7 +62,7 @@ class UserControllerIT extends IntegrationTestSupport {
                 mockMvc.perform(post("/api/users")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"name":"John Doe","email":"john.doe@example.com"}
+                                        {"name":"John Doe","email":"john.doe@example.com","password":"SenhaForte123!"}
                                         """))
                         .andExpect(status().isCreated())
                         .andExpect(header().exists("Location"))
@@ -53,7 +78,7 @@ class UserControllerIT extends IntegrationTestSupport {
                 mockMvc.perform(post("/api/users")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"name":"Mary-Jane","email":"mary@example.com"}
+                                        {"name":"Mary-Jane","email":"mary@example.com","password":"SenhaForte123!"}
                                         """))
                         .andExpect(status().isCreated())
                         .andExpect(jsonPath("$.name").value("Mary-Jane"));
@@ -65,7 +90,7 @@ class UserControllerIT extends IntegrationTestSupport {
                 mockMvc.perform(post("/api/users")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"name":"O'Connor","email":"oconnor@example.com"}
+                                        {"name":"O'Connor","email":"oconnor@example.com","password":"SenhaForte123!"}
                                         """))
                         .andExpect(status().isCreated())
                         .andExpect(jsonPath("$.name").value("O'Connor"));
@@ -77,7 +102,7 @@ class UserControllerIT extends IntegrationTestSupport {
                 mockMvc.perform(post("/api/users")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"name":"José García","email":"jose@example.com"}
+                                        {"name":"José García","email":"jose@example.com","password":"SenhaForte123!"}
                                         """))
                         .andExpect(status().isCreated())
                         .andExpect(jsonPath("$.name").value("José García"));
@@ -89,7 +114,7 @@ class UserControllerIT extends IntegrationTestSupport {
                 mockMvc.perform(post("/api/users")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"name":"Ana","email":"ana@example.com"}
+                                        {"name":"Ana","email":"ana@example.com","password":"SenhaForte123!"}
                                         """))
                         .andExpect(status().isCreated())
                         .andExpect(jsonPath("$.name").value("Ana"));
@@ -102,7 +127,7 @@ class UserControllerIT extends IntegrationTestSupport {
                 mockMvc.perform(post("/api/users")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"name":"%s","email":"user@example.com"}
+                                        {"name":"%s","email":"user@example.com","password":"SenhaForte123!"}
                                         """.formatted(longName)))
                         .andExpect(status().isCreated())
                         .andExpect(jsonPath("$.name").value(longName));
@@ -114,14 +139,14 @@ class UserControllerIT extends IntegrationTestSupport {
                 mockMvc.perform(post("/api/users")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"name":"John Doe","email":"john@example.com"}
+                                        {"name":"John Doe","email":"john@example.com","password":"SenhaForte123!"}
                                         """))
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(post("/api/users")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"name":"Jane Smith","email":"jane@example.com"}
+                                        {"name":"Jane Smith","email":"jane@example.com","password":"SenhaForte123!"}
                                         """))
                         .andExpect(status().isCreated());
             }

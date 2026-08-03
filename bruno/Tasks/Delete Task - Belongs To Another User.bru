@@ -11,19 +11,19 @@ delete {
 }
 
 headers {
-  X-User-Id: {{secondUserId}}
+  Authorization: Bearer {{secondUserToken}}
 }
 
 docs {
   Exemplo de isolamento entre usuários: tenta remover uma tarefa que
-  pertence a outro usuário, usando o header X-User-Id de um segundo
-  usuário ({{secondUserId}}).
+  pertence a outro usuário, usando o header Authorization com o token
+  do segundo usuário ({{secondUserToken}}).
 
-  Depende de "Create Task" (dono original) e "Register Second User"
-  (pasta Users) terem rodado antes.
+  Depende de "Create Task" (dono original) e "Register Second User" +
+  "Login Second User" (pasta Auth) terem rodado antes.
 
   Resposta esperada: 204 No Content (idempotente — resposta idêntica
   à de "não existe"). A tarefa NÃO é removida; confirme rodando
-  "Get Task By Id" com {{currentUserId}} logo em seguida — ela ainda
+  "Get Task By Id" com {{token}} logo em seguida — ela ainda
   deve existir.
 }

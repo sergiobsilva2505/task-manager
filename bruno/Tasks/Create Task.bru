@@ -12,7 +12,7 @@ post {
 
 headers {
   Content-Type: application/json
-  X-User-Id: {{currentUserId}}
+  Authorization: Bearer {{token}}
 }
 
 body:json {
@@ -20,7 +20,7 @@ body:json {
     "title": "Minha primeira tarefa",
     "description": "Descrição da tarefa",
     "priority": "HIGH",
-    "dueDate": "2026-08-01T10:00:00"
+    "dueDate": "2027-08-01T10:00:00"
   }
 }
 
@@ -29,9 +29,9 @@ vars:post-response {
 }
 
 docs {
-  Cria uma nova tarefa, pertencente ao usuário identificado pelo header X-User-Id.
+  Cria uma nova tarefa, pertencente ao usuário identificado pelo token (claim sub).
 
-  Depende da variável {{currentUserId}}. Rode "Register User" (pasta Users) antes.
+  Depende da variável {{token}}. Rode "Register User" e "Login" (pasta Auth) antes.
 
   Campos obrigatórios: title, priority, dueDate.
   dueDate deve ser presente ou futuro (validação de borda) e não pode
@@ -42,5 +42,5 @@ docs {
   nos demais requests de Tasks.
 
   Erros possíveis: 400 Bad Request (application/problem+json) para
-  campos ausentes/inválidos ou header X-User-Id ausente/malformado.
+  campos ausentes/inválidos, ou token ausente/inválido/expirado (401).
 }
