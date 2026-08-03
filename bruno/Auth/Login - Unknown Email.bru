@@ -1,0 +1,30 @@
+meta {
+  name: Login - Unknown Email
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/auth/login
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "naoexiste@exemplo.com",
+    "password": "QualquerSenha123!"
+  }
+}
+
+docs {
+  Exemplo de cenário de erro: email não cadastrado.
+
+  Resposta esperada: 401 Unauthorized, mesma mensagem genérica de
+  "Login - Invalid Credentials" ("Invalid email or password") — prova
+  de que a API não vaza quais emails existem no sistema.
+}

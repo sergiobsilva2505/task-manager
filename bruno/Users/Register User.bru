@@ -17,7 +17,8 @@ headers {
 body:json {
   {
     "name": "Sergio Bezerra da Silva",
-    "email": "sergio@exemplo.com"
+    "email": "{{userEmail}}",
+    "password": "{{userPassword}}"
   }
 }
 
@@ -28,16 +29,19 @@ vars:post-response {
 docs {
   Registra um novo usuário.
 
-  Campos obrigatórios: name (3-160 caracteres), email (formato válido).
+  Campos obrigatórios: name (3-160 caracteres), email (formato válido),
+  password (mínimo 8 caracteres, máximo 72, com pelo menos uma maiúscula,
+  um número e um caractere especial).
 
-  Resposta esperada: 201 Created, com header Location e o corpo do usuário criado.
-  O id retornado é salvo automaticamente na variável {{currentUserId}},
-  usada como valor do header X-User-Id em todos os requests de Tasks.
+  Resposta esperada: 201 Created, com header Location e o corpo do usuário criado
+  (sem a senha — ela nunca é retornada em nenhuma resposta da API).
+  O id retornado é salvo automaticamente na variável {{currentUserId}}.
 
   Erros possíveis:
   - 400 Bad Request (application/problem+json) para campos ausentes/inválidos.
   - 409 Conflict quando o email já está em uso.
 
-  Rode este request primeiro (ou "Register Second User", se quiser testar
-  cenários de isolamento entre usuários) antes de qualquer request da pasta Tasks.
+  Rode este request e depois "Login" (pasta Auth) antes de qualquer
+  request da pasta Tasks — os endpoints de Task exigem o header
+  Authorization: Bearer {{token}}, obtido no login.
 }

@@ -23,9 +23,12 @@
 - [x] Cobertura de teste completa para `User` (domínio, serviço, persistência, API) e validação de formato de nome;
   padronização de todos os `*ServiceTest` no mesmo estilo (sem duplicar validação de domínio)
 - [x] CI (GitHub Actions) rodando build + testes + Qodana a cada push/PR
-- [ ] Autenticação JWT (substituindo o header `X-User-Id` temporário) — em andamento: `AuthIdentity`, registro com
-  senha, login e emissão de token já implementados; falta o filtro de validação de token e a atualização do
-  `CurrentUserIdArgumentResolver`
+- [x] Autenticação JWT completa: `AuthIdentity` (multi-provider, `LOCAL`/`GOOGLE`), registro com senha (hash BCrypt,
+  transação atômica User+AuthIdentity), login com mensagem de erro genérica, emissão e validação de token (HS256, 1h de
+  expiração, sem refresh), filtro de autenticação (`JwtAuthenticationFilter`), `CurrentUserIdArgumentResolver` migrado
+  do header `X-User-Id` para o `SecurityContextHolder`, `401` consistente via `AuthenticationEntryPoint` customizado
+- [ ] Login social (Google) — estrutura de `AuthIdentity` já preparada para múltiplos providers, faltando o fluxo
+  OAuth2/OIDC em si
 - [ ] Deploy (Docker + cloud)
 - [ ] Avaliar SonarQube/SonarCloud no CI (complementar ao Qodana já configurado) — retomar ao final do projeto
 - [ ] Definir estratégia e padrão de logging (o que logar, em qual nível, formato) — task dedicada

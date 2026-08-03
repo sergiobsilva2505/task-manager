@@ -11,16 +11,16 @@ get {
 }
 
 headers {
-  X-User-Id: {{secondUserId}}
+  Authorization: Bearer {{secondUserToken}}
 }
 
 docs {
   Exemplo de isolamento entre usuários: tenta buscar uma tarefa que
-  pertence a outro usuário (criada com {{currentUserId}}), usando o
-  header X-User-Id de um segundo usuário ({{secondUserId}}).
+  pertence a outro usuário (criada com {{token}}), usando o header
+  Authorization com o token do segundo usuário ({{secondUserToken}}).
 
-  Depende de "Create Task" (dono original) e "Register Second User"
-  (pasta Users) terem rodado antes.
+  Depende de "Create Task" (dono original) e "Register Second User" +
+  "Login Second User" (pasta Auth) terem rodado antes.
 
   Resposta esperada: 404 Not Found — mesma resposta de "não existe",
   para não vazar a existência do recurso a quem não tem acesso.

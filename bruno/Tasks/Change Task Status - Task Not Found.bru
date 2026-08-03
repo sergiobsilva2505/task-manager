@@ -12,7 +12,7 @@ patch {
 
 headers {
   Content-Type: application/json
-  X-User-Id: {{currentUserId}}
+  Authorization: Bearer {{token}}
 }
 
 body:json {
@@ -25,7 +25,7 @@ docs {
   Exemplo de cenário de erro: tenta alterar o status de uma tarefa
   que não existe.
 
-  Depende da variável {{currentUserId}}. Rode "Register User" antes.
+  Depende da variável {{token}}. Rode "Register User" (pasta Users) e "Login" (pasta Auth) antes.
 
   Resposta esperada: 404 Not Found, formato application/problem+json,
   title "Task Not Found".

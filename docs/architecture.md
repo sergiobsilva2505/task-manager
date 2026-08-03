@@ -91,13 +91,47 @@ Nunca o inverso. O `domain` não conhece `application`; o `application` não con
   mesmo estado final observável. `DeleteTaskService` delega direto para
   `TaskRepositoryPort.deleteByIdAndOwnerId(id, ownerId)`, sem buscar a tarefa antes — evitando uma consulta
   desnecessária e mantendo o comportamento realmente livre de ramificação de erro, mesmo com isolamento por dono.
-- **Multiusuário com autenticação simulada (etapa intermediária antes do JWT):** cada `Task` pertence a um `User`
-  (`ownerId`, com `FOREIGN KEY` no banco). Como a autenticação real (JWT) ainda não existe, o "usuário atual" é
-  resolvido a partir do header **`X-User-Id`** — obrigatório em todo endpoint de `Task`, extraído por um
-  `HandlerMethodArgumentResolver` customizado (`CurrentUserIdArgumentResolver`, acionado via a anotação
-  `@CurrentUserId`) que injeta o valor diretamente como parâmetro do Controller. O header ausente ou malformado resulta
-  em `400 Bad Request`. Esse mecanismo é deliberadamente temporário: quando o JWT for implementado, só o resolver muda
-  (passa a decodificar o token em vez de ler o header) — nenhum Controller ou caso de uso precisa ser alterado.
+- **Multiusuário com JWT (a autenticação simulada via header foi substituída):** cada `Task` pertence a um `User`
+  (`ownerId`, com `FOREIGN KEY` no banco). O "usuário atual" é resolvido a partir de um token JWT validado
+  (`Authorization: Bearer <token>`), extraído por um `HandlerMethodArgumentResolver` customizado
+  (`CurrentUserIdArgumentResolver`, acionado via a anotação `@CurrentUserId`) que lê o `userId` do
+  `SecurityContextHolder`, populado por um `JwtAuthenticationFilter`. **Nota histórica:** antes do JWT existir, esse
+  mesmo mecanismo lia um header temporário `X-User-Id` diretamente — a decisão de isolar a resolução do usuário atual
+  atrás de `@CurrentUserId`/`HandlerMethodArgumentResolver` desde o início se provou correta: a migração do header para
+  o JWT não exigiu alterar nenhum Controller ou caso de uso, só o filtro e o próprio resolver.
+- **`AuthIdentity` como entidade separada de `User`, preparada para múltiplos providers:** a senha (e, futuramente,
+  credenciais de provedores externos como Google) não fica em `User` — fica em `AuthIdentity` (`userId`, `provider` [
+  `LOCAL`/`GOOGLE`], `passwordHash` nullable, `providerUserId` nullable), com uma constraint
+  `UNIQUE (user_id, provider)` no banco. Isso separa "identidade" (`User`) de "método de autenticação" (`AuthIdentity`),
+  permitindo um usuário ter múltiplos métodos de login vinculados à mesma conta no futuro, sem exigir migração de schema
+  quando um novo provider for adicionado.
+- **Registro de usuário como transação atômica entre `User` e `AuthIdentity`:** para evitar um `User` "órfão" (sem
+  credencial) caso a segunda gravação falhe, existe uma porta dedicada (`UserRegistrationPort`) cujo adapter
+  (`UserRegistrationAdapter`) demarca a transação com `@Transactional`, salvando os dois agregados juntos. Essa é a
+  única concessão de anotação Spring fora da camada `adapters` estrita — decisão consciente de criar uma porta nova em
+  vez de anotar o `RegisterUserService` diretamente, mantendo a camada `application` livre de Spring mesmo nesse caso.
+- **Hash de senha via porta própria (`PasswordHasherPort`):** a camada `application` não conhece `BCryptPasswordEncoder`
+  diretamente — só a interface `hash`/`matches`. O adapter (`BCryptPasswordHasherAdapter`) mora em
+  `adapters/output/security`, um pacote irmão de `adapters/output/persistence`, já que hash de senha é infraestrutura de
+  segurança, não persistência.
+- **Login com mensagem de erro genérica, sempre idêntica:** e-mail inexistente, `AuthIdentity` ausente e senha incorreta
+  lançam a mesma `InvalidCredentialsException`, sem parâmetro de mensagem customizável (o construtor não aceita
+  `message`, de propósito) — evita que qualquer chamador vaze acidentalmente qual dos três motivos causou a falha,
+  prevenindo enumeração de e-mails cadastrados.
+- **Token JWT: access token curto, sem refresh, assinado com HMAC:** expiração de 1 hora, sem mecanismo de renovação
+  automática — decisão consciente de simplicidade para o estágio atual do projeto (usuário precisa logar novamente ao
+  expirar). A claim do token carrega só o `userId` (`sub`), nada de e-mail/nome, já que o payload de um JWT não é
+  criptografado, apenas assinado — qualquer dado ali é legível por quem tiver o token.
+- **Filtro de autenticação nunca bloqueia a requisição diretamente:** `JwtAuthenticationFilter` sempre chama
+  `filterChain.doFilter(...)`, independente do token ser válido ou não — ele só popula (ou não) o
+  `SecurityContextHolder`. Quem decide se a ausência de autenticação é um problema é o `SecurityConfig`
+  (`.anyRequest().authenticated()`), mantendo a responsabilidade de autorização centralizada em um único lugar.
+- **`401`, não `403`, para falha de autenticação:** o Spring Security usa `403 Forbidden` como fallback padrão para
+  qualquer falha de autenticação quando nenhum `AuthenticationEntryPoint` é configurado — semanticamente incorreto
+  (deveria ser `401 Unauthorized`, já que é ausência de identidade, não falta de permissão). Um
+  `JwtAuthenticationEntryPoint` customizado corrige o status e também garante que a resposta segue o mesmo formato
+  `ProblemDetail` (RFC 7807) do resto da API, mesmo esse erro nascendo fora do alcance do `GlobalExceptionHandler` (no
+  filtro de segurança, antes do `DispatcherServlet`).
 - **`404`, não `403`, quando a tarefa não pertence ao usuário atual:** `GetTaskById` e `ChangeTaskStatus` tratam "tarefa
   não existe" e "tarefa existe mas pertence a outro usuário" com a **mesma resposta** (`404 Not Found`, mesma mensagem),
   usando `Optional.filter(...)` para colapsar os dois casos antes do `orElseThrow`. Isso evita vazar a existência de

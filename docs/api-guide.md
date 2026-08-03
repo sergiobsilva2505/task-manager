@@ -1,8 +1,9 @@
 # API Guide
 
-> ⚠️ **Todo endpoint de `Task` exige o header `X-User-Id`** (um UUID de usuário já registrado). Ele identifica o
-> "usuário atual" enquanto a autenticação real (JWT) não é implementada — sem ele, a API responde `400 Bad Request`.
-> Ver [decisões de design](architecture.md#decisões-de-design) para o motivo.
+> ⚠️ **Todo endpoint de `Task` exige autenticação** via header `Authorization: Bearer <token>` — obtido em [
+`POST /api/auth/login`](#-autenticação). Sem um token válido, a API responde `401 Unauthorized`.
+> Ver [decisões de design](architecture.md#decisões-de-design) para o histórico (esse mecanismo substituiu um header
+> `X-User-Id` temporário usado antes do JWT estar implementado).
 
 ## 💓 Status da aplicação
 
@@ -27,9 +28,13 @@
 ```json
 {
     "name": "Sergio Bezerra da Silva",
-    "email": "sergio@exemplo.com"
+    "email": "sergio@exemplo.com",
+    "password": "SenhaForte123!"
 }
 ```
+
+**Regras de senha:** mínimo 8 caracteres (máximo 72, limite do algoritmo BCrypt), com pelo menos uma letra maiúscula, um
+número e um caractere especial.
 
 **Resposta:** `201 Created` (com header `Location` apontando para o recurso criado)
 
@@ -42,13 +47,49 @@
 }
 ```
 
+> A senha nunca é retornada em nenhuma resposta da API — nem em texto puro, nem como hash.
+
 **Erros possíveis:**
 
-- `400 Bad Request` quando `name`/`email` estão ausentes, `name` fora do intervalo de 3-160 caracteres ou contendo
-  caracteres além de letras/espaços/hífen/apóstrofo (ex: números), ou `email` com formato inválido.
+- `400 Bad Request` quando `name`/`email`/`password` estão ausentes ou fora do formato exigido (ver regras de senha
+  acima; `name` fora do intervalo de 3-160 caracteres ou contendo caracteres além de letras/espaços/hífen/apóstrofo;
+  `email` com formato inválido).
 - `409 Conflict` quando o `email` já está em uso por outro usuário.
 
-> O `id` retornado aqui é o valor a ser usado no header `X-User-Id` em todos os endpoints de `Task`.
+</details>
+
+---
+
+## 🔐 Autenticação
+
+<details>
+<summary>🔑 Login</summary>
+
+**POST** `/api/auth/login`
+
+```json
+{
+    "email": "sergio@exemplo.com",
+    "password": "SenhaForte123!"
+}
+```
+
+**Resposta:** `200 OK`
+
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiJ9...",
+    "expiresAt": "2026-08-03T02:40:19.949398100Z",
+    "userId": "ff593b42-f4fc-4466-bab7-c7513bbcd665"
+}
+```
+
+O `token` retornado deve ser enviado no header `Authorization: Bearer <token>` em todo endpoint de `Task`. O token
+expira em **1 hora** — não há renovação automática (refresh token); expirado, é necessário logar novamente.
+
+**Erros possíveis:** `401 Unauthorized` quando o e-mail não existe **ou** a senha está incorreta — a API retorna sempre
+a mesma mensagem genérica (`"Invalid email or password"`) nos dois casos, para não revelar quais e-mails estão
+cadastrados no sistema.
 
 </details>
 
@@ -86,7 +127,7 @@
 ```
 
 **Erros possíveis:** `400 Bad Request` (formato `application/problem+json`, RFC 7807) para campos obrigatórios ausentes,
-prazo inválido, falha de validação de formato, ou header `X-User-Id` ausente/malformado.
+prazo inválido, falha de validação de formato, ou token ausente/inválido/expirado.
 
 </details>
 
@@ -111,8 +152,8 @@ prazo inválido, falha de validação de formato, ou header `X-User-Id` ausente/
 ```
 
 **Erros possíveis:** `404 Not Found` (formato `application/problem+json`) quando o `id` não existe **ou pertence a outro
-usuário** (mesma resposta nos dois casos, por segurança). `400 Bad Request` quando o `id` não é um UUID válido, ou o
-header `X-User-Id` está ausente/malformado.
+usuário** (mesma resposta nos dois casos, por segurança). `400 Bad Request` quando o `id` não é um UUID válido.
+`401 Unauthorized` quando o token está ausente/inválido/expirado.
 
 </details>
 
@@ -130,7 +171,7 @@ header `X-User-Id` está ausente/malformado.
 | `sortField`     | `CREATED_AT` | `TITLE`, `CREATED_AT`, `DUE_DATE`, `PRIORITY` |
 | `sortDirection` | `DESC`       | `ASC`, `DESC`                                 |
 
-**Resposta:** `200 OK` — contém apenas tarefas do usuário identificado pelo header `X-User-Id`.
+**Resposta:** `200 OK` — contém apenas tarefas do usuário identificado pelo token.
 
 ```json
 {
@@ -154,7 +195,7 @@ header `X-User-Id` está ausente/malformado.
 ```
 
 **Erros possíveis:** `400 Bad Request` quando `sortField`/`sortDirection` recebem um valor fora da whitelist (ex:
-`?sortField=NAOEXISTE`), ou o header `X-User-Id` está ausente/malformado.
+`?sortField=NAOEXISTE`). `401 Unauthorized` quando o token está ausente/inválido/expirado.
 
 </details>
 
@@ -191,8 +232,8 @@ header `X-User-Id` está ausente/malformado.
 
 - `404 Not Found` quando o `id` não existe **ou pertence a outro usuário** (mesma resposta nos dois casos).
 - `400 Bad Request` quando a transição de status é inválida (ex: pular etapa), quando o campo `status` está ausente,
-  quando o valor enviado não corresponde a nenhum status válido (corpo JSON malformado), ou o header `X-User-Id` está
-  ausente/malformado.
+  quando o valor enviado não corresponde a nenhum status válido (corpo JSON malformado). `401 Unauthorized` quando o
+  token está ausente/inválido/expirado.
 
 </details>
 
@@ -204,8 +245,8 @@ header `X-User-Id` está ausente/malformado.
 **Resposta:** `204 No Content` — sempre, independentemente de o `id` existir, pertencer a outro usuário, ou não existir
 (operação idempotente; ver [decisão de design](architecture.md#decisões-de-design)).
 
-**Erros possíveis:** `400 Bad Request` quando o `id` informado não é um UUID válido, ou o header `X-User-Id` está
-ausente/malformado.
+**Erros possíveis:** `400 Bad Request` quando o `id` informado não é um UUID válido. `401 Unauthorized` quando o token
+está ausente/inválido/expirado.
 
 </details>
 

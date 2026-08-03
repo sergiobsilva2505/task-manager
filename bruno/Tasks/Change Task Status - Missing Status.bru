@@ -12,7 +12,7 @@ patch {
 
 headers {
   Content-Type: application/json
-  X-User-Id: {{currentUserId}}
+  Authorization: Bearer {{token}}
 }
 
 body:json {
@@ -22,7 +22,7 @@ body:json {
 docs {
   Exemplo de cenário de erro: corpo da requisição sem o campo "status".
 
-  Depende das variáveis {{taskId}} e {{currentUserId}}. Rode "Register User"
+  Depende das variáveis {{taskId}} e {{token}}. Rode "Register User" (pasta Users) e "Login"
   e "Create Task" antes.
 
   Resposta esperada: 400 Bad Request, formato application/problem+json,

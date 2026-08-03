@@ -12,7 +12,7 @@ patch {
 
 headers {
   Content-Type: application/json
-  X-User-Id: {{currentUserId}}
+  Authorization: Bearer {{token}}
 }
 
 body:json {
@@ -25,7 +25,7 @@ docs {
   Exemplo de cenário de erro: tenta pular etapa (ex: TODO -> DONE
   direto, sem passar por IN_PROGRESS).
 
-  Depende das variáveis {{taskId}} e {{currentUserId}}. Rode "Register User"
+  Depende das variáveis {{taskId}} e {{token}}. Rode "Register User" (pasta Users) e "Login"
   e "Create Task" antes (a tarefa nasce em TODO, então essa transição
   deve ser rejeitada).
 

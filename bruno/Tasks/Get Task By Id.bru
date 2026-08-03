@@ -11,19 +11,19 @@ get {
 }
 
 headers {
-  X-User-Id: {{currentUserId}}
+  Authorization: Bearer {{token}}
 }
 
 docs {
   Busca uma tarefa pelo id, exigindo que ela pertença ao usuário
-  identificado pelo header X-User-Id.
+  identificado pelo token.
 
-  Depende das variáveis {{taskId}} e {{currentUserId}}. Rode "Register User"
+  Depende das variáveis {{taskId}} e {{token}}. Rode "Register User" (pasta Users) e "Login"
   e "Create Task" antes (ou defina manualmente na aba de variáveis do
   environment/request para testar um id específico).
 
   Resposta esperada: 200 OK com o corpo da tarefa.
   Erros possíveis: 404 Not Found (application/problem+json) quando o id
   não existe ou pertence a outro usuário; 400 Bad Request se o header
-  X-User-Id estiver ausente/malformado.
+  token estiver ausente/inválido/expirado (401).
 }
