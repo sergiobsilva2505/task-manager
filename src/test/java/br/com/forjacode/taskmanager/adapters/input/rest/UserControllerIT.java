@@ -3,7 +3,6 @@ package br.com.forjacode.taskmanager.adapters.input.rest;
 import br.com.forjacode.taskmanager.IntegrationTestSupport;
 import br.com.forjacode.taskmanager.adapters.output.persistence.AuthIdentityJpaRepository;
 import br.com.forjacode.taskmanager.adapters.output.persistence.UserJpaRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -35,12 +34,6 @@ class UserControllerIT extends IntegrationTestSupport {
 
     @BeforeEach
     void setUp() {
-        authIdentityJpaRepository.deleteAll();
-        userJpaRepository.deleteAll();
-    }
-
-    @AfterEach
-    void tearDown() {
         authIdentityJpaRepository.deleteAll();
         userJpaRepository.deleteAll();
     }

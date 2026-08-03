@@ -35,6 +35,7 @@ class CurrentUserIdArgumentResolverTest {
     @SuppressWarnings("unused")
     private void dummyMethod(@CurrentUserId UUID annotatedUuidParam, UUID plainUuidParam,
             @CurrentUserId String annotatedStringParam) {
+        // apenas para ajudar na resolução de parâmetros, não será chamado
     }
 
     private MethodParameter parameterAt(int index) throws NoSuchMethodException {
