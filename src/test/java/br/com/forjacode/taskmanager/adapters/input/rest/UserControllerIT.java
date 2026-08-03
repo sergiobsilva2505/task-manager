@@ -35,12 +35,15 @@ class UserControllerIT extends IntegrationTestSupport {
 
     @BeforeEach
     void setUp() {
-        authIdentityJpaRepository.deleteAll();
-        userJpaRepository.deleteAll();
+        cleanDatabase();
     }
 
     @AfterEach
     void tearDown() {
+        cleanDatabase();
+    }
+
+    private void cleanDatabase() {
         authIdentityJpaRepository.deleteAll();
         userJpaRepository.deleteAll();
     }
