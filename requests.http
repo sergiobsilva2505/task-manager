@@ -1,0 +1,88 @@
+###
+# curl -i -X POST http://localhost:8080/api/users
+#  -H "Content-Type: application/json"
+#  -d '{"name":"Sergio Bezerra","email":"teste-jwt@exemplo.com","password":"SenhaForte123!"}'
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+    "name": "Sergio Bezerra",
+    "email": "teste-jwt@exemplo.com",
+    "password": "SenhaForte123!"
+}
+
+###
+
+# curl -i -X POST http://localhost:8080/api/auth/login
+#  -H "Content-Type: application/json"
+#  -d '{"email":"teste-jwt@exemplo.com","password":"SenhaForte123!"}'
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "teste-jwt@exemplo.com",
+    "password": "SenhaForte123!"
+}
+
+###
+
+
+# curl -i -X POST http://localhost:8080/api/auth/login
+#  -H "Content-Type: application/json"
+#  -d '{"email":"teste-jwt@exemplo.com","password":"SenhaErrada999!"}'
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "teste-jwt@exemplo.com",
+    "password": "SenhaErrada999!"
+}
+
+###
+
+
+# curl -i -X POST http://localhost:8080/api/auth/login
+#  -H "Content-Type: application/json"
+#  -d '{"email":"naoexiste@exemplo.com","password":"QualquerCoisa123!"}'
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "naoexiste@exemplo.com",
+    "password": "QualquerCoisa123!"
+}
+
+###
+
+
+# curl -i http://localhost:8080/api/tasks
+GET http://localhost:8080/api/tasks
+
+###
+
+# curl -i -X POST http://localhost:8080/api/auth/login
+#  -H "Content-Type: application/json"
+#  -d '{"email":"teste-jwt@exemplo.com","password":"SenhaForte123!"}'
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "teste-jwt@exemplo.com",
+    "password": "SenhaForte123!"
+}
+
+###
+
+# curl -i http://localhost:8080/api/tasks
+#  -H "Authorization: Bearer <cole o token aqui>"
+GET http://localhost:8080/api/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZjU5M2I0Mi1mNGZjLTQ0NjYtYmFiNy1jNzUxM2JiY2Q2NjUiLCJpYXQiOjE3ODU3ODg1ODMsImV4cCI6MTc4NTc5MjE4M30.An4JpHOqXAtUGcmJa1wrMv95Y0hTd23nPZXTQc0O7Fg
+
+###
+
+# curl -i http://localhost:8080/api/tasks
+#  -H "Authorization: Bearer token.invalido.aqui"
+GET http://localhost:8080/api/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZjU5M2I0Mi1mNGZjTQ0NjYtYmFiNy1jNzUxM2JiY2Q2NjUiLCJpYXQiOjE3ODU3ODc5MTksImV4cCI6MTc4NTc5MTUxOX0.TR408NZae1QlZZEBGpYnGk5kpw7vmaRbVGvSP5dkgbA
+
+###

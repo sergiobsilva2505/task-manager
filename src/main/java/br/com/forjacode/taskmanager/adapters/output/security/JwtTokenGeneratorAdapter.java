@@ -2,6 +2,7 @@ package br.com.forjacode.taskmanager.adapters.output.security;
 
 import br.com.forjacode.taskmanager.application.ports.output.GeneratedToken;
 import br.com.forjacode.taskmanager.application.ports.output.TokenGeneratorPort;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -12,6 +13,7 @@ import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -39,5 +41,21 @@ public class JwtTokenGeneratorAdapter implements TokenGeneratorPort {
                 .compact();
 
         return new GeneratedToken(token, expiresAt);
+    }
+
+    @Override
+    public Optional<UUID> validate(String token) {
+        try {
+            String subject = Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload()
+                    .getSubject();
+
+            return Optional.of(UUID.fromString(subject));
+        } catch (JwtException | IllegalArgumentException e) {
+            return Optional.empty();
+        }
     }
 }

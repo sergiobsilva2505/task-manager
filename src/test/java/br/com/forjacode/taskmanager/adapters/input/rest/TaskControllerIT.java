@@ -1,9 +1,14 @@
 package br.com.forjacode.taskmanager.adapters.input.rest;
 
 import br.com.forjacode.taskmanager.IntegrationTestSupport;
+import br.com.forjacode.taskmanager.adapters.input.rest.dto.LoginResponse;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.TaskResponse;
+import br.com.forjacode.taskmanager.adapters.output.persistence.AuthIdentityJpaEntity;
+import br.com.forjacode.taskmanager.adapters.output.persistence.AuthIdentityJpaRepository;
 import br.com.forjacode.taskmanager.adapters.output.persistence.TaskJpaRepository;
+import br.com.forjacode.taskmanager.adapters.output.persistence.UserJpaEntity;
 import br.com.forjacode.taskmanager.adapters.output.persistence.UserJpaRepository;
+import br.com.forjacode.taskmanager.domain.model.enums.AuthProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,9 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
+import java.time.Instant;
 import java.util.UUID;
 
 import static br.com.forjacode.taskmanager.testsuport.UserJpaEntityBuilder.aSecondUser;
@@ -44,24 +51,52 @@ class TaskControllerIT extends IntegrationTestSupport {
     private UserJpaRepository userJpaRepository;
 
     @Autowired
+    private AuthIdentityJpaRepository authIdentityJpaRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
-    private UUID userId;
+    private static final String DEFAULT_PASSWORD = "SenhaForte123!";
+
+    private String userToken;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         taskJpaRepository.deleteAll();
+        authIdentityJpaRepository.deleteAll();
         userJpaRepository.deleteAll();
 
         var user = anUser();
-        userId = user.getId();
         userJpaRepository.save(user);
+        userToken = createAuthIdentityAndLogin(user);
     }
 
     @AfterEach
     void tearDown() {
         taskJpaRepository.deleteAll();
+        authIdentityJpaRepository.deleteAll();
         userJpaRepository.deleteAll();
+    }
+
+    private String createAuthIdentityAndLogin(UserJpaEntity user) throws Exception {
+        authIdentityJpaRepository.save(new AuthIdentityJpaEntity(
+                UUID.randomUUID(), user.getId(), AuthProvider.LOCAL,
+                passwordEncoder.encode(DEFAULT_PASSWORD), null, Instant.now()));
+
+        String response = mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"email":"%s","password":"%s"}
+                                """.formatted(user.getEmail(), DEFAULT_PASSWORD)))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        return objectMapper.readValue(response, LoginResponse.class).token();
     }
 
     @Nested
@@ -76,7 +111,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             @DisplayName("should create task with valid request")
             void shouldCreateTaskWithValidRequest() throws Exception {
                 mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
@@ -100,7 +135,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             @DisplayName("should return bad request when title is blank")
             void shouldReturnBadRequestWhenTitleIsBlank() throws Exception {
                 mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
@@ -115,7 +150,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             @DisplayName("should return bad request when due date is in the past")
             void shouldReturnBadRequestWhenDueDateIsInThePast() throws Exception {
                 mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-07-24T10:00:00"}
@@ -130,7 +165,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             @DisplayName("should return bad request when priority is null")
             void shouldReturnBadRequestWhenPriorityIsNull() throws Exception {
                 mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task","description":"desc","priority":null,"dueDate":"2027-08-01T10:00:00"}
@@ -155,7 +190,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             @DisplayName("should return task when id exists")
             void shouldReturnTaskWhenIdExists() throws Exception {
                 String createResponse = mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"My Task","description":"Task description","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
@@ -168,7 +203,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                 TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
 
                 mockMvc.perform(get("/api/tasks/{taskId}", createdTask.id())
-                                .header("X-User-Id", userId))
+                                .header("Authorization", "Bearer " + userToken))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.id").value(createdTask.id().toString()))
                         .andExpect(jsonPath("$.title").value("My Task"))
@@ -188,7 +223,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                 String nonExistentId = "00000000-0000-0000-0000-000000000000";
 
                 mockMvc.perform(get("/api/tasks/{taskId}", nonExistentId)
-                                .header("X-User-Id", userId))
+                                .header("Authorization", "Bearer " + userToken))
                         .andExpect(status().isNotFound())
                         .andExpect(jsonPath("$.title").value("Task Not Found"))
                         .andExpect(jsonPath("$.detail").value(
@@ -200,7 +235,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             void shouldReturnNotFoundWhenTaskBelongsToAnotherUser() throws Exception {
                 // Cria tarefa com o primeiro usuário
                 String createResponse = mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"My Task","description":"Task description","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
@@ -214,13 +249,12 @@ class TaskControllerIT extends IntegrationTestSupport {
 
                 // Cria um segundo usuário com email único
                 var secondUser = aSecondUser();
-
-                UUID secondUserId = secondUser.getId();
                 userJpaRepository.save(secondUser);
+                String secondUserToken = createAuthIdentityAndLogin(secondUser);
 
                 // Tenta buscar a tarefa usando o segundo usuário
                 mockMvc.perform(get("/api/tasks/{taskId}", createdTask.id())
-                                .header("X-User-Id", secondUserId))
+                                .header("Authorization", "Bearer " + secondUserToken))
                         .andExpect(status().isNotFound())
                         .andExpect(jsonPath("$.title").value("Task Not Found"));
             }
@@ -239,7 +273,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             @DisplayName("should return paged tasks when request contains valid pagination and sorting")
             void shouldReturnPagedTasksWhenRequestContainsValidPaginationAndSorting() throws Exception {
                 mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
@@ -248,7 +282,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
@@ -257,7 +291,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(get("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .param("page", "0")
                                 .param("size", "1")
                                 .param("sortField", "TITLE")
@@ -275,7 +309,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             @DisplayName("should use default pagination and sorting when query params are omitted")
             void shouldUseDefaultPaginationAndSortingWhenQueryParamsAreOmitted() throws Exception {
                 mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
@@ -284,7 +318,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
@@ -293,7 +327,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(get("/api/tasks")
-                                .header("X-User-Id", userId))
+                                .header("Authorization", "Bearer " + userToken))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.page").value(0))
                         .andExpect(jsonPath("$.size").value(20))
@@ -306,7 +340,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             void shouldOnlyReturnTasksOwnedByTheUser() throws Exception {
                 // Usuário A cria duas tarefas
                 mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"User A Task 1","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
@@ -314,7 +348,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"User A Task 2","description":"desc","priority":"MEDIUM","dueDate":"2027-08-02T10:00:00"}
@@ -323,12 +357,12 @@ class TaskControllerIT extends IntegrationTestSupport {
 
                 // Cria um segundo usuário
                 var secondUser = aSecondUser();
-                UUID secondUserId = secondUser.getId();
                 userJpaRepository.save(secondUser);
+                String secondUserToken = createAuthIdentityAndLogin(secondUser);
 
                 // Usuário B cria uma tarefa
                 mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", secondUserId)
+                                .header("Authorization", "Bearer " + secondUserToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"User B Task 1","description":"desc","priority":"LOW","dueDate":"2027-08-03T10:00:00"}
@@ -337,7 +371,7 @@ class TaskControllerIT extends IntegrationTestSupport {
 
                 // CRITICAL: Usuário B lista suas tarefas e vê apenas a própria
                 mockMvc.perform(get("/api/tasks")
-                                .header("X-User-Id", secondUserId))
+                                .header("Authorization", "Bearer " + secondUserToken))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.totalElements").value(1))
                         .andExpect(jsonPath("$.content.length()").value(1))
@@ -345,7 +379,7 @@ class TaskControllerIT extends IntegrationTestSupport {
 
                 // Confirma que usuário A ainda vê suas 2 tarefas
                 mockMvc.perform(get("/api/tasks")
-                                .header("X-User-Id", userId))
+                                .header("Authorization", "Bearer " + userToken))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.totalElements").value(2))
                         .andExpect(jsonPath("$.content.length()").value(2))
@@ -365,7 +399,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             @DisplayName("should return bad request when sort field is invalid")
             void shouldReturnBadRequestWhenSortFieldIsInvalid() throws Exception {
                 mockMvc.perform(get("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .param("sortField", "INVALID_SORT")
                                 .param("sortDirection", "ASC"))
                         .andExpect(status().isBadRequest())
@@ -377,7 +411,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             @DisplayName("should return empty content when requested page exceeds available pages")
             void shouldReturnEmptyContentWhenRequestedPageExceedsAvailablePages() throws Exception {
                 mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
@@ -386,7 +420,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(get("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .param("page", "3")
                                 .param("size", "10"))
                         .andExpect(status().isOk())
@@ -409,7 +443,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             @DisplayName("should change status when transition is valid")
             void shouldChangeStatusWhenTransitionIsValid() throws Exception {
                 String createResponse = mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
@@ -423,7 +457,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                 TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
 
                 mockMvc.perform(patch("/api/tasks/{taskId}/status", createdTask.id())
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"status":"IN_PROGRESS"}
@@ -445,7 +479,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                 String nonExistentId = "00000000-0000-0000-0000-000000000000";
 
                 mockMvc.perform(patch("/api/tasks/{taskId}/status", nonExistentId)
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"status":"IN_PROGRESS"}
@@ -460,7 +494,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             @DisplayName("should return bad request when transition is invalid")
             void shouldReturnBadRequestWhenTransitionIsInvalid() throws Exception {
                 String createResponse = mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
@@ -474,7 +508,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                 TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
 
                 mockMvc.perform(patch("/api/tasks/{taskId}/status", createdTask.id())
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"status":"DONE"}
@@ -488,7 +522,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             @DisplayName("should return bad request when status is missing")
             void shouldReturnBadRequestWhenStatusIsMissing() throws Exception {
                 String createResponse = mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
@@ -502,7 +536,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                 TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
 
                 mockMvc.perform(patch("/api/tasks/{taskId}/status", createdTask.id())
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"status":null}
@@ -516,7 +550,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             @DisplayName("should return bad request when status value is invalid")
             void shouldReturnBadRequestWhenStatusValueIsInvalid() throws Exception {
                 String createResponse = mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
@@ -530,7 +564,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                 TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
 
                 mockMvc.perform(patch("/api/tasks/{taskId}/status", createdTask.id())
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"status":"NAOEXISTE"}
@@ -544,7 +578,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             void shouldReturnNotFoundWhenTaskBelongsToAnotherUser() throws Exception {
                 // Cria tarefa com o primeiro usuário
                 String createResponse = mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-09-01T10:00:00"}
@@ -558,12 +592,12 @@ class TaskControllerIT extends IntegrationTestSupport {
 
                 // Cria um segundo usuário
                 var secondUser = aSecondUser();
-                UUID secondUserId = secondUser.getId();
                 userJpaRepository.save(secondUser);
+                String secondUserToken = createAuthIdentityAndLogin(secondUser);
 
                 // Tenta alterar o status da tarefa usando o segundo usuário
                 mockMvc.perform(patch("/api/tasks/{taskId}/status", createdTask.id())
-                                .header("X-User-Id", secondUserId)
+                                .header("Authorization", "Bearer " + secondUserToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"status":"IN_PROGRESS"}
@@ -586,7 +620,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             @DisplayName("should delete task when id exists")
             void shouldDeleteTaskWhenIdExists() throws Exception {
                 String createResponse = mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
@@ -600,7 +634,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                 TaskResponse createdTask = objectMapper.readValue(createResponse, TaskResponse.class);
 
                 mockMvc.perform(delete("/api/tasks/{taskId}", createdTask.id())
-                                .header("X-User-Id", userId))
+                                .header("Authorization", "Bearer " + userToken))
                         .andExpect(status().isNoContent());
 
                 assertThat(taskJpaRepository.count()).isZero();
@@ -612,7 +646,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                 String nonExistentId = "00000000-0000-0000-0000-000000000000";
 
                 mockMvc.perform(delete("/api/tasks/{taskId}", nonExistentId)
-                                .header("X-User-Id", userId))
+                                .header("Authorization", "Bearer " + userToken))
                         .andExpect(status().isNoContent());
             }
 
@@ -621,7 +655,7 @@ class TaskControllerIT extends IntegrationTestSupport {
             void shouldNotDeleteTaskWhenAnotherUserTriesToDeleteIt() throws Exception {
                 // Cria tarefa com o primeiro usuário
                 String createResponse = mockMvc.perform(post("/api/tasks")
-                                .header("X-User-Id", userId)
+                                .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                         {"title":"Task to Delete","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
@@ -635,13 +669,13 @@ class TaskControllerIT extends IntegrationTestSupport {
 
                 // Cria um segundo usuário
                 var secondUser = aSecondUser();
-                UUID secondUserId = secondUser.getId();
                 userJpaRepository.save(secondUser);
+                String secondUserToken = createAuthIdentityAndLogin(secondUser);
 
                 // Segundo usuário tenta deletar a tarefa do primeiro usuário
                 // A resposta é 204 (idempotente - como se a tarefa não existisse para ele)
                 mockMvc.perform(delete("/api/tasks/{taskId}", createdTask.id())
-                                .header("X-User-Id", secondUserId))
+                                .header("Authorization", "Bearer " + secondUserToken))
                         .andExpect(status().isNoContent());
 
                 // CRITICAL: Verifica que a tarefa NÃO foi deletada
@@ -650,7 +684,7 @@ class TaskControllerIT extends IntegrationTestSupport {
 
                 // Confirma que o primeiro usuário ainda pode acessar sua tarefa
                 mockMvc.perform(get("/api/tasks/{taskId}", createdTask.id())
-                                .header("X-User-Id", userId))
+                                .header("Authorization", "Bearer " + userToken))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.id").value(createdTask.id().toString()))
                         .andExpect(jsonPath("$.title").value("Task to Delete"));
@@ -667,7 +701,7 @@ class TaskControllerIT extends IntegrationTestSupport {
                 String invalidId = "invalid-uuid-format";
 
                 mockMvc.perform(delete("/api/tasks/{taskId}", invalidId)
-                                .header("X-User-Id", userId))
+                                .header("Authorization", "Bearer " + userToken))
                         .andExpect(status().isBadRequest());
             }
         }

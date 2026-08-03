@@ -5,6 +5,8 @@ import br.com.forjacode.taskmanager.domain.exception.MissingCurrentUserException
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 import org.springframework.core.MethodParameter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -22,21 +24,15 @@ public class CurrentUserIdArgumentResolver implements HandlerMethodArgumentResol
     }
 
     @Override
-    public @Nullable Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) throws Exception {
+    public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,
+            NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) {
 
-        String header = webRequest.getHeader("X-User-Id");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (header == null || header.isBlank()) {
-            throw new MissingCurrentUserException("Missing or blank X-User-Id header");
+        if (authentication == null || !(authentication.getPrincipal() instanceof UUID userId)) {
+            throw new MissingCurrentUserException("No authenticated user found in security context");
         }
 
-        try {
-            return UUID.fromString(header);
-        } catch (IllegalArgumentException e) {
-            throw new MethodArgumentTypeMismatchException(
-                    header, UUID.class, "X-User-Id", parameter, e);
-        }
-
+        return userId;
     }
 }
