@@ -27,8 +27,10 @@
   transação atômica User+AuthIdentity), login com mensagem de erro genérica, emissão e validação de token (HS256, 1h de
   expiração, sem refresh), filtro de autenticação (`JwtAuthenticationFilter`), `CurrentUserIdArgumentResolver` migrado
   do header `X-User-Id` para o `SecurityContextHolder`, `401` consistente via `AuthenticationEntryPoint` customizado
-- [ ] Login social (Google) — estrutura de `AuthIdentity` já preparada para múltiplos providers, faltando o fluxo
-  OAuth2/OIDC em si
+- [x] Login social (Google): fluxo frontend-driven (Google Identity Services no cliente, backend valida o ID Token via
+  `GoogleTokenVerifierPort`/`google-api-client`), vinculação automática a `User` existente pelo e-mail, criação de
+  usuário novo com nome derivado do e-mail quando o Google não fornece (`deriveNameFromEmail`), emissão do mesmo JWT
+  usado no login local
 - [ ] Deploy (Docker + cloud)
 - [ ] Avaliar SonarQube/SonarCloud no CI (complementar ao Qodana já configurado) — retomar ao final do projeto
 - [ ] Definir estratégia e padrão de logging (o que logar, em qual nível, formato) — task dedicada

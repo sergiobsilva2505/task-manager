@@ -1,0 +1,32 @@
+meta {
+  name: Login with Google - Invalid Token
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/auth/google
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "idToken": "token-invalido-de-propositio"
+  }
+}
+
+docs {
+  Exemplo de cenário de erro: token do Google inválido/malformado.
+
+  Este request pode ser rodado direto, sem precisar de um token real
+  (é justamente esse o ponto — qualquer string que não seja um ID
+  Token genuíno do Google deve ser rejeitada).
+
+  Resposta esperada: 401 Unauthorized, formato application/problem+json,
+  title "Invalid Google Token", detail "Invalid or expired Google token".
+}

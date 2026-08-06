@@ -93,6 +93,52 @@ cadastrados no sistema.
 
 </details>
 
+<details>
+<summary>🔵 Login com Google</summary>
+
+**POST** `/api/auth/google`
+
+```json
+{
+    "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6..."
+}
+```
+
+O `idToken` é obtido no **frontend**, via [Google Identity Services](https://developers.google.com/identity/gsi/web) — a
+API nunca lida diretamente com credenciais do Google, apenas valida o token recebido.
+
+**Resposta:** `200 OK` — mesmo formato do login local:
+
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiJ9...",
+    "expiresAt": "2026-08-06T16:05:49.166756800Z",
+    "userId": "ae4bd18d-ba43-4b18-a4ad-291e61155fb8"
+}
+```
+
+**Comportamento:**
+
+- Se a conta Google já estiver vinculada a um usuário (login anterior), retorna o token para esse usuário.
+- Se o e-mail da conta Google já pertence a um usuário registrado via senha (`LOCAL`), a conta Google é **vinculada
+  automaticamente** a esse usuário existente — sem exigir confirmação adicional.
+- Se não existir usuário nenhum com esse e-mail, um novo `User` é criado. O nome vem da conta Google; se o Google não
+  fornecer um nome, é derivado a partir do e-mail (ex: `maria.silva@exemplo.com` → `"maria silva"`), com um nome
+  genérico (`"Google User"`) como último recurso.
+
+**Erros possíveis:**
+
+- `401 Unauthorized` quando o token do Google é inválido, expirado, ou não foi emitido para este aplicativo
+  (`title: "Invalid Google Token"`).
+- `400 Bad Request` quando `idToken` está ausente/em branco.
+
+> **Testando manualmente sem um frontend:** use
+> o [Google OAuth 2.0 Playground](https://developers.google.com/oauthplayground/) com suas próprias credenciais (ícone de
+> engrenagem ⚙️ → "Use your own OAuth credentials"), ou uma página HTML mínima com o script do Google Identity Services,
+> servida em `http://localhost:4200` (mesma origem autorizada no Google Cloud Console) para gerar um ID Token real.
+
+</details>
+
 ---
 
 ## 📋 Tarefas
