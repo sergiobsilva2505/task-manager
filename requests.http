@@ -98,3 +98,35 @@ Content-Type: application/json
 }
 
 ###
+
+# curl -i http://localhost:8080/api/tasks/dashboard -H "Authorization: Bearer <token>"
+GET http://localhost:8080/api/tasks/dashboard
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYzQ0N2UzMi0zOGZkLTQ1ZjEtOTRlMy1jNDk1NjNjYmNiNzMiLCJpYXQiOjE3ODYwNTczNDIsImV4cCI6MTc4NjA2MDk0Mn0.c4Ew9fDnGqJVnwdnouHSGlHl_6hR2gRG228dFUgP4L8
+
+###
+
+curl -i http://localhost:8080/api/tasks/b0b03c6e-e7e6-4693-ba18-93bccbd44d19 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYzQ0N2UzMi0zOGZkLTQ1ZjEtOTRlMy1jNDk1NjNjYmNiNzMiLCJpYXQiOjE3ODYwNTczNDIsImV4cCI6MTc4NjA2MDk0Mn0.c4Ew9fDnGqJVnwdnouHSGlHl_6hR2gRG228dFUgP4L8"
+
+
+########
+
+
+
+# curl --request GET
+#  --url http://localhost:8080/api/tasks/b0b03c6e-e7e6-4693-ba18-93bccbd44d19
+#  --header 'Authorization: Bearer  eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYzQ0N2UzMi0zOGZkLTQ1ZjEtOTRlMy1jNDk1NjNjYmNiNzMiLCJpYXQiOjE3ODYwNTczNDIsImV4cCI6MTc4NjA2MDk0Mn0.c4Ew9fDnGqJVnwdnouHSGlHl_6hR2gRG228dFUgP4L8'
+GET http://localhost:8080/api/tasks/b0b03c6e-e7e6-4693-ba18-93bccbd44d19
+Authorization: Bearer  eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYzQ0N2UzMi0zOGZkLTQ1ZjEtOTRlMy1jNDk1NjNjYmNiNzMiLCJpYXQiOjE3ODYwNTczNDIsImV4cCI6MTc4NjA2MDk0Mn0.c4Ew9fDnGqJVnwdnouHSGlHl_6hR2gRG228dFUgP4L8
+
+###
+
+
+
+# curl -i http://localhost:8080/api/tasks/b0b03c6e-e7e6-4693-ba18-93bccbd44d19
+#  -H "Authorization: Bearer <token-novo>"
+GET http://localhost:8080/api/tasks/b0b03c6e-e7e6-4693-ba18-93bccbd44d19
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYzQ0N2UzMi0zOGZkLTQ1ZjEtOTRlMy1jNDk1NjNjYmNiNzMiLCJpYXQiOjE3ODYwNTc4NzcsImV4cCI6MTc4NjA2MTQ3N30.QREAzye4aHmufiPnol7Apm5RL_boqnfs-e-fo487GlY
+
+###
+
+

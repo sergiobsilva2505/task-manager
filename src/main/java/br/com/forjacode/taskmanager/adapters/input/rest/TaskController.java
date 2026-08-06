@@ -3,16 +3,19 @@ package br.com.forjacode.taskmanager.adapters.input.rest;
 import br.com.forjacode.taskmanager.adapters.input.rest.annotation.CurrentUserId;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.ChangeTaskStatusRequest;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.CreateTaskRequest;
+import br.com.forjacode.taskmanager.adapters.input.rest.dto.DashboardResponse;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.PagedResponse;
 import br.com.forjacode.taskmanager.adapters.input.rest.dto.TaskResponse;
 import br.com.forjacode.taskmanager.adapters.input.rest.mapper.TaskRestMapper;
 import br.com.forjacode.taskmanager.application.ports.input.ChangeTaskStatusUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.CreateTaskUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.DeleteTaskUseCase;
+import br.com.forjacode.taskmanager.application.ports.input.GetDashboardUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.GetTaskByIdUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.ListTasksUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.command.ChangeTaskStatusCommand;
 import br.com.forjacode.taskmanager.application.ports.input.command.CreateTaskCommand;
+import br.com.forjacode.taskmanager.application.ports.input.result.DashboardResult;
 import br.com.forjacode.taskmanager.application.ports.shared.PageQuery;
 import br.com.forjacode.taskmanager.application.ports.shared.PagedResult;
 import br.com.forjacode.taskmanager.application.ports.shared.SortDirection;
@@ -43,16 +46,19 @@ public class TaskController {
     private final ListTasksUseCase listTasksUseCase;
     private final ChangeTaskStatusUseCase changeTaskStatusUseCase;
     private final DeleteTaskUseCase deleteTaskUseCase;
+    private final GetDashboardUseCase getDashboardUseCase;
 
     public TaskController(TaskRestMapper mapper, CreateTaskUseCase createTaskUseCase,
             GetTaskByIdUseCase getTaskByIdUseCase, ListTasksUseCase listTasksUseCase,
-            ChangeTaskStatusUseCase changeTaskStatusUseCase, DeleteTaskUseCase deleteTaskUseCase) {
+            ChangeTaskStatusUseCase changeTaskStatusUseCase, DeleteTaskUseCase deleteTaskUseCase,
+            GetDashboardUseCase getDashboardUseCase) {
         this.mapper = mapper;
         this.createTaskUseCase = createTaskUseCase;
         this.getTaskByIdUseCase = getTaskByIdUseCase;
         this.listTasksUseCase = listTasksUseCase;
         this.changeTaskStatusUseCase = changeTaskStatusUseCase;
         this.deleteTaskUseCase = deleteTaskUseCase;
+        this.getDashboardUseCase = getDashboardUseCase;
     }
 
     @PostMapping("/tasks")
@@ -103,5 +109,12 @@ public class TaskController {
     public ResponseEntity<Void> deleteTask(@PathVariable UUID taskId, @CurrentUserId UUID currentUserId) {
         deleteTaskUseCase.execute(taskId, currentUserId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/tasks/dashboard")
+    public ResponseEntity<DashboardResponse> getDashboard(@CurrentUserId UUID currentUserId) {
+        DashboardResult result = getDashboardUseCase.execute(currentUserId);
+        DashboardResponse response = mapper.toResponse(result);
+        return ResponseEntity.ok(response);
     }
 }
