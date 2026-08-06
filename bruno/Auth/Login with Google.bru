@@ -1,0 +1,67 @@
+meta {
+  name: Login with Google
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/auth/google
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "idToken": "{{googleIdToken}}"
+  }
+}
+
+vars:post-response {
+  token: res.body.token
+}
+
+docs {
+  Autentica via Google e emite um token JWT próprio da API (mesmo
+  formato do login local).
+
+  ⚠️ Diferente dos outros requests desta coleção, este NÃO pode ser
+  "rodado direto" — {{googleIdToken}} precisa ser preenchido manualmente
+  antes, com um ID Token real do Google. A API não gera esse token; ela
+  só valida um token emitido pelo Google para o Client ID configurado
+  em GOOGLE_CLIENT_ID.
+
+  Como obter um ID Token de teste (duas opções):
+
+  1. Google OAuth 2.0 Playground (https://developers.google.com/oauthplayground/):
+     clique no ícone de engrenagem (⚙️) no canto superior direito,
+     marque "Use your own OAuth credentials", cole o Client ID e
+     Client Secret do seu projeto, autorize os scopes "email" e
+     "profile", troque o código de autorização por tokens, e copie
+     o "id_token" retornado.
+
+  2. Página HTML mínima com Google Identity Services, servida em
+     http://localhost:4200 (mesma origem autorizada no Google Cloud
+     Console). Faz login com sua conta Google e captura o
+     "credential" retornado no callback — esse é o ID Token.
+
+  Depois de obter o token, cole no environment (variável
+  {{googleIdToken}}) antes de rodar este request.
+
+  Resposta esperada: 200 OK, com token, expiresAt e userId. O token
+  é salvo automaticamente em {{token}}, reaproveitando as variáveis
+  já usadas pelos requests de Tasks.
+
+  Comportamento:
+  - Conta Google já vinculada -> retorna token para o usuário existente.
+  - E-mail já cadastrado via senha (LOCAL) -> vincula automaticamente
+    a conta Google a esse usuário, sem criar um novo.
+  - E-mail novo -> cria um User novo (nome vindo do Google, ou
+    derivado do e-mail se ausente).
+
+  Erros possíveis: 401 Unauthorized (token inválido/expirado/emitido
+  para outro Client ID) ou 400 Bad Request (idToken ausente/em branco).
+}

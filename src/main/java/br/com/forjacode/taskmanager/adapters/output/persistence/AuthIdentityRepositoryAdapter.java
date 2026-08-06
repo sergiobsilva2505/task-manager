@@ -31,4 +31,10 @@ public class AuthIdentityRepositoryAdapter implements AuthIdentityRepositoryPort
         return authIdentityJpaRepository.findByUserIdAndProvider(userId, provider)
                 .map(authIdentityMapper::toDomain);
     }
+
+    @Override
+    public Optional<AuthIdentity> findByProviderAndProviderUserId(AuthProvider provider, String providerUserId) {
+        return authIdentityJpaRepository.findByProviderAndProviderUserId(provider, providerUserId)
+                .map(authIdentityMapper::toDomain);
+    }
 }

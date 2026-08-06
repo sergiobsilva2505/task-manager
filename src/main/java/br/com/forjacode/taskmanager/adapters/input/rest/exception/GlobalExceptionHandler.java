@@ -2,6 +2,7 @@ package br.com.forjacode.taskmanager.adapters.input.rest.exception;
 
 import br.com.forjacode.taskmanager.domain.exception.EmailAlreadyInUseException;
 import br.com.forjacode.taskmanager.domain.exception.InvalidCredentialsException;
+import br.com.forjacode.taskmanager.domain.exception.InvalidGoogleTokenException;
 import br.com.forjacode.taskmanager.domain.exception.InvalidInputException;
 import br.com.forjacode.taskmanager.domain.exception.InvalidStatusTransitionException;
 import br.com.forjacode.taskmanager.domain.exception.MissingCurrentUserException;
@@ -106,6 +107,14 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleInvalidCredentialsException(InvalidCredentialsException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
         problemDetail.setTitle("Invalid Credentials");
+        problemDetail.setProperty("path", extractPath(request));
+        return problemDetail;
+    }
+
+    @ExceptionHandler(InvalidGoogleTokenException.class)
+    public ProblemDetail handleInvalidGoogleTokenException(InvalidGoogleTokenException ex, WebRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
+        problemDetail.setTitle("Invalid Google Token");
         problemDetail.setProperty("path", extractPath(request));
         return problemDetail;
     }

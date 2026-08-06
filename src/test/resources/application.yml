@@ -21,6 +21,9 @@ app:
       - url: http://localhost:8080
         description: Ambiente local
 
+  google:
+    client-id: ${GOOGLE_CLIENT_ID}
+
   cors:
     address: /api/**
     allowed-origins: http://localhost:4200

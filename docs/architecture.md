@@ -154,6 +154,34 @@ Nunca o inverso. O `domain` não conhece `application`; o `application` não con
   validação do domínio, criando duplicação — se a mensagem de uma invariante mudasse no domínio, dois arquivos de teste
   precisariam ser atualizados. Enxugar para o padrão único reduz manutenção sem perder cobertura real, já que a garantia
   de invariante permanece 100% coberta em `TaskTest`/`UserTest`.
+- **Login social (Google) via fluxo "frontend-driven", não o `oauth2Login()` clássico do Spring Security:** o frontend
+  (Angular) autentica o usuário diretamente com o Google Identity Services (JS) e recebe um ID Token; esse token é
+  enviado ao backend (`POST /api/auth/google`), que apenas **valida** a assinatura/emissor/audiência (via
+  `GoogleTokenVerifierPort`, implementada com a biblioteca oficial `google-api-client`) e emite **seu próprio JWT** — a
+  mesma `TokenGeneratorPort` usada no login local. O fluxo clássico (`spring-boot-starter-oauth2-client`,
+  redirecionamento via sessão) foi descartado por entrar em conflito direto com `SessionCreationPolicy.STATELESS`, já
+  adotada para o JWT.
+- **Verificação do ID Token exige `setAudience` com o Client ID do próprio app:** sem essa checagem, um token genuíno
+  emitido pelo Google para *qualquer outro* aplicativo que use "Sign in with Google" seria aceito pela sua API. O client
+  secret do Google **não é usado** nesse fluxo (client-side/ID Token) — só o Client ID, que não é segredo por natureza.
+- **Vinculação automática de conta ao invés de exigir fluxo manual:** se o e-mail retornado pelo Google já pertence a um
+  `User` registrado via `LOCAL`, um `AuthIdentity` novo (`GOOGLE`) é criado e vinculado a esse mesmo usuário — sem
+  exigir confirmação adicional. Isso é considerado seguro porque o Google já garante a posse do e-mail (via verificação
+  própria) antes de emitir o token; a alternativa (exigir vinculação manual) foi avaliada e descartada por adicionar
+  fricção sem ganho de segurança proporcional neste estágio do projeto.
+- **`AuthIdentity` resolvida em duas etapas: por vínculo existente, depois por e-mail:** `GoogleLoginService` primeiro
+  busca `AuthIdentity` por `(provider, providerUserId)` — se encontrar, o login é imediato. Só na ausência desse vínculo
+  é que o e-mail entra em jogo (busca de `User`, vinculação ou criação). Isso garante que, uma vez vinculada, uma conta
+  Google nunca dependa de o e-mail continuar o mesmo no `User` para autenticar novamente.
+- **Nome derivado do e-mail quando o Google não fornece (`deriveNameFromEmail`):** a claim `name` do ID Token não é
+  garantida pelo Google em todos os casos. Quando ausente/vazia, o nome é derivado da parte local do e-mail
+  (substituindo caracteres fora de `\p{L}\s'-` por espaço), com fallback para `"Google User"` caso o resultado fique
+  abaixo do tamanho mínimo exigido por `User.name`. A função vive como método privado de `GoogleLoginService` — é uma
+  regra específica desse fluxo de login, não uma responsabilidade do domínio `User`.
+- **`InvalidGoogleTokenException` sem parâmetro de mensagem, mesmo padrão de `InvalidCredentialsException`:** token do
+  Google ausente na verificação (assinatura inválida, expirado, emitido para outro Client ID) sempre resulta na mesma
+  mensagem fixa e no mesmo status (`401`), sem detalhar o motivo exato — mesma filosofia de não vazar informação de
+  diagnóstico ao cliente da API.
 
 ---
 

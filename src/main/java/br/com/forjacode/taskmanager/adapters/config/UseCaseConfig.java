@@ -4,10 +4,12 @@ import br.com.forjacode.taskmanager.application.ports.input.ChangeTaskStatusUseC
 import br.com.forjacode.taskmanager.application.ports.input.CreateTaskUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.DeleteTaskUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.GetTaskByIdUseCase;
+import br.com.forjacode.taskmanager.application.ports.input.GoogleLoginUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.ListTasksUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.LoginUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.RegisterUserUseCase;
 import br.com.forjacode.taskmanager.application.ports.output.AuthIdentityRepositoryPort;
+import br.com.forjacode.taskmanager.application.ports.output.GoogleTokenVerifierPort;
 import br.com.forjacode.taskmanager.application.ports.output.PasswordHasherPort;
 import br.com.forjacode.taskmanager.application.ports.output.TaskRepositoryPort;
 import br.com.forjacode.taskmanager.application.ports.output.TokenGeneratorPort;
@@ -17,6 +19,7 @@ import br.com.forjacode.taskmanager.application.service.ChangeTaskStatusService;
 import br.com.forjacode.taskmanager.application.service.CreateTaskService;
 import br.com.forjacode.taskmanager.application.service.DeleteTaskService;
 import br.com.forjacode.taskmanager.application.service.GetTaskByIdService;
+import br.com.forjacode.taskmanager.application.service.GoogleLoginService;
 import br.com.forjacode.taskmanager.application.service.ListTasksService;
 import br.com.forjacode.taskmanager.application.service.LoginService;
 import br.com.forjacode.taskmanager.application.service.RegisterUserService;
@@ -62,5 +65,13 @@ public class UseCaseConfig {
             AuthIdentityRepositoryPort authIdentityRepositoryPort, PasswordHasherPort passwordHasherPort,
             TokenGeneratorPort tokenGeneratorPort) {
         return new LoginService(userRepositoryPort, authIdentityRepositoryPort, passwordHasherPort, tokenGeneratorPort);
+    }
+
+    @Bean
+    public GoogleLoginUseCase googleLoginUseCase(GoogleTokenVerifierPort googleTokenVerifierPort,
+            AuthIdentityRepositoryPort authIdentityRepositoryPort, UserRepositoryPort userRepositoryPort,
+            UserRegistrationPort userRegistrationPort, TokenGeneratorPort tokenGeneratorPort) {
+        return new GoogleLoginService(googleTokenVerifierPort, authIdentityRepositoryPort, userRepositoryPort,
+                userRegistrationPort, tokenGeneratorPort);
     }
 }

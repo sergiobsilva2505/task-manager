@@ -86,3 +86,15 @@ GET http://localhost:8080/api/tasks
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZjU5M2I0Mi1mNGZjTQ0NjYtYmFiNy1jNzUxM2JiY2Q2NjUiLCJpYXQiOjE3ODU3ODc5MTksImV4cCI6MTc4NTc5MTUxOX0.TR408NZae1QlZZEBGpYnGk5kpw7vmaRbVGvSP5dkgbA
 
 ###
+
+# curl -i -X POST http://localhost:8080/api/auth/google
+#  -H "Content-Type: application/json"
+#  -d '{"idToken":"token.invalido.aqui"}'
+POST http://localhost:8080/api/auth/google
+Content-Type: application/json
+
+{
+    "idToken": "eyJhbGciOiJIzI1NiJ9.eyJzdWIiOiJjYzQ0N2UzMi0zOGZkLTQ1ZjEtOTRlMy1jNDk1NjNjYmNiNzMiLCJpYXQiOjE3ODYwMzI1ODYsImV4cCI6MTc4NjAzNjE4Nn0.tHaud-iDhck0DLdZ6rgjd8mh-kKpk_ZZDD88qzA53Do"
+}
+
+###

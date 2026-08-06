@@ -9,4 +9,6 @@ import java.util.UUID;
 public interface AuthIdentityJpaRepository extends JpaRepository<AuthIdentityJpaEntity, UUID> {
 
     Optional<AuthIdentityJpaEntity> findByUserIdAndProvider(UUID userId, AuthProvider provider);
+
+    Optional<AuthIdentityJpaEntity> findByProviderAndProviderUserId(AuthProvider provider, String providerUserId);
 }
