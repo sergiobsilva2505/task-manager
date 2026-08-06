@@ -42,6 +42,23 @@ spring:
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            redirect-uri: "{baseUrl}/login/oauth2/code/google"
+            scope:
+              - email
+              - profile
+        provider:
+          google:
+            authorization-uri: ${GOOGLE_AUTH_URI}
+            token-uri: ${GOOGLE_TOKEN_URI}
+            jwk-set-uri: ${GOOGLE_AUTH_PROVIDER_X509_CERT_URL}
+
   jpa:
     hibernate:
       ddl-auto: validate   # opções comuns: none, validate, update, create, create-drop
@@ -53,3 +70,7 @@ spring:
 
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
+
+google:
+  project-id: ${GOOGLE_PROJECT_ID}
+  javascript-origins: ${GOOGLE_JAVASCRIPT_ORIGINS}
