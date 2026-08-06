@@ -37,7 +37,9 @@ public class GoogleTokenVerifierAdapter implements GoogleTokenVerifierPort {
             }
 
             GoogleIdToken.Payload payload = googleIdToken.getPayload();
-            return Optional.of(new GoogleUserInfo(payload.getEmail(), payload.getSubject()));
+            String name = (String) payload.get("name");
+
+            return Optional.of(new GoogleUserInfo(payload.getEmail(), name, payload.getSubject()));
 
         } catch (GeneralSecurityException | IOException e) {
             return Optional.empty();
