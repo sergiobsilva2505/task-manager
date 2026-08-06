@@ -28,7 +28,8 @@ public class SecurityConfig {
                                 "/api/hello",
                                 "/actuator/health",
                                 "/api/users/**",
-                                "/api/auth/login")
+                                "/api/auth/login",
+                                "/api/auth/google")
                         .permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(jwtAuthenticationEntryPoint))
