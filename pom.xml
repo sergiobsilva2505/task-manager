@@ -16,6 +16,14 @@
     <description>
         API de gerenciamento de tarefas construída com Java 21 + Spring Boot, seguindo Arquitetura Hexagonal (Ports &amp; Adapters)
     </description>
+    <developers>
+        <developer>
+            <name>Sergio Bezerra da Silva</name>
+            <email>sergio.bezerra@outlook.com</email>
+            <organization>ForjaCode</organization>
+            <url>https://orcid.org/0009-0001-2907-3604</url>
+        </developer>
+    </developers>
 
     <properties>
         <java.version>21</java.version>
