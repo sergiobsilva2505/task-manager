@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static br.com.forjacode.taskmanager.testsuport.UserJpaEntityBuilder.aSecondUser;
 import static br.com.forjacode.taskmanager.testsuport.UserJpaEntityBuilder.anUser;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -134,6 +135,54 @@ class TaskRepositoryAdapterIT extends IntegrationTestSupport {
                 Optional<Task> foundTask = taskRepositoryAdapter.findById(UUID.randomUUID());
 
                 assertThat(foundTask).isEmpty();
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("update()")
+    class UpdateMethod {
+
+        @Nested
+        @DisplayName("Success")
+        class Success {
+
+            @Test
+            @DisplayName("should persist changes made to an existing task")
+            void shouldPersistChangesMadeToAnExistingTask() {
+                Task task = Task.create("Task 1", "description", Priority.HIGH, LocalDateTime.now().plusDays(1), ownerId);
+                taskRepositoryAdapter.save(task);
+
+                task.changeStatus(Status.IN_PROGRESS);
+                Task updatedTask = taskRepositoryAdapter.update(task);
+
+                assertThat(updatedTask.getStatus()).isEqualTo(Status.IN_PROGRESS);
+
+                Optional<Task> foundTask = taskRepositoryAdapter.findById(task.getId());
+                assertThat(foundTask).isPresent();
+                assertThat(foundTask.get().getStatus()).isEqualTo(Status.IN_PROGRESS);
+            }
+        }
+
+        @Nested
+        @DisplayName("WithError")
+        class WithError {
+
+            @Test
+            @DisplayName("should not affect other persisted tasks when updating one task")
+            void shouldNotAffectOtherPersistedTasksWhenUpdatingOneTask() {
+                Task firstTask = Task.create("Task 1", "description 1", Priority.HIGH, LocalDateTime.now().plusDays(1), ownerId);
+                Task secondTask = Task.create("Task 2", "description 2", Priority.MEDIUM,
+                        LocalDateTime.now().plusDays(2), ownerId);
+                taskRepositoryAdapter.save(firstTask);
+                taskRepositoryAdapter.save(secondTask);
+
+                firstTask.changeStatus(Status.IN_PROGRESS);
+                taskRepositoryAdapter.update(firstTask);
+
+                Optional<Task> untouchedTask = taskRepositoryAdapter.findById(secondTask.getId());
+                assertThat(untouchedTask).isPresent();
+                assertThat(untouchedTask.get().getStatus()).isEqualTo(Status.TODO);
             }
         }
     }
@@ -264,6 +313,84 @@ class TaskRepositoryAdapterIT extends IntegrationTestSupport {
                 assertThat(result.totalPages()).isEqualTo(1);
                 assertThat(result.page()).isEqualTo(2);
                 assertThat(result.size()).isEqualTo(1);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("deleteByIdAndOwnerId()")
+    class DeleteByIdAndOwnerIdMethod {
+
+        @Nested
+        @DisplayName("Success")
+        class Success {
+
+            @Test
+            @DisplayName("should remove task when id and owner id match")
+            void shouldRemoveTaskWhenIdAndOwnerIdMatch() {
+                Task task = Task.create("Task 1", "description", Priority.HIGH, LocalDateTime.now().plusDays(1), ownerId);
+                taskRepositoryAdapter.save(task);
+
+                taskRepositoryAdapter.deleteByIdAndOwnerId(task.getId(), ownerId);
+
+                assertThat(taskRepositoryAdapter.findById(task.getId())).isEmpty();
+            }
+        }
+
+        @Nested
+        @DisplayName("WithError")
+        class WithError {
+
+            @Test
+            @DisplayName("should keep task persisted when owner id does not match")
+            void shouldKeepTaskPersistedWhenOwnerIdDoesNotMatch() {
+                Task task = Task.create("Task 1", "description", Priority.HIGH, LocalDateTime.now().plusDays(1), ownerId);
+                taskRepositoryAdapter.save(task);
+
+                taskRepositoryAdapter.deleteByIdAndOwnerId(task.getId(), UUID.randomUUID());
+
+                assertThat(taskRepositoryAdapter.findById(task.getId())).isPresent();
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findAllByOwnerId()")
+    class FindAllByOwnerIdMethod {
+
+        @Nested
+        @DisplayName("Success")
+        class Success {
+
+            @Test
+            @DisplayName("should return only tasks belonging to the given owner")
+            void shouldReturnOnlyTasksBelongingToTheGivenOwner() {
+                UserJpaEntity otherUser = aSecondUser();
+                userJpaRepository.save(otherUser);
+                UUID otherOwnerId = otherUser.getId();
+
+                Task ownerTask = Task.create("Task 1", "description 1", Priority.HIGH, LocalDateTime.now().plusDays(1), ownerId);
+                Task otherOwnerTask = Task.create("Task 2", "description 2", Priority.MEDIUM,
+                        LocalDateTime.now().plusDays(2), otherOwnerId);
+                taskRepositoryAdapter.save(ownerTask);
+                taskRepositoryAdapter.save(otherOwnerTask);
+
+                List<Task> tasks = taskRepositoryAdapter.findAllByOwnerId(ownerId);
+
+                assertThat(tasks).extracting(Task::getId).containsExactly(ownerTask.getId());
+            }
+        }
+
+        @Nested
+        @DisplayName("WithError")
+        class WithError {
+
+            @Test
+            @DisplayName("should return empty list when owner has no persisted tasks")
+            void shouldReturnEmptyListWhenOwnerHasNoPersistedTasks() {
+                List<Task> tasks = taskRepositoryAdapter.findAllByOwnerId(ownerId);
+
+                assertThat(tasks).isEmpty();
             }
         }
     }

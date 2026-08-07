@@ -77,6 +77,13 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
         taskJpaRepository.deleteByIdAndOwnerId(id, ownerId);
     }
 
+    @Override
+    public List<Task> findAllByOwnerId(UUID ownerId) {
+        return taskJpaRepository.findAllByOwnerId(ownerId).stream()
+                .map(taskMapper::toDomain)
+                .toList();
+    }
+
     private String getJpaFieldName(TaskSortField fieldName) {
         return switch (fieldName) {
             case TITLE -> "title";

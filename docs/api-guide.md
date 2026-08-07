@@ -296,6 +296,45 @@ está ausente/inválido/expirado.
 
 </details>
 
+<details>
+<summary>📊 Dashboard (métricas agregadas)</summary>
+
+**GET** `/api/tasks/dashboard`
+
+**Resposta:** `200 OK` — métricas calculadas exclusivamente sobre as tarefas do usuário autenticado.
+
+```json
+{
+    "totalTasks": 4,
+    "countByStatus": {
+        "TODO": 1,
+        "IN_PROGRESS": 1,
+        "DONE": 1,
+        "CANCELLED": 1
+    },
+    "countByPriority": {
+        "HIGH": 2,
+        "MEDIUM": 1,
+        "LOW": 1
+    },
+    "overdueCount": 0,
+    "dueSoonCount": 1
+}
+```
+
+**Definições:**
+
+- `overdueCount`: tarefas com `dueDate` no passado **e** status não terminal (`TODO`/`IN_PROGRESS`) — uma tarefa `DONE`/
+  `CANCELLED` nunca conta como atrasada, mesmo com prazo vencido.
+- `dueSoonCount`: tarefas com `dueDate` entre agora e os próximos 7 dias, também restrito a status não terminal.
+- `countByStatus`/`countByPriority`: só aparecem no mapa os status/prioridades que o usuário efetivamente possui — sem
+  tarefas de um tipo, a chave correspondente simplesmente não existe no JSON (nunca `0` explícito).
+- Sem nenhuma tarefa, todos os campos numéricos vêm `0` e os mapas vêm vazios (`{}`).
+
+**Erros possíveis:** `401 Unauthorized` quando o token está ausente/inválido/expirado.
+
+</details>
+
 ---
 
 > A documentação interativa completa está disponível em `/swagger-ui/index.html` com a aplicação em execução.

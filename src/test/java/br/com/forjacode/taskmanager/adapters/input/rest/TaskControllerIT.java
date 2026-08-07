@@ -9,6 +9,7 @@ import br.com.forjacode.taskmanager.adapters.output.persistence.TaskJpaRepositor
 import br.com.forjacode.taskmanager.adapters.output.persistence.UserJpaEntity;
 import br.com.forjacode.taskmanager.adapters.output.persistence.UserJpaRepository;
 import br.com.forjacode.taskmanager.domain.model.enums.AuthProvider;
+import br.com.forjacode.taskmanager.domain.model.enums.Priority;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +24,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import static br.com.forjacode.taskmanager.testsuport.UserJpaEntityBuilder.aSecondUser;
@@ -110,12 +113,15 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should create task with valid request")
             void shouldCreateTaskWithValidRequest() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate = now.plusDays(30).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
-                                        """))
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"%s"}
+                                        """.formatted(dueDate)))
                         .andExpect(status().isCreated())
                         .andExpect(header().exists("Location"))
                         .andExpect(jsonPath("$.id").isNotEmpty())
@@ -134,12 +140,15 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should return bad request when title is blank")
             void shouldReturnBadRequestWhenTitleIsBlank() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate = now.plusDays(30).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
-                                        """))
+                                        {"title":"","description":"desc","priority":"HIGH","dueDate":"%s"}
+                                        """.formatted(dueDate)))
                         .andExpect(status().isBadRequest())
                         .andExpect(jsonPath("$.title").value("Validation Failed"))
                         .andExpect(jsonPath("$.errors.title").exists());
@@ -149,12 +158,15 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should return bad request when due date is in the past")
             void shouldReturnBadRequestWhenDueDateIsInThePast() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String pastDate = now.minusDays(5).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-07-24T10:00:00"}
-                                        """))
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"%s"}
+                                        """.formatted(pastDate)))
                         .andExpect(status().isBadRequest())
                         .andExpect(jsonPath("$.title").value("Validation Failed"))
                         .andExpect(jsonPath("$.errors.dueDate").exists());
@@ -164,12 +176,15 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should return bad request when priority is null")
             void shouldReturnBadRequestWhenPriorityIsNull() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate = now.plusDays(30).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task","description":"desc","priority":null,"dueDate":"2027-08-01T10:00:00"}
-                                        """))
+                                        {"title":"Task","description":"desc","priority":null,"dueDate":"%s"}
+                                        """.formatted(dueDate)))
                         .andExpect(status().isBadRequest())
                         .andExpect(jsonPath("$.title").value("Validation Failed"))
                         .andExpect(jsonPath("$.errors.priority").exists());
@@ -189,12 +204,15 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should return task when id exists")
             void shouldReturnTaskWhenIdExists() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate = now.plusDays(30).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 String createResponse = mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"My Task","description":"Task description","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
-                                        """))
+                                        {"title":"My Task","description":"Task description","priority":"HIGH","dueDate":"%s"}
+                                        """.formatted(dueDate)))
                         .andExpect(status().isCreated())
                         .andReturn()
                         .getResponse()
@@ -233,13 +251,16 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should return not found when task belongs to another user")
             void shouldReturnNotFoundWhenTaskBelongsToAnotherUser() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate = now.plusDays(30).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 // Cria tarefa com o primeiro usuário
                 String createResponse = mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"My Task","description":"Task description","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
-                                        """))
+                                        {"title":"My Task","description":"Task description","priority":"HIGH","dueDate":"%s"}
+                                        """.formatted(dueDate)))
                         .andExpect(status().isCreated())
                         .andReturn()
                         .getResponse()
@@ -272,13 +293,17 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should return paged tasks when request contains valid pagination and sorting")
             void shouldReturnPagedTasksWhenRequestContainsValidPaginationAndSorting() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate1 = now.plusDays(30).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                String dueDate2 = now.plusDays(31).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task B","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
-                                        """))
+                                        {"title":"Task B","description":"desc","priority":"HIGH","dueDate":"%s"}
+                                        """.formatted(dueDate1)))
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(post("/api/tasks")
@@ -286,8 +311,8 @@ class TaskControllerIT extends IntegrationTestSupport {
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task A","description":"desc","priority":"MEDIUM","dueDate":"2027-08-02T10:00:00"}
-                                        """))
+                                        {"title":"Task A","description":"desc","priority":"MEDIUM","dueDate":"%s"}
+                                        """.formatted(dueDate2)))
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(get("/api/tasks")
@@ -308,13 +333,17 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should use default pagination and sorting when query params are omitted")
             void shouldUseDefaultPaginationAndSortingWhenQueryParamsAreOmitted() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate1 = now.plusDays(30).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                String dueDate2 = now.plusDays(32).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task 1","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
-                                        """))
+                                        {"title":"Task 1","description":"desc","priority":"HIGH","dueDate":"%s"}
+                                        """.formatted(dueDate1)))
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(post("/api/tasks")
@@ -322,8 +351,8 @@ class TaskControllerIT extends IntegrationTestSupport {
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task 2","description":"desc","priority":"LOW","dueDate":"2027-08-03T10:00:00"}
-                                        """))
+                                        {"title":"Task 2","description":"desc","priority":"LOW","dueDate":"%s"}
+                                        """.formatted(dueDate2)))
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(get("/api/tasks")
@@ -338,21 +367,26 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should only return tasks owned by the user (isolation)")
             void shouldOnlyReturnTasksOwnedByTheUser() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate1 = now.plusDays(30).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                String dueDate2 = now.plusDays(31).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                String dueDate3 = now.plusDays(32).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 // Usuário A cria duas tarefas
                 mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"User A Task 1","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
-                                        """))
+                                        {"title":"User A Task 1","description":"desc","priority":"HIGH","dueDate":"%s"}
+                                        """.formatted(dueDate1)))
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"User A Task 2","description":"desc","priority":"MEDIUM","dueDate":"2027-08-02T10:00:00"}
-                                        """))
+                                        {"title":"User A Task 2","description":"desc","priority":"MEDIUM","dueDate":"%s"}
+                                        """.formatted(dueDate2)))
                         .andExpect(status().isCreated());
 
                 // Cria um segundo usuário
@@ -365,8 +399,8 @@ class TaskControllerIT extends IntegrationTestSupport {
                                 .header("Authorization", "Bearer " + secondUserToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"User B Task 1","description":"desc","priority":"LOW","dueDate":"2027-08-03T10:00:00"}
-                                        """))
+                                        {"title":"User B Task 1","description":"desc","priority":"LOW","dueDate":"%s"}
+                                        """.formatted(dueDate3)))
                         .andExpect(status().isCreated());
 
                 // CRITICAL: Usuário B lista suas tarefas e vê apenas a própria
@@ -410,13 +444,16 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should return empty content when requested page exceeds available pages")
             void shouldReturnEmptyContentWhenRequestedPageExceedsAvailablePages() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate = now.plusDays(30).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task only","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
-                                        """))
+                                        {"title":"Task only","description":"desc","priority":"HIGH","dueDate":"%s"}
+                                        """.formatted(dueDate)))
                         .andExpect(status().isCreated());
 
                 mockMvc.perform(get("/api/tasks")
@@ -442,13 +479,16 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should change status when transition is valid")
             void shouldChangeStatusWhenTransitionIsValid() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate = now.plusDays(25).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 String createResponse = mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-09-01T10:00:00"}
-                                        """))
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"%s"}
+                                        """.formatted(dueDate)))
                         .andExpect(status().isCreated())
                         .andReturn()
                         .getResponse()
@@ -493,13 +533,16 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should return bad request when transition is invalid")
             void shouldReturnBadRequestWhenTransitionIsInvalid() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate = now.plusDays(25).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 String createResponse = mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-09-01T10:00:00"}
-                                        """))
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"%s"}
+                                        """.formatted(dueDate)))
                         .andExpect(status().isCreated())
                         .andReturn()
                         .getResponse()
@@ -521,13 +564,16 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should return bad request when status is missing")
             void shouldReturnBadRequestWhenStatusIsMissing() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate = now.plusDays(25).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 String createResponse = mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-09-01T10:00:00"}
-                                        """))
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"%s"}
+                                        """.formatted(dueDate)))
                         .andExpect(status().isCreated())
                         .andReturn()
                         .getResponse()
@@ -549,13 +595,16 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should return bad request when status value is invalid")
             void shouldReturnBadRequestWhenStatusValueIsInvalid() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate = now.plusDays(25).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 String createResponse = mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-09-01T10:00:00"}
-                                        """))
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"%s"}
+                                        """.formatted(dueDate)))
                         .andExpect(status().isCreated())
                         .andReturn()
                         .getResponse()
@@ -576,13 +625,16 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should return not found when task belongs to another user")
             void shouldReturnNotFoundWhenTaskBelongsToAnotherUser() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate = now.plusDays(25).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 // Cria tarefa com o primeiro usuário
                 String createResponse = mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"2026-09-01T10:00:00"}
-                                        """))
+                                        {"title":"Task","description":"desc","priority":"HIGH","dueDate":"%s"}
+                                        """.formatted(dueDate)))
                         .andExpect(status().isCreated())
                         .andReturn()
                         .getResponse()
@@ -619,13 +671,16 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should delete task when id exists")
             void shouldDeleteTaskWhenIdExists() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate = now.plusDays(30).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 String createResponse = mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
 
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task to Delete","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
-                                        """))
+                                        {"title":"Task to Delete","description":"desc","priority":"HIGH","dueDate":"%s"}
+                                        """.formatted(dueDate)))
                         .andExpect(status().isCreated())
                         .andReturn()
                         .getResponse()
@@ -653,13 +708,16 @@ class TaskControllerIT extends IntegrationTestSupport {
             @Test
             @DisplayName("should not delete task when another user tries to delete it (isolation)")
             void shouldNotDeleteTaskWhenAnotherUserTriesToDeleteIt() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate = now.plusDays(30).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
                 // Cria tarefa com o primeiro usuário
                 String createResponse = mockMvc.perform(post("/api/tasks")
                                 .header("Authorization", "Bearer " + userToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                        {"title":"Task to Delete","description":"desc","priority":"HIGH","dueDate":"2027-08-01T10:00:00"}
-                                        """))
+                                        {"title":"Task to Delete","description":"desc","priority":"HIGH","dueDate":"%s"}
+                                        """.formatted(dueDate)))
                         .andExpect(status().isCreated())
                         .andReturn()
                         .getResponse()
@@ -704,6 +762,156 @@ class TaskControllerIT extends IntegrationTestSupport {
                                 .header("Authorization", "Bearer " + userToken))
                         .andExpect(status().isBadRequest());
             }
+        }
+    }
+
+    @Nested
+    @DisplayName("Dashboard")
+    class Dashboard {
+
+        @Nested
+        @DisplayName("Success")
+        class Success {
+
+            @Test
+            @DisplayName("should compute correct metrics for a varied set of tasks and statuses")
+            void shouldComputeCorrectMetricsForAVariedSetOfTasksAndStatuses() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueSoonDate = now.plusDays(3).withSecond(0).withNano(0)
+                        .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                String farFutureDate1 = now.plusDays(330).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                String farFutureDate2 = now.plusDays(390).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+                createTask("Task A", Priority.HIGH, farFutureDate1);
+
+                UUID taskBId = createTask("Task B", Priority.MEDIUM, dueSoonDate);
+                changeStatus(taskBId, "IN_PROGRESS");
+
+                UUID taskCId = createTask("Task C", Priority.LOW, farFutureDate1);
+                changeStatus(taskCId, "IN_PROGRESS");
+                changeStatus(taskCId, "DONE");
+
+                UUID taskDId = createTask("Task D", Priority.HIGH, farFutureDate2);
+                changeStatus(taskDId, "CANCELLED");
+
+                mockMvc.perform(get("/api/tasks/dashboard")
+                                .header("Authorization", "Bearer " + userToken))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.totalTasks").value(4))
+                        .andExpect(jsonPath("$.countByStatus['TODO']").value(1))
+                        .andExpect(jsonPath("$.countByStatus['IN_PROGRESS']").value(1))
+                        .andExpect(jsonPath("$.countByStatus['DONE']").value(1))
+                        .andExpect(jsonPath("$.countByStatus['CANCELLED']").value(1))
+                        .andExpect(jsonPath("$.countByPriority['HIGH']").value(2))
+                        .andExpect(jsonPath("$.countByPriority['MEDIUM']").value(1))
+                        .andExpect(jsonPath("$.countByPriority['LOW']").value(1))
+                        .andExpect(jsonPath("$.overdueCount").value(0))
+                        .andExpect(jsonPath("$.dueSoonCount").value(1));
+            }
+
+            @Test
+            @DisplayName("should return zeroed metrics when user has no tasks")
+            void shouldReturnZeroedMetricsWhenUserHasNoTasks() throws Exception {
+                mockMvc.perform(get("/api/tasks/dashboard")
+                                .header("Authorization", "Bearer " + userToken))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.totalTasks").value(0))
+                        .andExpect(jsonPath("$.countByStatus").isEmpty())
+                        .andExpect(jsonPath("$.countByPriority").isEmpty())
+                        .andExpect(jsonPath("$.overdueCount").value(0))
+                        .andExpect(jsonPath("$.dueSoonCount").value(0));
+            }
+
+            @Test
+            @DisplayName("should only reflect the requesting user's own tasks (isolation)")
+            void shouldOnlyReflectTheRequestingUsersOwnTasks() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate1 = now.plusDays(30).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                String dueDate2 = now.plusDays(31).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+                // Usuário A cria tarefas
+                createTask("User A Task 1", Priority.HIGH, dueDate1);
+                createTask("User A Task 2", Priority.MEDIUM, dueDate2);
+
+                // Usuário B, recém-criado, sem nenhuma tarefa
+                var secondUser = aSecondUser();
+                userJpaRepository.save(secondUser);
+                String secondUserToken = createAuthIdentityAndLogin(secondUser);
+
+                // CRITICAL: usuário B vê métricas zeradas, mesmo com tarefas de A no banco
+                mockMvc.perform(get("/api/tasks/dashboard")
+                                .header("Authorization", "Bearer " + secondUserToken))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.totalTasks").value(0))
+                        .andExpect(jsonPath("$.countByStatus").isEmpty())
+                        .andExpect(jsonPath("$.countByPriority").isEmpty())
+                        .andExpect(jsonPath("$.overdueCount").value(0))
+                        .andExpect(jsonPath("$.dueSoonCount").value(0));
+
+                // Confirma que o dashboard de A continua refletindo suas próprias tarefas
+                mockMvc.perform(get("/api/tasks/dashboard")
+                                .header("Authorization", "Bearer " + userToken))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.totalTasks").value(2));
+            }
+
+            @Test
+            @DisplayName("should not collide with the /{taskId} route, resolving both endpoints correctly")
+            void shouldNotCollideWithTheTaskIdRouteResolvingBothEndpointsCorrectly() throws Exception {
+                LocalDateTime now = LocalDateTime.now();
+                String dueDate = now.plusDays(30).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+                UUID taskId = createTask("Real Task", Priority.HIGH, dueDate);
+
+                mockMvc.perform(get("/api/tasks/dashboard")
+                                .header("Authorization", "Bearer " + userToken))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.totalTasks").value(1));
+
+                mockMvc.perform(get("/api/tasks/{taskId}", taskId)
+                                .header("Authorization", "Bearer " + userToken))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.id").value(taskId.toString()))
+                        .andExpect(jsonPath("$.title").value("Real Task"));
+            }
+        }
+
+        @Nested
+        @DisplayName("WithError")
+        class WithError {
+
+            @Test
+            @DisplayName("should return unauthorized when no token is provided")
+            void shouldReturnUnauthorizedWhenNoTokenIsProvided() throws Exception {
+                mockMvc.perform(get("/api/tasks/dashboard"))
+                        .andExpect(status().isUnauthorized())
+                        .andExpect(jsonPath("$.title").value("Unauthorized"));
+            }
+        }
+
+        private UUID createTask(String title, Priority priority, String dueDate) throws Exception {
+            String response = mockMvc.perform(post("/api/tasks")
+                            .header("Authorization", "Bearer " + userToken)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("""
+                                    {"title":"%s","description":"desc","priority":"%s","dueDate":"%s"}
+                                    """.formatted(title, priority, dueDate)))
+                    .andExpect(status().isCreated())
+                    .andReturn()
+                    .getResponse()
+                    .getContentAsString();
+
+            return objectMapper.readValue(response, TaskResponse.class).id();
+        }
+
+        private void changeStatus(UUID taskId, String status) throws Exception {
+            mockMvc.perform(patch("/api/tasks/{taskId}/status", taskId)
+                            .header("Authorization", "Bearer " + userToken)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("""
+                                    {"status":"%s"}
+                                    """.formatted(status)))
+                    .andExpect(status().isOk());
         }
     }
 }

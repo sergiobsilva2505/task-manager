@@ -3,6 +3,7 @@ package br.com.forjacode.taskmanager.adapters.config;
 import br.com.forjacode.taskmanager.application.ports.input.ChangeTaskStatusUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.CreateTaskUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.DeleteTaskUseCase;
+import br.com.forjacode.taskmanager.application.ports.input.GetDashboardUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.GetTaskByIdUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.GoogleLoginUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.ListTasksUseCase;
@@ -18,6 +19,7 @@ import br.com.forjacode.taskmanager.application.ports.output.UserRepositoryPort;
 import br.com.forjacode.taskmanager.application.service.ChangeTaskStatusService;
 import br.com.forjacode.taskmanager.application.service.CreateTaskService;
 import br.com.forjacode.taskmanager.application.service.DeleteTaskService;
+import br.com.forjacode.taskmanager.application.service.GetDashboardService;
 import br.com.forjacode.taskmanager.application.service.GetTaskByIdService;
 import br.com.forjacode.taskmanager.application.service.GoogleLoginService;
 import br.com.forjacode.taskmanager.application.service.ListTasksService;
@@ -73,5 +75,10 @@ public class UseCaseConfig {
             UserRegistrationPort userRegistrationPort, TokenGeneratorPort tokenGeneratorPort) {
         return new GoogleLoginService(googleTokenVerifierPort, authIdentityRepositoryPort, userRepositoryPort,
                 userRegistrationPort, tokenGeneratorPort);
+    }
+
+    @Bean
+    public GetDashboardUseCase getDashboardUseCase(TaskRepositoryPort taskRepositoryPort) {
+        return new GetDashboardService(taskRepositoryPort);
     }
 }

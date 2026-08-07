@@ -31,6 +31,8 @@
   `GoogleTokenVerifierPort`/`google-api-client`), vinculação automática a `User` existente pelo e-mail, criação de
   usuário novo com nome derivado do e-mail quando o Google não fornece (`deriveNameFromEmail`), emissão do mesmo JWT
   usado no login local
+- [x] Endpoint de agregação/dashboard (`GET /api/tasks/dashboard`): total de tarefas, contagem por status e prioridade,
+  tarefas atrasadas e vencendo em breve — agregação em memória a partir de `findAllByOwnerId`, isolado por usuário
 - [ ] Deploy (Docker + cloud)
 - [ ] Avaliar SonarQube/SonarCloud no CI (complementar ao Qodana já configurado) — retomar ao final do projeto
 - [ ] Definir estratégia e padrão de logging (o que logar, em qual nível, formato) — task dedicada

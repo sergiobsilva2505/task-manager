@@ -10,4 +10,8 @@ public enum Status {
             case DONE, CANCELLED -> false;
         };
     }
+
+    public boolean isTerminal() {
+        return this == DONE || this == CANCELLED;
+    }
 }
