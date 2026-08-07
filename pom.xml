@@ -13,9 +13,11 @@
     <artifactId>task-manager</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>task-manager</name>
+
     <description>
         API de gerenciamento de tarefas construída com Java 21 + Spring Boot, seguindo Arquitetura Hexagonal (Ports &amp; Adapters)
     </description>
+
     <developers>
         <developer>
             <name>Sergio Bezerra da Silva</name>
@@ -36,6 +38,7 @@
         <archunit-junit5.version>1.4.2</archunit-junit5.version>
         <jjwt.version>0.13.0</jjwt.version>
         <google-api-client.version>2.9.0</google-api-client.version>
+        <sonar-maven-plugin.version>5.7.0.6970</sonar-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -210,6 +213,11 @@
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
