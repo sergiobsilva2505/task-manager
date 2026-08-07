@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SuppressWarnings("java:S2187") // Suppress "Test cases should contain tests" warning, as this class contains nested test classes
 class StatusTest {
 
     @Nested

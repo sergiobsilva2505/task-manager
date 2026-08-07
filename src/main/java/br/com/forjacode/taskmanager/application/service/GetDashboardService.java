@@ -8,6 +8,7 @@ import br.com.forjacode.taskmanager.domain.model.enums.Priority;
 import br.com.forjacode.taskmanager.domain.model.enums.Status;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -27,7 +28,7 @@ public class GetDashboardService implements GetDashboardUseCase {
     public DashboardResult execute(UUID ownerId) {
         List<Task> tasks = taskRepositoryPort.findAllByOwnerId(ownerId);
 
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         LocalDateTime dueSoonThreshold = now.plusDays(DUE_SOON_DAYS);
 
         Map<Status, Long> countByStatus = tasks.stream()
