@@ -182,6 +182,20 @@ Nunca o inverso. O `domain` não conhece `application`; o `application` não con
   Google ausente na verificação (assinatura inválida, expirado, emitido para outro Client ID) sempre resulta na mesma
   mensagem fixa e no mesmo status (`401`), sem detalhar o motivo exato — mesma filosofia de não vazar informação de
   diagnóstico ao cliente da API.
+- **Dashboard agregado em memória, não via query SQL dedicada:** `GET /api/tasks/dashboard` busca todas as tarefas do
+  usuário (`findAllByOwnerId`, sem paginação) e calcula todas as métricas (total, contagem por status/prioridade,
+  atrasadas, vencendo em breve) com Java Streams sobre essa lista. Uma query agregada (`GROUP BY` no banco) seria mais
+  eficiente, mas foi deliberadamente descartada nesse estágio do projeto — o volume de tarefas por usuário não justifica
+  a complexidade adicional, e a implementação em memória é mais simples de testar e alterar.
+- **`Status.isTerminal()` como regra de domínio reutilizável:** "atrasada" e "vencendo em breve" só se aplicam a tarefas
+  com status não terminal (`TODO`/`IN_PROGRESS`) — uma tarefa `DONE`/`CANCELLED` com `dueDate` no passado nunca conta
+  como atrasada. Essa checagem foi extraída para o próprio enum `Status` (`isTerminal()`), ao lado de `canTransitionTo`,
+  em vez de reimplementada como uma comparação solta dentro do serviço do dashboard — evita duplicar a mesma regra em
+  múltiplos lugares se outro caso de uso precisar da mesma distinção no futuro.
+- **Contagens por enum mantidas como tipos fortes (`Map<Status, Long>`/`Map<Priority, Long>`) até a borda REST:**
+  seguindo o mesmo princípio já aplicado em toda a camada `application` (nunca vazar formato de serialização pra dentro
+  do domínio/aplicação), a conversão para `Map<String, Long>` (o formato que efetivamente aparece no JSON de resposta)
+  acontece exclusivamente no `TaskRestMapper`, nunca no `GetDashboardService`.
 
 ---
 
