@@ -14,8 +14,8 @@
 ![Lombok](https://img.shields.io/badge/Lombok-BC0836?style=for-the-badge&logoColor=white)
 ![MapStruct](https://img.shields.io/badge/MapStruct-1.6.3-orange?style=for-the-badge&logoColor=white)
 
-*API de gerenciamento de tarefas construída com Java 21 + Spring Boot, seguindo Arquitetura Hexagonal (Ports &
-Adapters)*
+Backend do TaskManager — Java 21 + Spring Boot com arquitetura hexagonal (Ports & Adapters), consumido
+pelo [TaskManager Web](https://github.com/sergiobsilva2505/taskmanager-web)
 
 </div>
 
