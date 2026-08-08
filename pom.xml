@@ -29,6 +29,10 @@
     </developers>
 
     <properties>
+        <sonar-maven-plugin.version>5.7.0.6970</sonar-maven-plugin.version>
+        <sonar.projectKey>sergiobsilva2505_task-manager</sonar.projectKey>
+        <sonar.organization>sergiobsilva2505</sonar.organization>
+        <sonar.scm.disabled>true</sonar.scm.disabled>
         <java.version>21</java.version>
         <lombok.version>1.18.32</lombok.version>
         <mapstruct.version>1.6.3</mapstruct.version>
@@ -39,8 +43,6 @@
         <archunit-junit5.version>1.4.2</archunit-junit5.version>
         <jjwt.version>0.13.0</jjwt.version>
         <google-api-client.version>2.9.0</google-api-client.version>
-        <sonar-maven-plugin.version>5.7.0.6970</sonar-maven-plugin.version>
-        <sonar.organization>sergiobsilva2505</sonar.organization>
     </properties>
 
     <dependencies>

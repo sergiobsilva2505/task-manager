@@ -86,7 +86,8 @@ curl http://localhost:8080/actuator/health
 | **JaCoCo**                                           | Relatórios de cobertura de testes (unitário e integração separados)   |
 
 > Dependências de teste (`spring-boot-starter-data-jpa-test`, `spring-boot-starter-liquibase-test`,
-> `spring-boot-starter-security-test`, `spring-boot-starter-webmvc-test`) já estão configuradas no `pom.xml`, junto com o
+> `spring-boot-starter-security-test`, `spring-boot-starter-webmvc-test`) já estão configuradas no `pom.xml`, junto com
+> o
 > goal `build-info` do `spring-boot-maven-plugin` (expõe metadados de build via Actuator) e o plugin **Failsafe**,
 > responsável por rodar os testes de integração separadamente dos unitários.
 
@@ -108,18 +109,20 @@ curl http://localhost:8080/actuator/health
 
 ## 📚 Documentação
 
-Documentação detalhada organizada em `docs/`:
+A documentação detalhada do projeto vive na **[Wiki deste repositório](../../wiki)**:
 
-- **[Architecture & Design Decisions](docs/architecture.md)** — estrutura de pacotes, regras de dependência entre
+- **[Architecture & Design Decisions](../../wiki/Architecture)** — estrutura de pacotes, regras de dependência entre
   camadas, e todas as decisões de design registradas (imutabilidade, Command Pattern, paginação desacoplada, CORS,
-  multiusuário, etc.).
-- **[Testing Strategy](docs/testing-strategy.md)** — pirâmide de testes, ferramentas por camada, e lições aprendidas de
-  bugs reais de infraestrutura de teste (Testcontainers, datas fixas, `application.yml` de teste).
-- **[API Guide](docs/api-guide.md)** — guia completo de uso da API, endpoint por endpoint, com exemplos de
+  multiusuário, JWT, login social, etc.).
+- **[API Guide](../../wiki/API-Guide)** — guia completo de uso da API, endpoint por endpoint, com exemplos de
   request/response e erros possíveis.
-- **[Roadmap](docs/roadmap.md)** — progresso do projeto e próximos passos.
-- **[Investigação: Testcontainers Connection Refused](docs/investigacao-testcontainers-connection-refused.md)** —
-  relatório de investigação de um bug real de infraestrutura de teste.
+- **[Testing Strategy](../../wiki/Testing-Strategy)** — pirâmide de testes, ferramentas por camada, e lições aprendidas
+  de bugs reais de infraestrutura de teste (Testcontainers, datas fixas, `application.yml` de teste).
+- **[Roadmap](../../wiki/Roadmap)** — progresso do projeto e próximos passos.
+- **[Investigação: Testcontainers Connection Refused](../../wiki/Testcontainers-Connection-Refused)** — relatório de
+  investigação de um bug real de infraestrutura de teste.
+- **[Relatório: SonarCloud Local Auth Bug](../../wiki/SonarCloud-Local-Auth-Bug)** — depuração de uma falha de
+  autenticação na análise local do SonarCloud.
 
 A documentação interativa da API (Swagger UI) está disponível em `/swagger-ui/index.html` com a aplicação em execução.
 
