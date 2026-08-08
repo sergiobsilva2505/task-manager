@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Antes de detalhar, dê uma olhada na [Architecture](../../wiki/Architecture) — ajuda a já pensar a proposta
+        Antes de detalhar, dê uma olhada na [Architecture](https://github.com/sergiobsilva2505/task-manager/wiki/Architecture) — ajuda a já pensar a proposta
         respeitando a regra de dependência `adapters → application → domain` e os padrões já adotados
         (Command Pattern, DTOs desacoplados do domínio, etc.).
 

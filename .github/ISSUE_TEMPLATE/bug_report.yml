@@ -8,7 +8,7 @@ body:
       value: |
         Antes de abrir, confira se esse bug já não foi reportado em outra issue.
         Quanto mais contexto (passos, logs, camada afetada), mais rápido a causa raiz é encontrada — ver
-        [investigação de referência](../../wiki/Testcontainers-Connection-Refused) como exemplo do nível de detalhe
+        [investigação de referência](https://github.com/sergiobsilva2505/task-manager/wiki/Testcontainers-Connection-Refused) como exemplo do nível de detalhe
         que ajuda.
 
   - type: textarea
