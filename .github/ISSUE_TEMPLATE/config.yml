@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📘 Consultar a Wiki antes de abrir uma issue
+    url: https://github.com/sergiobsilva2505/task-manager/wiki
+    about: Documentação de arquitetura, guia de API, estratégia de testes e investigações já registradas.

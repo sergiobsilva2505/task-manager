@@ -1,0 +1,61 @@
+name: "🛠️ Sugestão de melhoria"
+description: Melhorar algo que já existe (não é bug, não é feature nova)
+title: "[Melhoria]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use este template para propor melhorias em algo que já funciona corretamente — performance, legibilidade,
+        cobertura de testes, documentação, segurança, ou experiência de desenvolvimento. Se o comportamento atual
+        estiver incorreto, use o template de **Bug** em vez deste.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área da melhoria
+      options:
+        - Performance
+        - Legibilidade / refatoração
+        - Cobertura de testes
+        - Documentação (wiki, README)
+        - Segurança
+        - CI/CD
+        - Experiência de desenvolvimento (DX)
+        - Outra
+    validations:
+      required: true
+
+  - type: textarea
+    id: situacao_atual
+    attributes:
+      label: Situação atual
+      description: Como isso funciona/está hoje?
+    validations:
+      required: true
+
+  - type: textarea
+    id: melhoria_proposta
+    attributes:
+      label: Melhoria proposta
+      description: O que você sugere mudar?
+    validations:
+      required: true
+
+  - type: textarea
+    id: beneficio
+    attributes:
+      label: Benefício esperado
+      description: Por que vale a pena investir tempo nisso?
+    validations:
+      required: true
+
+  - type: textarea
+    id: criterios
+    attributes:
+      label: Critérios de aceite
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+    validations:
+      required: false

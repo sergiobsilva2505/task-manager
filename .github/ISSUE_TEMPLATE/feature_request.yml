@@ -1,0 +1,70 @@
+name: "✨ Nova feature"
+description: Propor uma funcionalidade nova para o Task Manager
+title: "[Feature]: "
+labels: ["feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Antes de detalhar, dê uma olhada na [Architecture](../../wiki/Architecture) — ajuda a já pensar a proposta
+        respeitando a regra de dependência `adapters → application → domain` e os padrões já adotados
+        (Command Pattern, DTOs desacoplados do domínio, etc.).
+
+  - type: textarea
+    id: contexto
+    attributes:
+      label: Contexto / motivação
+      description: Que problema real essa feature resolve? Por que ela é necessária agora?
+    validations:
+      required: true
+
+  - type: textarea
+    id: caso_de_uso
+    attributes:
+      label: Caso de uso
+      description: Descreva como a feature seria usada na prática (um fluxo concreto, não abstrato).
+      placeholder: "Ex: como usuário, quero poder arquivar uma tarefa DONE para que ela saia da listagem padrão, mas continue..."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: camadas
+    attributes:
+      label: Camadas provavelmente impactadas
+      options:
+        - label: domain
+        - label: application (novo caso de uso / porta)
+        - label: adapters/input/rest (novo endpoint ou alteração de contrato)
+        - label: adapters/output/persistence (nova migração Liquibase, nova query)
+        - label: adapters/output/security
+        - label: frontend (taskmanager-web)
+
+  - type: textarea
+    id: criterios
+    attributes:
+      label: Critérios de aceite
+      description: O que precisa ser verdade para considerar essa feature concluída.
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: impacto_arquitetura
+    attributes:
+      label: Impacto em decisões de arquitetura existentes
+      description: Essa feature exige uma nova decisão de design, ou altera alguma já registrada na Architecture?
+    validations:
+      required: false
+
+  - type: dropdown
+    id: prioridade
+    attributes:
+      label: Prioridade percebida
+      options:
+        - Baixa
+        - Média
+        - Alta
+    validations:
+      required: false
