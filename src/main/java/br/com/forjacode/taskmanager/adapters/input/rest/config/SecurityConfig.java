@@ -1,5 +1,6 @@
 package br.com.forjacode.taskmanager.adapters.input.rest.config;
 
+import br.com.forjacode.taskmanager.adapters.input.rest.exception.SecurityConfigurationException;
 import br.com.forjacode.taskmanager.adapters.input.rest.security.JwtAuthenticationEntryPoint;
 import br.com.forjacode.taskmanager.adapters.input.rest.security.JwtAuthenticationFilter;
 import br.com.forjacode.taskmanager.application.ports.output.TokenGeneratorPort;
