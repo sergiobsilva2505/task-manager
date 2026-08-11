@@ -4,6 +4,8 @@ import br.com.forjacode.taskmanager.adapters.input.rest.exception.SecurityConfig
 import br.com.forjacode.taskmanager.adapters.input.rest.security.JwtAuthenticationEntryPoint;
 import br.com.forjacode.taskmanager.adapters.input.rest.security.JwtAuthenticationFilter;
 import br.com.forjacode.taskmanager.application.ports.output.TokenGeneratorPort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -14,6 +16,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 public class SecurityConfig {
+
+    private static final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter,
@@ -40,6 +44,7 @@ public class SecurityConfig {
 
             return http.build();
         } catch (Exception e) {
+            log.error("Falha ao construir a cadeia de filtros de segurança", e);
             throw new SecurityConfigurationException("Falha ao construir a cadeia de filtros de segurança");
         }
     }
