@@ -40,7 +40,7 @@ public class SecurityConfig {
 
             return http.build();
         } catch (Exception e) {
-            throw new SecurityConfigurationException("Falha ao construir a cadeia de filtros de segurança", e);
+            throw new SecurityConfigurationException("Falha ao construir a cadeia de filtros de segurança");
         }
     }
 
