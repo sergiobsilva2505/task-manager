@@ -12,8 +12,12 @@ import br.com.forjacode.taskmanager.domain.exception.InvalidCredentialsException
 import br.com.forjacode.taskmanager.domain.model.AuthIdentity;
 import br.com.forjacode.taskmanager.domain.model.User;
 import br.com.forjacode.taskmanager.domain.model.enums.AuthProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LoginService implements LoginUseCase {
+
+    private static final Logger log = LoggerFactory.getLogger(LoginService.class);
 
     private final UserRepositoryPort userRepositoryPort;
     private final AuthIdentityRepositoryPort authIdentityRepositoryPort;
@@ -31,17 +35,26 @@ public class LoginService implements LoginUseCase {
     @Override
     public LoginResult execute(LoginCommand command) {
         User user = userRepositoryPort.findByEmail(command.email())
-                .orElseThrow(InvalidCredentialsException::new);
+                .orElseThrow(() -> {
+                    log.warn("Login failed: email not found");
+                    return new InvalidCredentialsException();
+                });
 
         AuthIdentity authIdentity = authIdentityRepositoryPort.findByUserIdAndProvider(user.getId(), AuthProvider.LOCAL)
-                .orElseThrow(InvalidCredentialsException::new);
+                .orElseThrow(() -> {
+                    log.warn("Login failed: no LOCAL identity for user {}", user.getId());
+                    return new InvalidCredentialsException();
+                });
 
         boolean passwordMatches = passwordHasherPort.matches(command.password(), authIdentity.getPasswordHash());
         if (!passwordMatches) {
+            log.warn("Login failed: incorrect password for user {}", user.getId());
             throw new InvalidCredentialsException();
         }
 
         GeneratedToken generatedToken = tokenGeneratorPort.generate(user.getId());
+
+        log.info("User {} logged in via LOCAL", user.getId());
 
         return new LoginResult(generatedToken.token(), generatedToken.expiresAt(), user.getId());
     }
