@@ -12,10 +12,9 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SuppressWarnings("java:S2187") // Suppressing "Test class does not contain any tests" warning because the nested classes contain the actual tests
+@SuppressWarnings("java:S2187") // Suppressing "Test class does not contain any tests" warning because the nested
+// classes contain the actual tests
 class AuthIdentityTest {
 
     @Nested
@@ -79,66 +78,91 @@ class AuthIdentityTest {
 
         @Test
         void shouldThrowExceptionWhenUserIdIsNull() {
+            UUID id = UUID.randomUUID();
+            String passwordHash = "hash123";
+            Instant createdAt = Instant.now();
+
             assertThatThrownBy(
-                    () -> AuthIdentity.reconstruct(UUID.randomUUID(), null, AuthProvider.LOCAL, "hash123", null,
-                            Instant.now()))
+                    () -> AuthIdentity.reconstruct(id, null, AuthProvider.LOCAL, passwordHash, null, createdAt))
                     .isInstanceOf(MissingRequiredFieldException.class)
                     .hasMessage("userId cannot be null");
         }
 
         @Test
         void shouldThrowExceptionWhenProviderIsNull() {
+            UUID id = UUID.randomUUID();
+            UUID userId = UUID.randomUUID();
+            String passwordHash = "hash123";
+            Instant createdAt = Instant.now();
+
             assertThatThrownBy(
-                    () -> AuthIdentity.reconstruct(UUID.randomUUID(), UUID.randomUUID(), null, "hash123", null,
-                            Instant.now()))
+                    () -> AuthIdentity.reconstruct(id, userId, null, passwordHash, null, createdAt))
                     .isInstanceOf(MissingRequiredFieldException.class)
                     .hasMessage("provider cannot be null");
         }
 
         @Test
         void shouldThrowExceptionWhenCreatedAtIsNull() {
+            UUID id = UUID.randomUUID();
+            UUID userId = UUID.randomUUID();
+            String passwordHash = "hash123";
+
             assertThatThrownBy(
-                    () -> AuthIdentity.reconstruct(UUID.randomUUID(), UUID.randomUUID(), AuthProvider.LOCAL, "hash123",
-                            null, null))
+                    () -> AuthIdentity.reconstruct(id, userId, AuthProvider.LOCAL, passwordHash, null, null))
                     .isInstanceOf(MissingRequiredFieldException.class)
                     .hasMessage("createdAt cannot be null");
         }
 
         @Test
         void shouldThrowExceptionWhenLocalProviderHasNoPassword() {
+            UUID id = UUID.randomUUID();
+            UUID userId = UUID.randomUUID();
+            Instant createdAt = Instant.now();
+
             assertThatThrownBy(
-                    () -> AuthIdentity.reconstruct(UUID.randomUUID(), UUID.randomUUID(), AuthProvider.LOCAL, null, null,
-                            Instant.now()))
+                    () -> AuthIdentity.reconstruct(id, userId, AuthProvider.LOCAL, null, null, createdAt))
                     .isInstanceOf(InvalidAuthIdentityException.class)
                     .hasMessage("passwordHash is required for LOCAL provider");
         }
 
         @Test
         void shouldThrowExceptionWhenLocalProviderHasProviderUserId() {
+            UUID id = UUID.randomUUID();
+            UUID userId = UUID.randomUUID();
+            String passwordHash = "hash123";
+            Instant createdAt = Instant.now();
+
             assertThatThrownBy(
-                    () -> AuthIdentity.reconstruct(UUID.randomUUID(), UUID.randomUUID(), AuthProvider.LOCAL, "hash123",
-                            "provider-id", Instant.now()))
+                    () -> AuthIdentity.reconstruct(id, userId, AuthProvider.LOCAL, passwordHash, "provider-id",
+                            createdAt))
                     .isInstanceOf(InvalidAuthIdentityException.class)
                     .hasMessage("providerUserId must be null or empty for LOCAL provider");
         }
 
         @Test
         void shouldThrowExceptionWhenGoogleProviderHasPassword() {
+            UUID id = UUID.randomUUID();
+            UUID userId = UUID.randomUUID();
+            String passwordHash = "hash123";
+            Instant createdAt = Instant.now();
+
             assertThatThrownBy(
-                    () -> AuthIdentity.reconstruct(UUID.randomUUID(), UUID.randomUUID(), AuthProvider.GOOGLE, "hash123",
-                            "google-sub-123", Instant.now()))
+                    () -> AuthIdentity.reconstruct(id, userId, AuthProvider.GOOGLE, passwordHash,
+                            "google-sub-123", createdAt))
                     .isInstanceOf(InvalidAuthIdentityException.class)
                     .hasMessage("passwordHash must be null or empty for GOOGLE provider");
         }
 
         @Test
         void shouldThrowExceptionWhenGoogleProviderHasNoProviderUserId() {
+            UUID id = UUID.randomUUID();
+            UUID userId = UUID.randomUUID();
+            Instant createdAt = Instant.now();
+
             assertThatThrownBy(
-                    () -> AuthIdentity.reconstruct(UUID.randomUUID(), UUID.randomUUID(), AuthProvider.GOOGLE, null,
-                            null, Instant.now()))
+                    () -> AuthIdentity.reconstruct(id, userId, AuthProvider.GOOGLE, null, null, createdAt))
                     .isInstanceOf(InvalidAuthIdentityException.class)
                     .hasMessage("providerUserId is required for GOOGLE provider");
         }
     }
-
 }
