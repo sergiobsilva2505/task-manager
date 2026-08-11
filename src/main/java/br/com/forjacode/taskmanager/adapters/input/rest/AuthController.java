@@ -9,6 +9,7 @@ import br.com.forjacode.taskmanager.application.ports.input.LoginUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.command.GoogleLoginCommand;
 import br.com.forjacode.taskmanager.application.ports.input.command.LoginCommand;
 import br.com.forjacode.taskmanager.application.ports.input.result.LoginResult;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class AuthController implements AuthApiSwagger {
 
     private final LoginUseCase loginUseCase;
     private final AuthRestMapper mapper;
@@ -30,6 +31,8 @@ public class AuthController {
         this.googleLoginUseCase = googleLoginUseCase;
     }
 
+    @Override
+    @SecurityRequirements()
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         LoginCommand command = mapper.toCommand(request);
@@ -38,6 +41,8 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    @Override
+    @SecurityRequirements()
     @PostMapping("/google")
     public ResponseEntity<LoginResponse> googleLogin(@Valid @RequestBody GoogleLoginRequest request) {
         GoogleLoginCommand command = mapper.toCommand(request);

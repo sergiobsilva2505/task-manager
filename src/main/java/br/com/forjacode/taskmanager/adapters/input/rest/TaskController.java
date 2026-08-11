@@ -38,7 +38,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
-public class TaskController {
+public class TaskController implements TaskApiSwagger {
 
     private final TaskRestMapper mapper;
     private final CreateTaskUseCase createTaskUseCase;
@@ -62,6 +62,7 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
+    @Override
     public ResponseEntity<TaskResponse> createTask(
             @Valid @RequestBody CreateTaskRequest createTaskRequest,
             @CurrentUserId UUID currentUserId) {
@@ -73,6 +74,7 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/{taskId}")
+    @Override
     public ResponseEntity<TaskResponse> getTaskById(@PathVariable UUID taskId, @CurrentUserId UUID currentUserId) {
         Task task = getTaskByIdUseCase.execute(taskId, currentUserId);
         TaskResponse response = mapper.toResponse(task);
@@ -80,6 +82,7 @@ public class TaskController {
     }
 
     @GetMapping("/tasks")
+    @Override
     public ResponseEntity<PagedResponse<TaskResponse>> listAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size,
@@ -97,6 +100,7 @@ public class TaskController {
     }
 
     @PatchMapping("/tasks/{taskId}/status")
+    @Override
     public ResponseEntity<TaskResponse> changeTaskStatus(@PathVariable UUID taskId,
             @RequestBody @Valid ChangeTaskStatusRequest changeTaskStatusRequest, @CurrentUserId UUID currentUserId) {
         ChangeTaskStatusCommand command = mapper.toCommand(taskId, changeTaskStatusRequest, currentUserId);
@@ -106,12 +110,14 @@ public class TaskController {
     }
 
     @DeleteMapping("/tasks/{taskId}")
+    @Override
     public ResponseEntity<Void> deleteTask(@PathVariable UUID taskId, @CurrentUserId UUID currentUserId) {
         deleteTaskUseCase.execute(taskId, currentUserId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/tasks/dashboard")
+    @Override
     public ResponseEntity<DashboardResponse> getDashboard(@CurrentUserId UUID currentUserId) {
         DashboardResult result = getDashboardUseCase.execute(currentUserId);
         DashboardResponse response = mapper.toResponse(result);

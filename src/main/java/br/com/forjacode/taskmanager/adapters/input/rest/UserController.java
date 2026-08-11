@@ -6,6 +6,7 @@ import br.com.forjacode.taskmanager.adapters.input.rest.mapper.UserRestMapper;
 import br.com.forjacode.taskmanager.application.ports.input.RegisterUserUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.command.RegisterUserCommand;
 import br.com.forjacode.taskmanager.domain.model.User;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserController {
+public class UserController implements UserApiSwagger {
 
     private final RegisterUserUseCase registerUserUseCase;
     private final UserRestMapper mapper;
@@ -27,7 +28,9 @@ public class UserController {
         this.mapper = mapper;
     }
 
+    @SecurityRequirements()
     @PostMapping
+    @Override
     public ResponseEntity<UserResponse> createUser(@RequestBody @Valid CreateUserRequest request) {
         RegisterUserCommand userCommand = mapper.toCommand(request);
         User user = registerUserUseCase.execute(userCommand);
