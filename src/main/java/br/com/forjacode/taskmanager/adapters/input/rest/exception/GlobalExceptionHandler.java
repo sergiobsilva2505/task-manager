@@ -34,6 +34,8 @@ public class GlobalExceptionHandler {
             MissingCurrentUserException.class
     })
     public ProblemDetail handleDomainExceptions(RuntimeException ex, WebRequest request) {
+        log.warn("Domain validation failed: {} - {}", ex.getClass().getSimpleName(), ex.getMessage());
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
         problemDetail.setTitle(resolveTitle(ex));
         problemDetail.setProperty("path", extractPath(request));
@@ -99,6 +101,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(EmailAlreadyInUseException.class)
     public ProblemDetail handleEmailAlreadyInUseException(EmailAlreadyInUseException ex, WebRequest request) {
+        log.warn("Registration rejected: email already in use");
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
         problemDetail.setTitle("Email Already In Use");
         problemDetail.setProperty("path", extractPath(request));
@@ -123,6 +127,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(SecurityConfigurationException.class)
     public ProblemDetail handleSecurityConfigurationException(SecurityConfigurationException ex, WebRequest request) {
+        log.error("Security configuration error", ex);
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         problemDetail.setTitle("Security Configuration Error");
         problemDetail.setProperty("path", extractPath(request));

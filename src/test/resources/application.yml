@@ -34,6 +34,13 @@ app:
     secret: ${JWT_SECRET}
     expiration-minutes: 60
 
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n"
+  level:
+    root: INFO
+    br.com.forjacode.taskmanager: DEBUG
+
 spring:
   application:
     name: task-manager

@@ -6,6 +6,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jspecify.annotations.NullMarked;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -17,6 +19,8 @@ import java.util.UUID;
 
 @NullMarked
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_PREFIX = "Bearer ";
@@ -31,9 +35,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        extractToken(request).flatMap(tokenGeneratorPort::validate).ifPresent(this::authenticate);
+        extractToken(request).ifPresent(this::validateAndAuthenticate);
 
         filterChain.doFilter(request, response);
+    }
+
+    private void validateAndAuthenticate(String token) {
+        tokenGeneratorPort.validate(token)
+                .ifPresentOrElse(
+                        this::authenticate,
+                        () -> log.warn("Rejected invalid or expired JWT token")
+                );
     }
 
     private Optional<String> extractToken(HttpServletRequest request) {

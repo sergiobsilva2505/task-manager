@@ -14,10 +14,14 @@ import br.com.forjacode.taskmanager.domain.exception.InvalidGoogleTokenException
 import br.com.forjacode.taskmanager.domain.model.AuthIdentity;
 import br.com.forjacode.taskmanager.domain.model.User;
 import br.com.forjacode.taskmanager.domain.model.enums.AuthProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
 public class GoogleLoginService implements GoogleLoginUseCase {
+
+    private static final Logger log = LoggerFactory.getLogger(GoogleLoginService.class);
 
     private final GoogleTokenVerifierPort googleTokenVerifierPort;
     private final AuthIdentityRepositoryPort authIdentityRepositoryPort;
@@ -38,11 +42,16 @@ public class GoogleLoginService implements GoogleLoginUseCase {
     @Override
     public LoginResult execute(GoogleLoginCommand command) {
         GoogleUserInfo googleUserInfo = googleTokenVerifierPort.verify(command.idToken())
-                .orElseThrow(InvalidGoogleTokenException::new);
+                .orElseThrow(() -> {
+                    log.warn("Google login failed: token validation failed");
+                    return new InvalidGoogleTokenException();
+                });
 
         UUID userId = resolveUserId(googleUserInfo);
 
         GeneratedToken generatedToken = tokenGeneratorPort.generate(userId);
+
+        log.info("User {} logged in via GOOGLE", userId);
 
         return new LoginResult(generatedToken.token(), generatedToken.expiresAt(), userId);
     }
@@ -50,7 +59,10 @@ public class GoogleLoginService implements GoogleLoginUseCase {
     private UUID resolveUserId(GoogleUserInfo googleUserInfo) {
         return authIdentityRepositoryPort
                 .findByProviderAndProviderUserId(AuthProvider.GOOGLE, googleUserInfo.googleUserId())
-                .map(AuthIdentity::getUserId)
+                .map(authIdentity -> {
+                    log.debug("Google identity already linked to user {}", authIdentity.getUserId());
+                    return authIdentity.getUserId();
+                })
                 .orElseGet(() -> linkOrCreateUser(googleUserInfo));
     }
 
@@ -64,6 +76,7 @@ public class GoogleLoginService implements GoogleLoginUseCase {
         AuthIdentity authIdentity = AuthIdentity.createOAuth(
                 existingUser.getId(), AuthProvider.GOOGLE, googleUserInfo.googleUserId());
         authIdentityRepositoryPort.save(authIdentity);
+        log.debug("Linked Google identity to existing user {}", existingUser.getId());
         return existingUser.getId();
     }
 
@@ -77,6 +90,9 @@ public class GoogleLoginService implements GoogleLoginUseCase {
                 user.getId(), AuthProvider.GOOGLE, googleUserInfo.googleUserId());
 
         userRegistrationPort.register(user, authIdentity);
+
+        log.debug("Created new user {} via Google login", user.getId());
+        log.info("User registered: {} via GOOGLE", user.getId());
 
         return user.getId();
     }
