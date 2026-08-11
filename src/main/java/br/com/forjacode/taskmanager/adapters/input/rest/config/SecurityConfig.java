@@ -16,29 +16,31 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter,
-            JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) throws Exception {
-        http
-                .cors(Customizer.withDefaults())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authz -> authz
-                        .requestMatchers(
-                                "/swagger-ui.html",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/api/hello",
-                                "/actuator/health",
-                                "/api/users/**",
-                                "/api/auth/login",
-                                "/api/auth/google")
-                        .permitAll()
-                        .anyRequest().authenticated())
-                .exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(jwtAuthenticationEntryPoint))
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                // CSRF desabilitado: API REST stateless, autenticação via Bearer/JWT (não via cookie de
-                // sessão). Proteção CSRF é irrelevante nesse modelo, já que o token é enviado
-                // explicitamente pelo cliente, nunca de forma automática pelo navegador.
-                .csrf(csrf -> csrf.disable());
-        return http.build();
+            JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
+        try {
+            http
+                    .cors(Customizer.withDefaults())
+                    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                    .authorizeHttpRequests(authz -> authz
+                            .requestMatchers(
+                                    "/swagger-ui.html",
+                                    "/swagger-ui/**",
+                                    "/v3/api-docs/**",
+                                    "/api/hello",
+                                    "/actuator/health",
+                                    "/api/users/**",
+                                    "/api/auth/login",
+                                    "/api/auth/google")
+                            .permitAll()
+                            .anyRequest().authenticated())
+                    .exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                    .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                    .csrf(csrf -> csrf.disable());
+
+            return http.build();
+        } catch (Exception e) {
+            throw new SecurityConfigurationException("Falha ao construir a cadeia de filtros de segurança", e);
+        }
     }
 
     @Bean

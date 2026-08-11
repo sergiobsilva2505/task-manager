@@ -65,11 +65,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleGenericException(Exception ex, WebRequest request) {
-        log.error("Unexpected error handling request [{}]", extractPath(request), ex);
+        String path = extractPath(request);
+        log.error("Unexpected error handling request [{}]", path, ex);
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
         problemDetail.setTitle("Internal Server Error");
-        problemDetail.setProperty("path", extractPath(request));
+        problemDetail.setProperty("path", path);
         return problemDetail;
     }
 
@@ -115,6 +117,14 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleInvalidGoogleTokenException(InvalidGoogleTokenException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
         problemDetail.setTitle("Invalid Google Token");
+        problemDetail.setProperty("path", extractPath(request));
+        return problemDetail;
+    }
+
+    @ExceptionHandler(SecurityConfigurationException.class)
+    public ProblemDetail handleSecurityConfigurationException(SecurityConfigurationException ex, WebRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+        problemDetail.setTitle("Security Configuration Error");
         problemDetail.setProperty("path", extractPath(request));
         return problemDetail;
     }
