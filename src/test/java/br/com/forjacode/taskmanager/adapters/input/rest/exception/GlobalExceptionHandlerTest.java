@@ -363,4 +363,46 @@ class GlobalExceptionHandlerTest {
             }
         }
     }
+
+    @Nested
+    @DisplayName("Handle security configuration exception")
+    class HandleSecurityConfigurationException {
+
+        @Nested
+        @DisplayName("Success")
+        class Success {
+
+            @Test
+            @DisplayName("should return internal server error when security configuration fails")
+            void shouldReturnInternalServerErrorWhenSecurityConfigurationFails() {
+                when(webRequest.getDescription(false)).thenReturn("uri=/api/auth");
+                SecurityConfigurationException ex =
+                        new SecurityConfigurationException("Failed to initialize JWT secret");
+
+                ProblemDetail problemDetail =
+                        globalExceptionHandler.handleSecurityConfigurationException(ex, webRequest);
+
+                assertThat(problemDetail.getStatus()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                assertThat(problemDetail.getDetail()).isEqualTo("Failed to initialize JWT secret");
+                assertThat(problemDetail.getTitle()).isEqualTo("Security Configuration Error");
+                assertThat(problemDetail.getProperties()).containsEntry("path", "/api/auth");
+            }
+
+            @Test
+            @DisplayName("should return internal server error with cause when security configuration fails with cause")
+            void shouldReturnInternalServerErrorWithCauseWhenSecurityConfigurationFailsWithCause() {
+                when(webRequest.getDescription(false)).thenReturn("uri=/api/security");
+                SecurityConfigurationException ex =
+                        new SecurityConfigurationException("Invalid algorithm", "HMAC512 not supported");
+
+                ProblemDetail problemDetail =
+                        globalExceptionHandler.handleSecurityConfigurationException(ex, webRequest);
+
+                assertThat(problemDetail.getStatus()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                assertThat(problemDetail.getDetail()).isEqualTo("Invalid algorithm: HMAC512 not supported");
+                assertThat(problemDetail.getTitle()).isEqualTo("Security Configuration Error");
+                assertThat(problemDetail.getProperties()).containsEntry("path", "/api/security");
+            }
+        }
+    }
 }
