@@ -1,32 +1,41 @@
+# Compiled class files
+*.class
+
+# Maven
 target/
 .mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-.env
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
 
-### IntelliJ IDEA ###
-.idea
-*.iws
+# IDE - IntelliJ
+.idea/
 *.iml
-*.ipr
+*.iws
+out/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
+# IDE - VS Code
 .vscode/
+
+# IDE - Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# Logs
+*.log
+logs/
+
+# Environment / segredos
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testes / coverage
+/target/
+*.jacoco.exec
+
+# Docker
+docker-compose.override.yml

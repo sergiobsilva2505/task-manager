@@ -1,6 +1,23 @@
 server:
   port: 8080
 
+spring:
+  application:
+    name: task-manager
+  profiles:
+    default: dev
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+
 management:
   endpoints:
     web:
@@ -26,10 +43,8 @@ app:
 
   cors:
     address: /api/**
-    allowed-origins: http://localhost:4200
     allowed-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
     allowed-headers: "*"
-#    allow-credentials: true
 
   jwt:
     secret: ${JWT_SECRET}
@@ -38,28 +53,3 @@ app:
 logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n"
-  level:
-    root: INFO
-    br.com.forjacode.taskmanager: DEBUG
-
-spring:
-  application:
-    name: task-manager
-
-  datasource:
-    url: jdbc:postgresql://localhost:5432/task_manager_db
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: validate   # opções comuns: none, validate, update, create, create-drop
-    show-sql: true       # mostra SQL no console
-    properties:
-      hibernate:
-        format_sql: true
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-
-  liquibase:
-    change-log: classpath:/db/changelog/db.changelog-master.yaml
