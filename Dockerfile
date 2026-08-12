@@ -3,8 +3,6 @@ FROM amazoncorretto:21 AS builder
 
 WORKDIR /app
 
-# Amazon Corretto 21 (base Amazon Linux 2023) não vem com 'tar' instalado.
-# O mvnw precisa dele para descompactar a distribuição do Maven que baixa.
 RUN dnf install -y tar gzip && dnf clean all
 
 COPY .mvn/ .mvn
@@ -25,5 +23,8 @@ USER spring:spring
 COPY --from=builder /app/target/*.jar app.jar
 
 EXPOSE 8080
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=40s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/actuator/health || exit 1
 
 ENTRYPOINT ["java", "-XX:MaxRAMPercentage=50.0", "-XX:InitialRAMPercentage=25.0", "-jar", "app.jar"]
