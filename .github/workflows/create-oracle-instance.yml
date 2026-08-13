@@ -1,0 +1,131 @@
+name: Create Oracle Cloud Instance
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'
+
+concurrency:
+  group: oracle-instance-creation
+  cancel-in-progress: false
+
+jobs:
+  create-instance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+
+    steps:
+      - name: Install OCI CLI
+        run: pip install oci-cli
+
+      - name: Configure OCI CLI
+        run: |
+          mkdir -p ~/.oci
+          cat > ~/.oci/config << EOF
+          [DEFAULT]
+          user=${{ secrets.OCI_USER_OCID }}
+          fingerprint=${{ secrets.OCI_FINGERPRINT }}
+          tenancy=${{ secrets.OCI_TENANCY_OCID }}
+          region=${{ secrets.OCI_REGION }}
+          key_file=~/.oci/oci_api_key.pem
+          EOF
+          echo "${{ secrets.OCI_PRIVATE_KEY }}" > ~/.oci/oci_api_key.pem
+          chmod 600 ~/.oci/oci_api_key.pem ~/.oci/config
+
+      - name: Check if instance already exists
+        id: check
+        run: |
+          COMP_ID="${{ secrets.OCI_COMPARTMENT_OCID }}"
+          EXISTING=$(oci compute instance list \
+            --compartment-id $COMP_ID \
+            --display-name "task-manager-server" \
+            --lifecycle-state RUNNING \
+            --query "data[0].id" --raw-output 2>/dev/null || echo "")
+
+          if [ -n "$EXISTING" ] && [ "$EXISTING" != "null" ]; then
+            echo "already_exists=true" >> $GITHUB_OUTPUT
+            echo "✅ Instância já existe e está RUNNING: $EXISTING"
+          else
+            echo "already_exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Retry loop to create instance
+        if: steps.check.outputs.already_exists == 'false'
+        run: |
+          COMP_ID="${{ secrets.OCI_COMPARTMENT_OCID }}"
+          AD_NAME=$(oci iam availability-domain list --query "data[0].name" --raw-output)
+          SUBNET_ID=$(oci network subnet list --compartment-id $COMP_ID --query "data[?contains(\"display-name\",'public')].id | [0]" --raw-output)
+          IMAGE_ID=$(oci compute image list --compartment-id $COMP_ID --operating-system "Canonical Ubuntu" --operating-system-version "24.04" --shape "VM.Standard.A1.Flex" --query "data[0].id" --raw-output)
+
+          echo "${{ secrets.SSH_PUBLIC_KEY }}" > ~/.oci/ssh_public_key.pub
+
+          echo "Compartment: $COMP_ID"
+          echo "AD: $AD_NAME"
+          echo "Subnet: $SUBNET_ID"
+          echo "Image: $IMAGE_ID"
+
+          START_TIME=$SECONDS
+          MAX_DURATION=$((340 * 60))
+          ATTEMPT=1
+          BACKOFF=30
+          MAX_BACKOFF=600
+
+          while true; do
+            ELAPSED=$((SECONDS - START_TIME))
+            if [ $ELAPSED -ge $MAX_DURATION ]; then
+              echo "⏱️ Tempo máximo do job atingido. Encerrando para o cron tentar de novo."
+              exit 0
+            fi
+
+            echo "[$(date +%H:%M:%S)] Tentativa #$ATTEMPT (elapsed: ${ELAPSED}s)..."
+
+            RESULT=$(oci compute instance launch \
+              --compartment-id $COMP_ID \
+              --availability-domain $AD_NAME \
+              --shape "VM.Standard.A1.Flex" \
+              --shape-config '{"ocpus": 2, "memoryInGBs": 12}' \
+              --display-name "task-manager-server" \
+              --subnet-id $SUBNET_ID \
+              --image-id $IMAGE_ID \
+              --assign-public-ip true \
+              --ssh-authorized-keys-file ~/.oci/ssh_public_key.pub \
+              --wait-for-state RUNNING \
+              2>&1)
+
+            if echo "$RESULT" | grep -q "\"lifecycle-state\": \"RUNNING\""; then
+              echo "✅ Instância criada com sucesso!"
+              PUBLIC_IP=$(echo "$RESULT" | grep -A2 '"public-ip"' | head -2 | tail -1 | grep -oP '"\K[^"]+(?="$)')
+              echo "IP público: $PUBLIC_IP"
+              echo "## ✅ Instância criada com sucesso!" >> $GITHUB_STEP_SUMMARY
+              echo "**IP público:** \`$PUBLIC_IP\`" >> $GITHUB_STEP_SUMMARY
+              break
+
+            elif echo "$RESULT" | grep -q "Out of host capacity"; then
+              echo "⚠️  Sem capacidade, tentando de novo em ${BACKOFF}s..."
+              sleep $BACKOFF
+              ATTEMPT=$((ATTEMPT+1))
+              BACKOFF=30
+
+            elif echo "$RESULT" | grep -q "TooManyRequests"; then
+              echo "🐢 Rate limit atingido (429). Aguardando ${BACKOFF}s..."
+              sleep $BACKOFF
+              ATTEMPT=$((ATTEMPT+1))
+              BACKOFF=$((BACKOFF*2))
+              if [ $BACKOFF -gt $MAX_BACKOFF ]; then
+                BACKOFF=$MAX_BACKOFF
+              fi
+
+            else
+              echo "❌ Erro inesperado:"
+              echo "$RESULT"
+              echo "## ❌ Erro inesperado" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              echo "$RESULT" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              exit 1
+            fi
+          done
+
+      - name: Report already exists
+        if: steps.check.outputs.already_exists == 'true'
+        run: echo "## ℹ️ Instância já existe, nada a fazer." >> $GITHUB_STEP_SUMMARY
