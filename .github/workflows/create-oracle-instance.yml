@@ -115,6 +115,15 @@ jobs:
                 BACKOFF=$MAX_BACKOFF
               fi
 
+            elif echo "$RESULT" | grep -qE "connection to endpoint timed out|RequestException|ConnectionError"; then
+              echo "🌐 Erro de conectividade/timeout. Aguardando ${BACKOFF}s antes de tentar de novo..."
+              sleep $BACKOFF
+              ATTEMPT=$((ATTEMPT+1))
+              BACKOFF=$((BACKOFF*2))
+              if [ $BACKOFF -gt $MAX_BACKOFF ]; then
+                BACKOFF=$MAX_BACKOFF
+              fi
+
             else
               echo "❌ Erro inesperado:"
               echo "$RESULT"
