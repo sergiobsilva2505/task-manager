@@ -90,7 +90,7 @@ jobs:
               --assign-public-ip true \
               --ssh-authorized-keys-file ~/.oci/ssh_public_key.pub \
               --wait-for-state RUNNING \
-              2>&1)
+              2>&1) || true
 
             if echo "$RESULT" | grep -q "\"lifecycle-state\": \"RUNNING\""; then
               echo "✅ Instância criada com sucesso!"
