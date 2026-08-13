@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Install OCI CLI
-        run: pip install oci-cli
+        run: "pip install --only-binary :all: oci-cli==3.89.2"
 
       - name: Configure OCI CLI
         run: |
