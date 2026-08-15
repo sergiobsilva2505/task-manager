@@ -4,7 +4,7 @@ import br.com.forjacode.taskmanager.application.ports.output.GoogleTokenVerifier
 import br.com.forjacode.taskmanager.application.ports.output.GoogleUserInfo;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -20,9 +20,8 @@ public class GoogleTokenVerifierAdapter implements GoogleTokenVerifierPort {
 
     private final GoogleIdTokenVerifier verifier;
 
-    public GoogleTokenVerifierAdapter(GoogleOAuthProperties properties) throws GeneralSecurityException, IOException {
-        this.verifier = new GoogleIdTokenVerifier.Builder(
-                GoogleNetHttpTransport.newTrustedTransport(),
+    public GoogleTokenVerifierAdapter(GoogleOAuthProperties properties) {
+        this.verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(),
                 GsonFactory.getDefaultInstance())
                 .setAudience(List.of(properties.clientId()))
                 .build();
