@@ -27,17 +27,17 @@ vars:post-response {
 
 docs {
   Autentica um usuário já registrado e emite um token JWT.
-
+  
   Depende de "Register User" (pasta Users) ter rodado antes.
-
+  
   Resposta esperada: 200 OK, com token, expiresAt (aproximadamente 1h
   no futuro) e userId. O token é salvo automaticamente na variável
   {{token}}, usada no header Authorization: Bearer {{token}} em todos
   os requests da pasta Tasks.
-
+  
   O token expira em 1 hora — não há renovação automática (refresh
   token); expirado, é necessário logar novamente.
-
+  
   Erros possíveis: 401 Unauthorized quando o email não existe ou a
   senha está incorreta — a API retorna sempre a mesma mensagem
   genérica ("Invalid email or password") nos dois casos, para não
