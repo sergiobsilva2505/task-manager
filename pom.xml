@@ -34,13 +34,13 @@
         <sonar.organization>sergiobsilva2505</sonar.organization>
         <sonar.scm.disabled>true</sonar.scm.disabled>
         <java.version>21</java.version>
-        <lombok.version>1.18.32</lombok.version>
+        <lombok.version>1.18.46</lombok.version>
         <mapstruct.version>1.6.3</mapstruct.version>
-        <springdoc.version>3.0.3</springdoc.version>
+        <springdoc.version>3.1.0</springdoc.version>
         <dotenv.version>5.1.0</dotenv.version>
         <jacoco.version>0.8.15</jacoco.version>
         <testcontainers.version>2.0.5</testcontainers.version>
-        <archunit-junit5.version>1.4.2</archunit-junit5.version>
+        <archunit-junit5.version>1.5.0</archunit-junit5.version>
         <jjwt.version>0.13.0</jjwt.version>
         <google-api-client.version>2.9.0</google-api-client.version>
     </properties>
