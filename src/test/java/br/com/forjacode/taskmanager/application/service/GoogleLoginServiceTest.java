@@ -127,7 +127,7 @@ class GoogleLoginServiceTest {
             when(authIdentityRepositoryPort.findByProviderAndProviderUserId(AuthProvider.GOOGLE, "google-user-id-123"))
                     .thenReturn(Optional.empty());
             when(userRepositoryPort.findByEmail("newuser@example.com")).thenReturn(Optional.empty());
-            when(tokenGeneratorPort.generate(any())).thenReturn(generatedToken);
+            when(tokenGeneratorPort.generate(any(UUID.class))).thenReturn(generatedToken);
 
             ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
             ArgumentCaptor<AuthIdentity> authIdentityCaptor = ArgumentCaptor.forClass(AuthIdentity.class);
@@ -160,13 +160,13 @@ class GoogleLoginServiceTest {
             when(authIdentityRepositoryPort.findByProviderAndProviderUserId(AuthProvider.GOOGLE, "google-user-id-123"))
                     .thenReturn(Optional.empty());
             when(userRepositoryPort.findByEmail("maria.silva@example.com")).thenReturn(Optional.empty());
-            when(tokenGeneratorPort.generate(any()))
+            when(tokenGeneratorPort.generate(any(UUID.class)))
                     .thenReturn(new GeneratedToken("jwt-token", Instant.now().plusSeconds(3600)));
 
             googleLoginService.execute(command);
 
             ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-            verify(userRegistrationPort).register(userCaptor.capture(), any());
+            verify(userRegistrationPort).register(userCaptor.capture(),any(AuthIdentity.class) );
 
             assertThat(userCaptor.getValue().getName()).isEqualTo("maria silva");
         }
@@ -181,13 +181,13 @@ class GoogleLoginServiceTest {
             when(authIdentityRepositoryPort.findByProviderAndProviderUserId(AuthProvider.GOOGLE, "google-user-id-123"))
                     .thenReturn(Optional.empty());
             when(userRepositoryPort.findByEmail("jd83@example.com")).thenReturn(Optional.empty());
-            when(tokenGeneratorPort.generate(any()))
+            when(tokenGeneratorPort.generate(any(UUID.class)))
                     .thenReturn(new GeneratedToken("jwt-token", Instant.now().plusSeconds(3600)));
 
             googleLoginService.execute(command);
 
             ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-            verify(userRegistrationPort).register(userCaptor.capture(), any());
+            verify(userRegistrationPort).register(userCaptor.capture(), any(AuthIdentity.class));
 
             assertThat(userCaptor.getValue().getName()).isEqualTo("Google User");
         }
