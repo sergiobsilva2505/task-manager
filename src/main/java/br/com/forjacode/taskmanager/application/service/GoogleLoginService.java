@@ -59,10 +59,7 @@ public class GoogleLoginService implements GoogleLoginUseCase {
     private UUID resolveUserId(GoogleUserInfo googleUserInfo) {
         return authIdentityRepositoryPort
                 .findByProviderAndProviderUserId(AuthProvider.GOOGLE, googleUserInfo.googleUserId())
-                .map(authIdentity -> {
-                    log.debug("Google identity already linked to user {}", authIdentity.getUserId());
-                    return authIdentity.getUserId();
-                })
+                .map(AuthIdentity::getUserId)
                 .orElseGet(() -> linkOrCreateUser(googleUserInfo));
     }
 
@@ -76,7 +73,6 @@ public class GoogleLoginService implements GoogleLoginUseCase {
         AuthIdentity authIdentity = AuthIdentity.createOAuth(
                 existingUser.getId(), AuthProvider.GOOGLE, googleUserInfo.googleUserId());
         authIdentityRepositoryPort.save(authIdentity);
-        log.debug("Linked Google identity to existing user {}", existingUser.getId());
         return existingUser.getId();
     }
 
@@ -91,7 +87,6 @@ public class GoogleLoginService implements GoogleLoginUseCase {
 
         userRegistrationPort.register(user, authIdentity);
 
-        log.debug("Created new user {} via Google login", user.getId());
         log.info("User registered: {} via GOOGLE", user.getId());
 
         return user.getId();

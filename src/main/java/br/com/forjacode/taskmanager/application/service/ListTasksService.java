@@ -5,14 +5,10 @@ import br.com.forjacode.taskmanager.application.ports.output.TaskRepositoryPort;
 import br.com.forjacode.taskmanager.application.ports.shared.PageQuery;
 import br.com.forjacode.taskmanager.application.ports.shared.PagedResult;
 import br.com.forjacode.taskmanager.domain.model.Task;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
 public class ListTasksService implements ListTasksUseCase {
-
-    private static final Logger log = LoggerFactory.getLogger(ListTasksService.class);
 
     private final TaskRepositoryPort taskRepositoryPort;
 
@@ -22,10 +18,6 @@ public class ListTasksService implements ListTasksUseCase {
 
     @Override
     public PagedResult<Task> execute(PageQuery query, UUID ownerId) {
-        // Nível debug: chamado a cada carregamento de tela (paginação), evita volume alto em produção.
-        log.debug("Listing tasks for owner {} with query {}", ownerId, query);
-        PagedResult<Task> result = taskRepositoryPort.findAll(query, ownerId);
-        log.debug("Listed {} tasks for owner {}", result.content().size(), ownerId);
-        return result;
+        return taskRepositoryPort.findAll(query, ownerId);
     }
 }

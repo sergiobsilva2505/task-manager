@@ -39,7 +39,7 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
 
     @Override
     public Optional<Task> findById(UUID id) {
-        log.debug("Finding task with id {}", id);
+        log.info("Finding task with id {}", id);
         Optional<Task> task = taskJpaRepository.findById(id).map(taskMapper::toDomain);
         log.info("Finished finding task with id {}, found={}", id, task.isPresent());
         return task;
@@ -57,9 +57,11 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
     @Override
     public List<Task> findAll() {
         log.info("Finding all tasks");
-        return taskJpaRepository.findAll().stream()
+        List<Task> tasks = taskJpaRepository.findAll().stream()
                 .map(taskMapper::toDomain)
                 .toList();
+        log.info("Found {} tasks", tasks.size());
+        return tasks;
     }
 
     @Override
