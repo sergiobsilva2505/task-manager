@@ -47,7 +47,7 @@ public class GoogleTokenVerifierAdapter implements GoogleTokenVerifierPort {
             return Optional.of(new GoogleUserInfo(payload.getEmail(), name, payload.getSubject()));
 
         } catch (GeneralSecurityException | IOException e) {
-            log.warn("Google ID token verification failed", e);
+            log.error("Google ID token verification failed", e);
             return Optional.empty();
         }
     }

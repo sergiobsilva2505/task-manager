@@ -6,6 +6,8 @@ import br.com.forjacode.taskmanager.application.ports.output.TaskRepositoryPort;
 import br.com.forjacode.taskmanager.domain.model.Task;
 import br.com.forjacode.taskmanager.domain.model.enums.Priority;
 import br.com.forjacode.taskmanager.domain.model.enums.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -15,6 +17,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class GetDashboardService implements GetDashboardUseCase {
+
+    private static final Logger log = LoggerFactory.getLogger(GetDashboardService.class);
 
     private static final int DUE_SOON_DAYS = 7;
 
@@ -26,7 +30,9 @@ public class GetDashboardService implements GetDashboardUseCase {
 
     @Override
     public DashboardResult execute(UUID ownerId) {
+        log.info("Building dashboard for owner {}", ownerId);
         List<Task> tasks = taskRepositoryPort.findAllByOwnerId(ownerId);
+        log.info("Dashboard built for owner {} with {} tasks", ownerId, tasks.size());
 
         LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         LocalDateTime dueSoonThreshold = now.plusDays(DUE_SOON_DAYS);

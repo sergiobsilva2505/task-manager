@@ -35,7 +35,7 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
             userJpaRepository.saveAndFlush(userMapper.toEntity(user));
             log.info("User with email {} saved successfully", user.getEmail());
         } catch (ConstraintViolationException | DataIntegrityViolationException e) {
-            log.warn("Failed to save user due to constraint violation: email={}", user.getEmail(), e);
+            log.error("Failed to save user due to constraint violation: email={}", user.getEmail(), e);
             throw new EmailAlreadyInUseException("Email %s is already in use".formatted(user.getEmail()), e);
         }
     }
