@@ -25,7 +25,7 @@ public class DeleteTaskService implements DeleteTaskUseCase {
                 .filter(t -> t.getOwnerId().equals(userId));
 
         if (task.isEmpty()) {
-            log.warn("Task {} not found for user {}, nothing to delete", taskId, userId);
+            log.debug("Task {} not found for user {}, nothing to delete", taskId, userId);
             return;
         }
 

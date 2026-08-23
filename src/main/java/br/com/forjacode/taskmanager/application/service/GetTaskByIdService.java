@@ -24,7 +24,7 @@ public class GetTaskByIdService implements GetTaskByIdUseCase {
         Task task = repositoryPort.findById(taskId)
                 .filter(t -> currentUserId.equals(t.getOwnerId()))
                 .orElseThrow(() -> {
-                    log.warn("Task {} not found for user {}", taskId, currentUserId);
+                    log.debug("Task {} not found for user {}", taskId, currentUserId);
                     return new TaskNotFoundException(
                             "Task with ID %s not found for user %s".formatted(taskId, currentUserId));
                 });
