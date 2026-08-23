@@ -6,6 +6,7 @@ import br.com.forjacode.taskmanager.application.ports.shared.PagedResult;
 import br.com.forjacode.taskmanager.application.ports.shared.SortDirection;
 import br.com.forjacode.taskmanager.application.ports.shared.TaskSortField;
 import br.com.forjacode.taskmanager.domain.model.Task;
+import br.com.forjacode.taskmanager.domain.model.enums.Priority;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,11 +15,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -39,9 +40,11 @@ class ListTasksServiceTest {
         @DisplayName("should return paged result when repository returns tasks")
         void shouldReturnPagedResultWhenRepositoryReturnsTasks() {
             PageQuery query = new PageQuery(0, 20, TaskSortField.DEFAULT, SortDirection.DESC);
-            Task firstTask = mock(Task.class);
-            Task secondTask = mock(Task.class);
             UUID ownerId = UUID.randomUUID();
+            Task firstTask = Task.create("First task", "First task description", Priority.MEDIUM,
+                    LocalDateTime.now().plusDays(1), ownerId);
+            Task secondTask = Task.create("Second task", "Second task description", Priority.HIGH,
+                    LocalDateTime.now().plusDays(2), ownerId);
             PagedResult<Task> expected = new PagedResult<>(List.of(firstTask, secondTask), 0, 20, 2, 1);
             when(repositoryPort.findAll(query, ownerId)).thenReturn(expected);
 
