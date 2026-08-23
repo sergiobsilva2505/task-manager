@@ -127,14 +127,14 @@ class GoogleLoginServiceTest {
             when(authIdentityRepositoryPort.findByProviderAndProviderUserId(AuthProvider.GOOGLE, "google-user-id-123"))
                     .thenReturn(Optional.empty());
             when(userRepositoryPort.findByEmail("newuser@example.com")).thenReturn(Optional.empty());
-            TokenGeneratorPort tokenGeneratorPort = mock(TokenGeneratorPort.class, invocation -> generatedToken);
-            GoogleLoginService googleLoginService = new GoogleLoginService(googleTokenVerifierPort,
-                    authIdentityRepositoryPort, userRepositoryPort, userRegistrationPort, tokenGeneratorPort);
+            TokenGeneratorPort customTokenGeneratorPort = mock(TokenGeneratorPort.class, invocation -> generatedToken);
+            GoogleLoginService serviceUnderTest = new GoogleLoginService(googleTokenVerifierPort,
+                    authIdentityRepositoryPort, userRepositoryPort, userRegistrationPort, customTokenGeneratorPort);
 
             ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
             ArgumentCaptor<AuthIdentity> authIdentityCaptor = ArgumentCaptor.forClass(AuthIdentity.class);
 
-            googleLoginService.execute(command);
+            serviceUnderTest.execute(command);
 
             verify(userRegistrationPort).register(userCaptor.capture(), authIdentityCaptor.capture());
 
@@ -149,7 +149,7 @@ class GoogleLoginServiceTest {
             assertThat(createdAuthIdentity.getProviderUserId()).isEqualTo("google-user-id-123");
             assertThat(createdAuthIdentity.getPasswordHash()).isNull();
 
-            verify(tokenGeneratorPort).generate(createdUser.getId());
+            verify(customTokenGeneratorPort).generate(createdUser.getId());
         }
 
         @Test
@@ -163,11 +163,11 @@ class GoogleLoginServiceTest {
                     .thenReturn(Optional.empty());
             when(userRepositoryPort.findByEmail("maria.silva@example.com")).thenReturn(Optional.empty());
             GeneratedToken generatedToken = new GeneratedToken("jwt-token", Instant.now().plusSeconds(3600));
-            TokenGeneratorPort tokenGeneratorPort = mock(TokenGeneratorPort.class, invocation -> generatedToken);
-            GoogleLoginService googleLoginService = new GoogleLoginService(googleTokenVerifierPort,
-                    authIdentityRepositoryPort, userRepositoryPort, userRegistrationPort, tokenGeneratorPort);
+            TokenGeneratorPort customTokenGeneratorPort = mock(TokenGeneratorPort.class, invocation -> generatedToken);
+            GoogleLoginService serviceUnderTest = new GoogleLoginService(googleTokenVerifierPort,
+                    authIdentityRepositoryPort, userRepositoryPort, userRegistrationPort, customTokenGeneratorPort);
 
-            googleLoginService.execute(command);
+            serviceUnderTest.execute(command);
 
             ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
             ArgumentCaptor<AuthIdentity> authIdentityCaptor = ArgumentCaptor.forClass(AuthIdentity.class);
@@ -187,11 +187,11 @@ class GoogleLoginServiceTest {
                     .thenReturn(Optional.empty());
             when(userRepositoryPort.findByEmail("jd83@example.com")).thenReturn(Optional.empty());
             GeneratedToken generatedToken = new GeneratedToken("jwt-token", Instant.now().plusSeconds(3600));
-            TokenGeneratorPort tokenGeneratorPort = mock(TokenGeneratorPort.class, invocation -> generatedToken);
-            GoogleLoginService googleLoginService = new GoogleLoginService(googleTokenVerifierPort,
-                    authIdentityRepositoryPort, userRepositoryPort, userRegistrationPort, tokenGeneratorPort);
+            TokenGeneratorPort customTokenGeneratorPort = mock(TokenGeneratorPort.class, invocation -> generatedToken);
+            GoogleLoginService serviceUnderTest = new GoogleLoginService(googleTokenVerifierPort,
+                    authIdentityRepositoryPort, userRepositoryPort, userRegistrationPort, customTokenGeneratorPort);
 
-            googleLoginService.execute(command);
+            serviceUnderTest.execute(command);
 
             ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
             ArgumentCaptor<AuthIdentity> authIdentityCaptor = ArgumentCaptor.forClass(AuthIdentity.class);
