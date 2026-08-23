@@ -36,21 +36,21 @@ public class AuthIdentityRepositoryAdapter implements AuthIdentityRepositoryPort
 
     @Override
     public Optional<AuthIdentity> findByUserIdAndProvider(UUID userId, AuthProvider provider) {
-        log.info("Finding auth identity for user {} with provider {}", userId, provider);
+        log.debug("Finding auth identity for user {} with provider {}", userId, provider);
         Optional<AuthIdentity> authIdentity = authIdentityJpaRepository.findByUserIdAndProvider(userId, provider)
                 .map(authIdentityMapper::toDomain);
-        log.info("Finished finding auth identity for user {} with provider {}, found={}", userId, provider,
+        log.debug("Finished finding auth identity for user {} with provider {}, found={}", userId, provider,
                 authIdentity.isPresent());
         return authIdentity;
     }
 
     @Override
     public Optional<AuthIdentity> findByProviderAndProviderUserId(AuthProvider provider, String providerUserId) {
-        log.info("Finding auth identity with provider {} and providerUserId {}", provider, providerUserId);
+        log.debug("Finding auth identity with provider {} and providerUserId {}", provider, providerUserId);
         Optional<AuthIdentity> authIdentity = authIdentityJpaRepository
                 .findByProviderAndProviderUserId(provider, providerUserId)
                 .map(authIdentityMapper::toDomain);
-        log.info("Finished finding auth identity with provider {} and providerUserId {}, found={}", provider,
+        log.debug("Finished finding auth identity with provider {} and providerUserId {}, found={}", provider,
                 providerUserId, authIdentity.isPresent());
         return authIdentity;
     }

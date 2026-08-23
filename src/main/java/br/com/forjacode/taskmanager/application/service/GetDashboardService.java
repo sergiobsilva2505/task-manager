@@ -30,9 +30,9 @@ public class GetDashboardService implements GetDashboardUseCase {
 
     @Override
     public DashboardResult execute(UUID ownerId) {
-        log.info("Building dashboard for owner {}", ownerId);
+        log.debug("Building dashboard for owner {}", ownerId);
         List<Task> tasks = taskRepositoryPort.findAllByOwnerId(ownerId);
-        log.info("Dashboard built for owner {} with {} tasks", ownerId, tasks.size());
+        log.debug("Dashboard built for owner {} with {} tasks", ownerId, tasks.size());
 
         LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         LocalDateTime dueSoonThreshold = now.plusDays(DUE_SOON_DAYS);

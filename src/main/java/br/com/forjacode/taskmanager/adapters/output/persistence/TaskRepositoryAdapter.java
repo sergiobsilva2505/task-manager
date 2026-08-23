@@ -39,9 +39,9 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
 
     @Override
     public Optional<Task> findById(UUID id) {
-        log.info("Finding task with id {}", id);
+        log.debug("Finding task with id {}", id);
         Optional<Task> task = taskJpaRepository.findById(id).map(taskMapper::toDomain);
-        log.info("Finished finding task with id {}, found={}", id, task.isPresent());
+        log.debug("Finished finding task with id {}, found={}", id, task.isPresent());
         return task;
     }
 
@@ -56,11 +56,11 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
 
     @Override
     public List<Task> findAll() {
-        log.info("Finding all tasks");
+        log.debug("Finding all tasks");
         List<Task> tasks = taskJpaRepository.findAll().stream()
                 .map(taskMapper::toDomain)
                 .toList();
-        log.info("Found {} tasks", tasks.size());
+        log.debug("Found {} tasks", tasks.size());
         return tasks;
     }
 
@@ -97,11 +97,11 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
 
     @Override
     public List<Task> findAllByOwnerId(UUID ownerId) {
-        log.info("Finding all tasks for owner with id {} paged", ownerId);
+        log.debug("Finding all tasks for owner with id {} paged", ownerId);
         List<Task> tasks = taskJpaRepository.findAllByOwnerId(ownerId).stream()
                 .map(taskMapper::toDomain)
                 .toList();
-        log.info("Found {} tasks for owner with id {}", tasks.size(), ownerId);
+        log.debug("Found {} tasks for owner with id {}", tasks.size(), ownerId);
         return tasks;
     }
 
