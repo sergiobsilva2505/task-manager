@@ -26,6 +26,8 @@ public class ChangeTaskStatusService implements ChangeTaskStatusUseCase {
                         "Task with ID %s not found for user %s".formatted(command.taskId(), command.ownerId())));
 
         task.changeStatus(command.newStatus());
+
+        log.info("Updating task {} status to {} for user {}", task.getId(), task.getStatus(), command.ownerId());
         Task updatedTask = repositoryPort.update(task);
 
         log.info("Task {} status changed to {} by user {}", updatedTask.getId(), updatedTask.getStatus(),
