@@ -64,7 +64,8 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
 
     @Override
     public PagedResult<Task> findAll(PageQuery query, UUID ownerId) {
-        log.info("Finding all tasks for owner with id {}", ownerId);
+        // Nível debug: chamado a cada carregamento de tela (paginação), evita volume alto em produção.
+        log.debug("Finding all tasks for owner with id {}", ownerId);
         Pageable pageable = getPageable(query);
 
         Page<TaskJpaEntity> tasksPage = taskJpaRepository.findAllByOwnerId(ownerId, pageable);
@@ -74,7 +75,7 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
                 .map(taskMapper::toDomain)
                 .toList();
 
-        log.info("Found {} tasks for owner with id {}", tasks.size(), ownerId);
+        log.debug("Found {} tasks for owner with id {}", tasks.size(), ownerId);
 
         return new PagedResult<>(
                 tasks,
