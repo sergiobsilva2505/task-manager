@@ -28,7 +28,7 @@ public class GetTaskByIdService implements GetTaskByIdUseCase {
                     return new TaskNotFoundException(
                             "Task with ID %s not found for user %s".formatted(taskId, currentUserId));
                 });
-        log.info("Task {} found for user {}", taskId, currentUserId);
+        log.debug("Task {} found for user {}", taskId, currentUserId);
         return task;
     }
 
