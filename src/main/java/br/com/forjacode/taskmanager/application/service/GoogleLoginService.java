@@ -72,7 +72,10 @@ public class GoogleLoginService implements GoogleLoginUseCase {
     private UUID linkGoogleIdentity(User existingUser, GoogleUserInfo googleUserInfo) {
         AuthIdentity authIdentity = AuthIdentity.createOAuth(
                 existingUser.getId(), AuthProvider.GOOGLE, googleUserInfo.googleUserId());
+
+        log.info("Linking GOOGLE identity to existing user {}", existingUser.getId());
         authIdentityRepositoryPort.save(authIdentity);
+
         return existingUser.getId();
     }
 
