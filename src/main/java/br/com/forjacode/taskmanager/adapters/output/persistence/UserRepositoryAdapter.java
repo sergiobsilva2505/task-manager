@@ -42,7 +42,7 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 
     @Override
     public Optional<User> findById(UUID id) {
-        log.info("Finding user with id {}", id);
+        log.debug("Finding user with id {}", id);
         Optional<User> user = userJpaRepository.findById(id).map(userMapper::toDomain);
         log.info("Finished finding user with id {}, found={}", id, user.isPresent());
         return user;
@@ -50,7 +50,7 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 
     @Override
     public Optional<User> findByEmail(String email) {
-        log.info("Finding user with email {}", email);
+        log.debug("Finding user with email {}", email);
         Optional<User> user = userJpaRepository.findByEmail(email).map(userMapper::toDomain);
         log.info("Finished finding user with email {}, found={}", email, user.isPresent());
         return user;

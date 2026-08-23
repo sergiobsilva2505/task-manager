@@ -21,7 +21,7 @@ public class GetTaskByIdService implements GetTaskByIdUseCase {
 
     @Override
     public Task execute(UUID taskId, UUID currentUserId) {
-        log.info("Finding task {} for user {}", taskId, currentUserId);
+        log.debug("Finding task {} for user {}", taskId, currentUserId);
         Task task = repositoryPort.findById(taskId)
                 .filter(t -> currentUserId.equals(t.getOwnerId()))
                 .orElseThrow(() -> {
