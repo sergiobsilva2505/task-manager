@@ -21,6 +21,8 @@ public class CreateTaskService implements CreateTaskUseCase {
     public Task execute(CreateTaskCommand command) {
         Task task = Task.create(command.title(), command.description(), command.priority(), command.dueDate(),
                 command.ownerId());
+
+        log.info("Creating task {} for user {}", task.getId(), task.getOwnerId());
         repositoryPort.save(task);
 
         log.info("Task created: {} for user {}", task.getId(), task.getOwnerId());

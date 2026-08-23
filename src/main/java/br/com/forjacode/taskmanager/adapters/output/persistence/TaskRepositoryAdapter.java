@@ -6,6 +6,7 @@ import br.com.forjacode.taskmanager.application.ports.shared.PagedResult;
 import br.com.forjacode.taskmanager.application.ports.shared.SortDirection;
 import br.com.forjacode.taskmanager.application.ports.shared.TaskSortField;
 import br.com.forjacode.taskmanager.domain.model.Task;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@Slf4j
 public class TaskRepositoryAdapter implements TaskRepositoryPort {
 
     private final TaskJpaRepository taskJpaRepository;
@@ -29,24 +31,32 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
 
     @Override
     public void save(Task task) {
+        log.info("Saving task with id {}", task.getId());
         TaskJpaEntity entity = taskMapper.toEntity(task);
         taskJpaRepository.save(entity);
+        log.info("Task with id {} saved successfully", task.getId());
     }
 
     @Override
     public Optional<Task> findById(UUID id) {
-        return taskJpaRepository.findById(id).map(taskMapper::toDomain);
+        log.debug("Finding task with id {}", id);
+        Optional<Task> task = taskJpaRepository.findById(id).map(taskMapper::toDomain);
+        log.info("Finished finding task with id {}, found={}", id, task.isPresent());
+        return task;
     }
 
     @Override
     public Task update(Task task) {
+        log.info("Updating task with id {}", task.getId());
         TaskJpaEntity entity = taskMapper.toEntity(task);
         TaskJpaEntity updatedEntity = taskJpaRepository.save(entity);
+        log.info("Task with id {} updated successfully", task.getId());
         return taskMapper.toDomain(updatedEntity);
     }
 
     @Override
     public List<Task> findAll() {
+        log.info("Finding all tasks");
         return taskJpaRepository.findAll().stream()
                 .map(taskMapper::toDomain)
                 .toList();
@@ -54,6 +64,8 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
 
     @Override
     public PagedResult<Task> findAll(PageQuery query, UUID ownerId) {
+        // Nível debug: chamado a cada carregamento de tela (paginação), evita volume alto em produção.
+        log.debug("Finding all tasks for owner with id {}", ownerId);
         Pageable pageable = getPageable(query);
 
         Page<TaskJpaEntity> tasksPage = taskJpaRepository.findAllByOwnerId(ownerId, pageable);
@@ -62,6 +74,8 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
                 .stream()
                 .map(taskMapper::toDomain)
                 .toList();
+
+        log.debug("Found {} tasks for owner with id {}", tasks.size(), ownerId);
 
         return new PagedResult<>(
                 tasks,
@@ -74,14 +88,19 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
 
     @Override
     public void deleteByIdAndOwnerId(UUID id, UUID ownerId) {
+        log.info("Deleting task with id {} for owner with id {}", id, ownerId);
         taskJpaRepository.deleteByIdAndOwnerId(id, ownerId);
+        log.info("Task with id {} for owner with id {} deleted successfully", id, ownerId);
     }
 
     @Override
     public List<Task> findAllByOwnerId(UUID ownerId) {
-        return taskJpaRepository.findAllByOwnerId(ownerId).stream()
+        log.info("Finding all tasks for owner with id {} paged", ownerId);
+        List<Task> tasks = taskJpaRepository.findAllByOwnerId(ownerId).stream()
                 .map(taskMapper::toDomain)
                 .toList();
+        log.info("Found {} tasks for owner with id {}", tasks.size(), ownerId);
+        return tasks;
     }
 
     private String getJpaFieldName(TaskSortField fieldName) {

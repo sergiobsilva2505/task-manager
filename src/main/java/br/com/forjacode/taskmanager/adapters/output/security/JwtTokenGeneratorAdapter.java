@@ -6,6 +6,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
+@Slf4j
 @EnableConfigurationProperties(JwtProperties.class)
 public class JwtTokenGeneratorAdapter implements TokenGeneratorPort {
 
@@ -30,6 +32,7 @@ public class JwtTokenGeneratorAdapter implements TokenGeneratorPort {
 
     @Override
     public GeneratedToken generate(UUID userId) {
+        log.debug("Generating JWT token for user {}", userId);
         Instant now = Instant.now();
         Instant expiresAt = now.plus(expirationMinutes, ChronoUnit.MINUTES);
 
@@ -40,11 +43,14 @@ public class JwtTokenGeneratorAdapter implements TokenGeneratorPort {
                 .signWith(key)
                 .compact();
 
+        log.debug("JWT token generated for user {}, expires at {}", userId, expiresAt);
+
         return new GeneratedToken(token, expiresAt);
     }
 
     @Override
     public Optional<UUID> validate(String token) {
+        log.debug("Validating JWT token");
         try {
             String subject = Jwts.parser()
                     .verifyWith(key)
@@ -53,8 +59,11 @@ public class JwtTokenGeneratorAdapter implements TokenGeneratorPort {
                     .getPayload()
                     .getSubject();
 
+            log.debug("JWT token validated successfully for user {}", subject);
+
             return Optional.of(UUID.fromString(subject));
         } catch (JwtException | IllegalArgumentException e) {
+            log.warn("JWT token validation failed: {}", e.getMessage());
             return Optional.empty();
         }
     }

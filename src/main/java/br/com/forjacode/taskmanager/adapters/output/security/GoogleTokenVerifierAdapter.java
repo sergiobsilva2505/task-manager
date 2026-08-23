@@ -6,6 +6,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Slf4j
 @EnableConfigurationProperties(GoogleOAuthProperties.class)
 public class GoogleTokenVerifierAdapter implements GoogleTokenVerifierPort {
 
@@ -29,18 +31,23 @@ public class GoogleTokenVerifierAdapter implements GoogleTokenVerifierPort {
 
     @Override
     public Optional<GoogleUserInfo> verify(String idToken) {
+        log.debug("Verifying Google ID token");
         try {
             GoogleIdToken googleIdToken = verifier.verify(idToken);
             if (googleIdToken == null) {
+                log.warn("Google ID token verification failed: token is invalid");
                 return Optional.empty();
             }
 
             GoogleIdToken.Payload payload = googleIdToken.getPayload();
             String name = (String) payload.get("name");
 
+            log.debug("Google ID token verified successfully for subject {}", payload.getSubject());
+
             return Optional.of(new GoogleUserInfo(payload.getEmail(), name, payload.getSubject()));
 
         } catch (GeneralSecurityException | IOException e) {
+            log.warn("Google ID token verification failed", e);
             return Optional.empty();
         }
     }

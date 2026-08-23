@@ -115,7 +115,7 @@ class ChangeTaskStatusServiceTest {
                     .isInstanceOf(TaskNotFoundException.class);
 
             verify(repositoryPort).findById(taskId);
-            verify(repositoryPort, never()).update(any());
+            verify(repositoryPort, never()).update(any(Task.class));
         }
 
         @Test
@@ -131,7 +131,7 @@ class ChangeTaskStatusServiceTest {
                     .isInstanceOf(InvalidStatusTransitionException.class);
 
             verify(repositoryPort).findById(taskId);
-            verify(repositoryPort, never()).update(any());
+            verify(repositoryPort, never()).update(any(Task.class));
         }
 
         @Test
@@ -149,7 +149,7 @@ class ChangeTaskStatusServiceTest {
                     .isInstanceOf(InvalidStatusTransitionException.class);
 
             verify(repositoryPort).findById(taskId);
-            verify(repositoryPort, never()).update(any());
+            verify(repositoryPort, never()).update(any(Task.class));
         }
     }
 }

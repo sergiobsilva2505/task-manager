@@ -27,24 +27,32 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 
     @Override
     public void save(User user) {
+        log.info("Saving user with email {}", user.getEmail());
         try {
             // saveAndFlush forces the INSERT to execute now, inside this try block,
             // instead of being deferred to transaction commit time (where this
             // catch would never trigger).
             userJpaRepository.saveAndFlush(userMapper.toEntity(user));
+            log.info("User with email {} saved successfully", user.getEmail());
         } catch (ConstraintViolationException | DataIntegrityViolationException e) {
-            log.warn("Failed to save user due to constraint violation: email={}", user.getEmail());
+            log.warn("Failed to save user due to constraint violation: email={}", user.getEmail(), e);
             throw new EmailAlreadyInUseException("Email %s is already in use".formatted(user.getEmail()), e);
         }
     }
 
     @Override
     public Optional<User> findById(UUID id) {
-        return userJpaRepository.findById(id).map(userMapper::toDomain);
+        log.debug("Finding user with id {}", id);
+        Optional<User> user = userJpaRepository.findById(id).map(userMapper::toDomain);
+        log.info("Finished finding user with id {}, found={}", id, user.isPresent());
+        return user;
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return userJpaRepository.findByEmail(email).map(userMapper::toDomain);
+        log.debug("Finding user with email {}", email);
+        Optional<User> user = userJpaRepository.findByEmail(email).map(userMapper::toDomain);
+        log.info("Finished finding user with email {}, found={}", email, user.isPresent());
+        return user;
     }
 }
