@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 @Repository
 @Slf4j
@@ -95,9 +94,11 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
     @Override
     public List<Task> findAllByOwnerId(UUID ownerId) {
         log.info("Finding all tasks for owner with id {} paged", ownerId);
-        return taskJpaRepository.findAllByOwnerId(ownerId).stream()
+        List<Task> tasks = taskJpaRepository.findAllByOwnerId(ownerId).stream()
                 .map(taskMapper::toDomain)
                 .toList();
+        log.info("Found {} tasks for owner with id {}", tasks.size(), ownerId);
+        return tasks;
     }
 
     private String getJpaFieldName(TaskSortField fieldName) {
