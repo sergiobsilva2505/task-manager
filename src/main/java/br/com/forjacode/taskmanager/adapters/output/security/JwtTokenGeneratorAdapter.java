@@ -63,7 +63,7 @@ public class JwtTokenGeneratorAdapter implements TokenGeneratorPort {
 
             return Optional.of(UUID.fromString(subject));
         } catch (JwtException | IllegalArgumentException e) {
-            log.warn("JWT token validation failed: {}", e.getMessage());
+            log.error("JWT token validation failed: {}", e.getMessage());
             return Optional.empty();
         }
     }

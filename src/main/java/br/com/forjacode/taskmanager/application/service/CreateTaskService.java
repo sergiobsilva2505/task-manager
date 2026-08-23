@@ -4,8 +4,12 @@ import br.com.forjacode.taskmanager.application.ports.input.CreateTaskUseCase;
 import br.com.forjacode.taskmanager.application.ports.input.command.CreateTaskCommand;
 import br.com.forjacode.taskmanager.application.ports.output.TaskRepositoryPort;
 import br.com.forjacode.taskmanager.domain.model.Task;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CreateTaskService implements CreateTaskUseCase {
+
+    private static final Logger log = LoggerFactory.getLogger(CreateTaskService.class);
 
     private final TaskRepositoryPort repositoryPort;
 
@@ -18,7 +22,9 @@ public class CreateTaskService implements CreateTaskUseCase {
         Task task = Task.create(command.title(), command.description(), command.priority(), command.dueDate(),
                 command.ownerId());
 
+        log.info("Creating task for owner {}", command.ownerId());
         repositoryPort.save(task);
+        log.info("Task {} created for owner {}", task.getId(), command.ownerId());
 
         return task;
     }

@@ -97,6 +97,7 @@ public class GoogleLoginService implements GoogleLoginUseCase {
         String cleaned = localPart.replaceAll("[^\\p{L}\\s'-]", " ").trim();
 
         if (cleaned.length() < 3) {
+            log.debug("Could not derive a usable name from email, falling back to default");
             return "Google User";
         }
 
