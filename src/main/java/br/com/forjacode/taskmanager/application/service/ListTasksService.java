@@ -22,9 +22,9 @@ public class ListTasksService implements ListTasksUseCase {
 
     @Override
     public PagedResult<Task> execute(PageQuery query, UUID ownerId) {
-        log.info("Listing tasks for owner {}, page {}", ownerId, query);
+        log.debug("Listing tasks for owner {}, page {}", ownerId, query);
         PagedResult<Task> result = taskRepositoryPort.findAll(query, ownerId);
-        log.info("Listed {} tasks for owner {}", result.content().size(), ownerId);
+        log.debug("Listed {} tasks for owner {}", result.content().size(), ownerId);
         return result;
     }
 }
