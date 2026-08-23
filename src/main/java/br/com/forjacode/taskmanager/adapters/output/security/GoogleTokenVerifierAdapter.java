@@ -31,7 +31,7 @@ public class GoogleTokenVerifierAdapter implements GoogleTokenVerifierPort {
 
     @Override
     public Optional<GoogleUserInfo> verify(String idToken) {
-        log.debug("Verifying Google ID token");
+        log.info("Verifying Google ID token");
         try {
             GoogleIdToken googleIdToken = verifier.verify(idToken);
             if (googleIdToken == null) {
@@ -42,7 +42,7 @@ public class GoogleTokenVerifierAdapter implements GoogleTokenVerifierPort {
             GoogleIdToken.Payload payload = googleIdToken.getPayload();
             String name = (String) payload.get("name");
 
-            log.debug("Google ID token verified successfully for subject {}", payload.getSubject());
+            log.info("Google ID token verified successfully for subject {}", payload.getSubject());
 
             return Optional.of(new GoogleUserInfo(payload.getEmail(), name, payload.getSubject()));
 
